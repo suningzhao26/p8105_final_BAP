@@ -1,0 +1,56 @@
+Final Project Proposal - Breathing Air Project (BAP)
+================
+BAP Project Group
+
+### The group members (names and UNIs)
+
+-   Suning Zhao(sz2957)
+-   Xingyu Dai (xd2268)
+-   Eric Luo(jl6047)
+-   Matthew Ma (hm2947)
+-   Hongji Jiang (hj2596)
+
+### The tentative project title
+
+Breathing Air Project (BAP)
+
+### The motivation for this project
+
+Environmental health is an important part of public health and social
+justice. Air pollution has always been a big concern in public health
+topic. We believe it is a common cause such as Asthma, cardiovascular
+diseases, and many other health problems. So we decided to propose an
+analytical topic on air pollution to help health organizations and the
+public better assess and deal with the problem.
+
+### The intended final products
+
+A webpage including exploratory analysis results, statistical analysis
+results, mapping, report, screencasts and information on contributors.
+
+### The anticipated data sources
+
+-   AQI database: <https://www.airnow.gov/aqi-and-health/>
+-   BRFSS: <https://www.cdc.gov/brfss/index.html>
+-   CDC: <https://www.cdc.gov/asthma/asthmadata.htm>
+-   IPUMS: <https://www.ipums.org/>
+
+### The planned analyses / visualizations / coding challenges
+
+-   It might be difficult to merge, tidy, and standardize two datasets
+    from different sources due to different formats.
+-   Our statistical analysis might not be significant for all our
+    indicators. We may meet difficulties during the initial exploratory
+    analysis part.
+-   Since we are trying to focus on the air pollution condition in the
+    whole US. Our visualization will be more complicated.
+
+### The planned timeline
+
+-   November 7-13: Initial proposal meeting and decision
+-   November 14-20: Review meeting with Teaching team about proposal;
+    Data manipulation
+-   November 21-27: Exploratory Analysis
+-   November 28 - December 4: Statistical Analysis and report writing
+-   December 5 - December 10: Final Webpage Construction
+-   December 11 - December 15: Preparing for final presentation
