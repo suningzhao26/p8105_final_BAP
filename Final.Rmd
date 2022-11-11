@@ -1,6 +1,0 @@
----
-title: "Final"
-author: BAP Project Group
-Date: November 2022
-output: github_document
----

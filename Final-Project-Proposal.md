@@ -47,10 +47,10 @@ results, mapping, report, screencasts and information on contributors.
 
 ### The planned timeline
 
--   November 7-13: Initial proposal meeting and decision
+-   November 7-13: Initial proposal meeting and decision.
 -   November 14-20: Review meeting with Teaching team about proposal;
-    Data manipulation
--   November 21-27: Exploratory Analysis
--   November 28 - December 4: Statistical Analysis and report writing
--   December 5 - December 10: Final Webpage Construction
--   December 11 - December 15: Preparing for final presentation
+    Data manipulation.
+-   November 21-27: Exploratory Analysis.
+-   November 28 - December 4: Statistical Analysis and report writing.
+-   December 5 - December 10: Final Webpage Construction.
+-   December 11 - December 15: Preparing for final presentation.
