@@ -1,0 +1,52 @@
+---
+title: "data_import_cleaning"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(patchwork)
+library(viridis)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+```
+
+```{r}
+annual = read_csv("./data/annual_aqi_by_county_2022.csv")
+
+annual_data = annual %>% 
+  janitor::clean_names() %>% 
+  filter(state == "New York")
+```
+
+```{r}
+daily = read_csv("./data/daily_42602_2022.csv")
+
+daily_data = daily %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York")
+```
+
+```{r}
+daily_aqi = read_csv("./data/daily_aqi_by_county_2022.csv")
+
+daily_aqi_data = daily_aqi %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York")
+```
