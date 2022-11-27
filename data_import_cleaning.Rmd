@@ -50,3 +50,17 @@ daily_aqi_data = daily_aqi %>%
   janitor::clean_names() %>% 
   filter(state_name == "New York")
 ```
+
+```{r}
+full_aqi = 
+  tibble(
+    files = list.files("data/daily_aqi/"),
+    path = str_c("data/daily_aqi/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest() %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York") %>% 
+  select(-files, -path)
+```
+
