@@ -35,13 +35,6 @@ annual_data = annual %>%
   filter(state == "New York")
 ```
 
-```{r}
-daily = read_csv("./data/daily_42602_2022.csv")
-
-daily_data = daily %>% 
-  janitor::clean_names() %>% 
-  filter(state_name == "New York")
-```
 
 ```{r}
 daily_aqi = read_csv("./data/daily_aqi_by_county_2022.csv")
@@ -64,3 +57,17 @@ full_aqi =
   select(-files, -path)
 ```
 
+```{r}
+daily_ny_2022_co = read_csv("./data/daily_summary/daily_42101_2022.csv") %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York")
+```
+
+
+```{r}
+daily = read_csv("./data/daily_42602_2022.csv")
+
+daily_ny_2022_no2 = daily %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York")
+```
