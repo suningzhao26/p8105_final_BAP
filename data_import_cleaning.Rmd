@@ -27,22 +27,29 @@ scale_fill_discrete = scale_fill_viridis_d
 theme_set(theme_minimal() + theme(legend.position = "bottom"))
 ```
 
-```{r}
-annual = read_csv("./data/annual_aqi_by_county_2022.csv")
+check variables in daily parameters, and daily aqi tables:
 
-annual_data = annual %>% 
+```{r}
+daily_ny_2022_co = read_csv("./data/daily_parameter/co/daily_42101_2022.csv") %>% 
   janitor::clean_names() %>% 
-  filter(state == "New York")
+  filter(state_name == "New York")
 ```
 
+```{r}
+daily_ny_2022_no2 = read_csv("./data/daily_parameter/no2/daily_42602_2022.csv") %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York")
+```
 
 ```{r}
-daily_aqi = read_csv("./data/daily_aqi_by_county_2022.csv")
+daily_aqi = read_csv("./data/daily_aqi/daily_aqi_by_county_2022.csv")
 
 daily_aqi_data = daily_aqi %>% 
   janitor::clean_names() %>% 
   filter(state_name == "New York")
 ```
+
+## Daily aqi for each county in New York State for the last 15 years.
 
 ```{r}
 full_aqi = 
@@ -51,23 +58,110 @@ full_aqi =
     path = str_c("data/daily_aqi/", files)
   ) %>% 
   mutate(data = map(path, read_csv)) %>% 
-  unnest() %>% 
+  unnest(data) %>% 
   janitor::clean_names() %>% 
   filter(state_name == "New York") %>% 
-  select(-files, -path)
+  select(-files, -path) %>% 
+  select(state = state_name, county = county_name, date, aqi, category, defining_parameter, defining_site, site_num = number_of_sites_reporting)
 ```
 
+## daily parameter value
+
+manipulate a relatively small file firstly:
+
 ```{r}
-daily_ny_2022_co = read_csv("./data/daily_summary/daily_42101_2022.csv") %>% 
+sample_ozone = read_csv("./data/daily_parameter/ozone/daily_44201_2019.csv") %>% 
   janitor::clean_names() %>% 
-  filter(state_name == "New York")
+  filter(state_name == "New York") %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
 
+### Ozone, 15 years, New York state
 
 ```{r}
-daily = read_csv("./data/daily_42602_2022.csv")
-
-daily_ny_2022_no2 = daily %>% 
+full_ozone = 
+  tibble(
+    files = list.files("data/daily_parameter/ozone/"),
+    path = str_c("data/daily_parameter/ozone/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
   janitor::clean_names() %>% 
-  filter(state_name == "New York")
+  filter(state_name == "New York") %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+```
+
+### CO, 15 years, New York State
+
+```{r}
+full_co = 
+  tibble(
+    files = list.files("data/daily_parameter/co/"),
+    path = str_c("data/daily_parameter/co/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York") %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+```
+
+### NO2, 15 years, New York State
+
+```{r}
+full_no2 = 
+  tibble(
+    files = list.files("data/daily_parameter/no2/"),
+    path = str_c("data/daily_parameter/no2/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York") %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+```
+
+### SO2, 15 years, New York State
+
+```{r}
+full_so2 = 
+  tibble(
+    files = list.files("data/daily_parameter/so2/"),
+    path = str_c("data/daily_parameter/so2/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York") %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+```
+
+### PM2.5, 15 years, New York State
+
+```{r}
+full_pm2_5 = 
+  tibble(
+    files = list.files("data/daily_parameter/pm2.5/"),
+    path = str_c("data/daily_parameter/pm2.5/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York") %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+```
+
+### PM10, 15 years, New York State
+
+```{r}
+full_pm10 = 
+  tibble(
+    files = list.files("data/daily_parameter/pm10/"),
+    path = str_c("data/daily_parameter/pm10/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York") %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
