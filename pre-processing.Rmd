@@ -1,0 +1,49 @@
+---
+title: "pre_processing"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+```
+
+## ozone folder
+ 
+```{r}
+for (year in 2008:2022) {
+  clean_df = 
+    read_csv(str_c("./data/daily_parameter/ozone/daily_44201_", year, ".csv")) %>%
+    janitor::clean_names() %>% 
+    filter(state_name == "New York")
+  
+  write.csv(clean_df, file = str_c("./data/daily_parameter/ozone/daily_ozone_", year, ".csv"))
+}
+```
+
+## pm2.5 folder
+ 
+```{r}
+for (year in 2008:2022) {
+  clean_df = 
+    read_csv(str_c("./data/daily_parameter/pm2.5/daily_88101_", year, ".csv")) %>%
+    janitor::clean_names() %>% 
+    filter(state_name == "New York")
+  
+  write.csv(clean_df, file = str_c("./data/daily_parameter/pm2.5/daily_pm2.5_", year, ".csv"))
+}
+```
+
+## so2 folder
+ 
+```{r}
+for (year in 2008:2022) {
+  clean_df = 
+    read_csv(str_c("./data/daily_parameter/so2/daily_42401_", year, ".csv")) %>%
+    janitor::clean_names() %>% 
+    filter(state_name == "New York")
+  
+  write.csv(clean_df, file = str_c("./data/daily_parameter/so2/daily_so2_", year, ".csv"))
+}
+```
+
+
