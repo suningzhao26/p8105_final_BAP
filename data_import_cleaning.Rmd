@@ -76,6 +76,10 @@ sample_ozone = read_csv("./data/daily_parameter/ozone/daily_44201_2019.csv") %>%
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
 
+There is a large file storage complication which would block the push. So we need to make a pre-processing for `ozone`, `pm2.5`, and `so2` folder (those folders contain raw data files that exceed 100 M). This process is in another document.
+
+After the pre-processing, files in `ozone`, `pm2.5`, and `so2` folder contain data for New York State, others contain data across the US.
+
 ### Ozone, 15 years, New York state
 
 ```{r}
@@ -165,3 +169,5 @@ full_pm10 =
   filter(state_name == "New York") %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
+
+
