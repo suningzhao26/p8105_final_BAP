@@ -72,7 +72,7 @@ full_aqi =
 manipulate a relatively small file firstly:
 
 ```{r}
-sample_ozone = read_csv("./data/daily_parameter/ozone/daily_44201_2019.csv") %>% 
+sample_ozone = read_csv("./data/daily_parameter/ozone/daily_ozone_2019.csv") %>% 
   janitor::clean_names() %>% 
   filter(state_name == "New York") %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
