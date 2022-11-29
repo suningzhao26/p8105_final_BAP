@@ -49,7 +49,9 @@ daily_aqi_data = daily_aqi %>%
   filter(state_name == "New York")
 ```
 
-## Daily aqi for each county in New York State for the last 15 years.
+## Data integrating and cleaning for daily aqi
+
+### Daily aqi for each county in New York State for the last 15 years.
 
 ```{r}
 full_aqi = 
@@ -80,6 +82,8 @@ There is a large file storage complication which would block the push. So we nee
 
 After the pre-processing, files in `ozone`, `pm2.5`, and `so2` folder contain data for New York State, others contain data across the US.
 
+## Data integrating and cleaning for 6 daily parameter values
+
 ### Ozone, 15 years, New York state
 
 ```{r}
@@ -90,8 +94,6 @@ full_ozone =
   ) %>% 
   mutate(data = map(path, read_csv)) %>% 
   unnest(data) %>% 
-  janitor::clean_names() %>% 
-  filter(state_name == "New York") %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
 
@@ -135,8 +137,6 @@ full_so2 =
   ) %>% 
   mutate(data = map(path, read_csv)) %>% 
   unnest(data) %>% 
-  janitor::clean_names() %>% 
-  filter(state_name == "New York") %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
 
@@ -150,8 +150,6 @@ full_pm2_5 =
   ) %>% 
   mutate(data = map(path, read_csv)) %>% 
   unnest(data) %>% 
-  janitor::clean_names() %>% 
-  filter(state_name == "New York") %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
 
