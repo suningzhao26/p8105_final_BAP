@@ -178,13 +178,70 @@ a = sample_ozone %>%
 ```
 
 
-Extract daily parameter mean value from different sites for each county.
+## Extract daily parameter mean value from different sites for each county.
 
-Ozone
+### Ozone (unit of measure: parts per million)
 
 ```{r}
-full_ozone %>% 
-  
+ozone = full_ozone %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mean_ozone = mean(mean),
+    max_ozone = mean(max)
+  )
 ```
 
+### CO (unit of measure: parts per million)
 
+```{r}
+co = full_co %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mean_co = mean(mean),
+    max_co = mean(max)
+  )
+```
+
+### NO2 (unit of measure: parts per million)
+
+```{r}
+no2 = full_no2 %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mean_no2 = mean(mean),
+    max_no2 = mean(max)
+  )
+```
+
+### SO2 (unit of measure: parts per million)
+
+```{r}
+so2 = full_so2 %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mean_so2 = mean(mean),
+    max_so2 = mean(max)
+  )
+```
+
+### PM2.5 (unit of measure: Micrograms/cubic meter (LC))
+
+```{r}
+pm2_5 = full_pm2_5 %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mean_pm2_5 = mean(mean),
+    max_pm2_5 = mean(max)
+  )
+```
+
+### PM10 (unit of measure: Micrograms/cubic meter (25 C))
+
+```{r}
+pm10 = full_pm10 %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mean_pm10 = mean(mean),
+    max_pm10 = mean(max)
+  )
+```
