@@ -249,6 +249,11 @@ air_daily =
   left_join(no2, by = c("county", "date")) %>%
   left_join(so2, by = c("county", "date")) %>%
   left_join(pm2_5, by = c("county", "date")) %>%
-  left_join(pm10, by = c("county", "date"))
+  left_join(pm10, by = c("county", "date")) %>% 
+  select(-defining_site, -site_num)
+```
+
+```{r}
+write.csv(air_daily, file = ("./data/air_daily.csv"))
 ```
 
