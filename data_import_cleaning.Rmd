@@ -78,9 +78,11 @@ sample_ozone = read_csv("./data/daily_parameter/ozone/daily_ozone_2019.csv") %>%
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
 
+
 There is a large file storage complication which would block the push. So we need to make a pre-processing for `ozone`, `pm2.5`, and `so2` folder (those folders contain raw data files that exceed 100 M). This process is in another document.
 
 After the pre-processing, files in `ozone`, `pm2.5`, and `so2` folder contain data for New York State, others contain data across the US.
+
 
 ## Data integrating and cleaning for 6 daily parameter values
 
@@ -168,15 +170,6 @@ full_pm10 =
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
 
-```{r}
-a = sample_ozone %>% 
-  group_by(county, date) %>% 
-  summarize(
-    mu_max = mean(max),
-    mu_mean = mean(mean)
-  )
-```
-
 
 ## Extract daily parameter mean value from different sites for each county.
 
@@ -245,3 +238,17 @@ pm10 = full_pm10 %>%
     max_pm10 = mean(max)
   )
 ```
+
+
+## Merge daily aqi and daily parameter tables
+
+```{r}
+air_daily = 
+  left_join(full_aqi, ozone, by = c("county", "date")) %>% 
+  left_join(co, by = c("county", "date")) %>% 
+  left_join(no2, by = c("county", "date")) %>%
+  left_join(so2, by = c("county", "date")) %>%
+  left_join(pm2_5, by = c("county", "date")) %>%
+  left_join(pm10, by = c("county", "date"))
+```
+
