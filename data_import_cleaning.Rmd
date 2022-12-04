@@ -30,19 +30,19 @@ theme_set(theme_minimal() + theme(legend.position = "bottom"))
 check variables in daily parameters, and daily aqi tables:
 
 ```{r}
-daily_ny_2022_co = read_csv("./data/daily_parameter/co/daily_42101_2022.csv") %>% 
+daily_ny_2022_co = read_csv("./data/daily_parameter/co/daily_42101_2020.csv") %>% 
   janitor::clean_names() %>% 
   filter(state_name == "New York")
 ```
 
 ```{r}
-daily_ny_2022_no2 = read_csv("./data/daily_parameter/no2/daily_42602_2022.csv") %>% 
+daily_ny_2022_no2 = read_csv("./data/daily_parameter/no2/daily_42602_2020.csv") %>% 
   janitor::clean_names() %>% 
   filter(state_name == "New York")
 ```
 
 ```{r}
-daily_aqi = read_csv("./data/daily_aqi/daily_aqi_by_county_2022.csv")
+daily_aqi = read_csv("./data/daily_aqi/daily_aqi_by_county_2020.csv")
 
 daily_aqi_data = daily_aqi %>% 
   janitor::clean_names() %>% 
@@ -51,7 +51,7 @@ daily_aqi_data = daily_aqi %>%
 
 ## Data integrating and cleaning for daily aqi
 
-### Daily aqi for each county in New York State for the last 15 years.
+### Daily aqi for each county in New York State from 2011 to 2020.
 
 ```{r}
 full_aqi = 
@@ -84,7 +84,7 @@ After the pre-processing, files in `ozone`, `pm2.5`, and `so2` folder contain da
 
 ## Data integrating and cleaning for 6 daily parameter values
 
-### Ozone, 15 years, New York state
+### Ozone, 10 years, New York state
 
 ```{r}
 full_ozone = 
@@ -97,7 +97,7 @@ full_ozone =
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
 
-### CO, 15 years, New York State
+### CO, 10 years, New York State
 
 ```{r}
 full_co = 
@@ -112,7 +112,7 @@ full_co =
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
 
-### NO2, 15 years, New York State
+### NO2, 10 years, New York State
 
 ```{r}
 full_no2 = 
@@ -127,7 +127,7 @@ full_no2 =
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
 
-### SO2, 15 years, New York State
+### SO2, 10 years, New York State
 
 ```{r}
 full_so2 = 
@@ -140,7 +140,7 @@ full_so2 =
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
 
-### PM2.5, 15 years, New York State
+### PM2.5, 10 years, New York State
 
 ```{r}
 full_pm2_5 = 
@@ -153,7 +153,7 @@ full_pm2_5 =
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
 ```
 
-### PM10, 15 years, New York State
+### PM10, 10 years, New York State
 
 ```{r}
 full_pm10 = 
@@ -166,6 +166,25 @@ full_pm10 =
   janitor::clean_names() %>% 
   filter(state_name == "New York") %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+```
+
+```{r}
+a = sample_ozone %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mu_max = mean(max),
+    mu_mean = mean(mean)
+  )
+```
+
+
+Extract daily parameter mean value from different sites for each county.
+
+Ozone
+
+```{r}
+full_ozone %>% 
+  
 ```
 
 
