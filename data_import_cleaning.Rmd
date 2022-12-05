@@ -251,7 +251,7 @@ air_daily =
   left_join(pm2_5, by = c("county", "date")) %>%
   left_join(pm10, by = c("county", "date")) %>% 
   separate(defining_site, into = c("state_code", "county_code", "site_code"), sep = "-") %>% 
-  select(-site_num, -site_code)
+  select(state_code, county_code, everything(), -site_num, -site_code)
 ```
 
 ```{r}
