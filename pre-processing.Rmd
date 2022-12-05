@@ -10,7 +10,7 @@ library(tidyverse)
 ## ozone folder
  
 ```{r}
-for (year in 2008:2022) {
+for (year in 2003:2012) {
   clean_df = 
     read_csv(str_c("./data/daily_parameter/ozone/daily_44201_", year, ".csv")) %>%
     janitor::clean_names() %>% 
@@ -23,7 +23,7 @@ for (year in 2008:2022) {
 ## pm2.5 folder
  
 ```{r}
-for (year in 2008:2022) {
+for (year in 2003:2012) {
   clean_df = 
     read_csv(str_c("./data/daily_parameter/pm2.5/daily_88101_", year, ".csv")) %>%
     janitor::clean_names() %>% 
@@ -36,7 +36,7 @@ for (year in 2008:2022) {
 ## so2 folder
  
 ```{r}
-for (year in 2008:2022) {
+for (year in 2003:2012) {
   clean_df = 
     read_csv(str_c("./data/daily_parameter/so2/daily_42401_", year, ".csv")) %>%
     janitor::clean_names() %>% 
