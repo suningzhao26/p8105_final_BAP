@@ -7,6 +7,7 @@ output: github_document
 library(tidyverse)
 library(patchwork)
 library(viridis)
+library(haven)
 
 knitr::opts_chunk$set(
 	echo = TRUE,
@@ -30,19 +31,19 @@ theme_set(theme_minimal() + theme(legend.position = "bottom"))
 check variables in daily parameters, and daily aqi tables:
 
 ```{r}
-daily_ny_2022_co = read_csv("./data/daily_parameter/co/daily_42101_2020.csv") %>% 
+daily_ny_2008_co = read_csv("./data/daily_parameter/co/daily_42101_2008.csv") %>% 
   janitor::clean_names() %>% 
   filter(state_name == "New York")
 ```
 
 ```{r}
-daily_ny_2022_no2 = read_csv("./data/daily_parameter/no2/daily_42602_2020.csv") %>% 
+daily_ny_2008_no2 = read_csv("./data/daily_parameter/no2/daily_42602_2008.csv") %>% 
   janitor::clean_names() %>% 
   filter(state_name == "New York")
 ```
 
 ```{r}
-daily_aqi = read_csv("./data/daily_aqi/daily_aqi_by_county_2020.csv")
+daily_aqi = read_csv("./data/daily_aqi/daily_aqi_by_county_2008.csv")
 
 daily_aqi_data = daily_aqi %>% 
   janitor::clean_names() %>% 
@@ -51,7 +52,7 @@ daily_aqi_data = daily_aqi %>%
 
 ## Data integrating and cleaning for daily aqi
 
-### Daily aqi for each county in New York State from 2011 to 2020.
+### Daily aqi for each county in New York State from 2003 to 2010.
 
 ```{r}
 full_aqi = 
@@ -72,7 +73,7 @@ full_aqi =
 manipulate a relatively small file firstly:
 
 ```{r}
-sample_ozone = read_csv("./data/daily_parameter/ozone/daily_ozone_2019.csv") %>% 
+sample_ozone = read_csv("./data/daily_parameter/ozone/daily_ozone_2008.csv") %>% 
   janitor::clean_names() %>% 
   filter(state_name == "New York") %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
@@ -256,5 +257,115 @@ air_daily =
 
 ```{r}
 write.csv(air_daily, file = ("./data/air_daily.csv"))
+```
+
+
+Dataset from brfss (raw datasets deleted, too large for push):
+
+Code chunks used:
+
+b2003 = read_xpt("./data/brfss/cdbrfs03.xpt") %>% 
+  janitor::clean_names() %>% 
+  filter(state == 36) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, cvdinfr2, cvdcrhd2, cvdstrk2, asthma2, asthnow, asthmst)
+
+
+b2004 = read_xpt("./data/brfss/CDBRFS04.xpt") %>% 
+  janitor::clean_names() %>% 
+  filter(state == 36) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, cvdinfr2, cvdcrhd2, cvdstrk2, asthma2, asthnow, asthmst)
+
+
+b2005 = read_xpt("./data/brfss/CDBRFS05.xpt") %>% 
+  janitor::clean_names() %>% 
+  filter(state == 36) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, cvdinfr2 = cvdinfr3, cvdcrhd2 = cvdcrhd3, cvdstrk2 = cvdstrk3, asthma2, asthnow, asthmst)
+
+
+b2006 = read_xpt("./data/brfss/CDBRFS06.xpt") %>% 
+  janitor::clean_names() %>% 
+  filter(state == 36) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, cvdinfr2 = cvdinfr3, cvdcrhd2 = cvdcrhd3, cvdstrk2 = cvdstrk3, asthma2, asthnow, asthmst)
+
+
+b2007 = read_xpt("./data/brfss/CDBRFS07.xpt") %>% 
+  janitor::clean_names() %>% 
+  filter(state == 36) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, cvdinfr2 = cvdinfr4, cvdcrhd2 = cvdcrhd4, cvdstrk2 = cvdstrk3, asthma2, asthnow, asthmst)
+
+
+b2008 = read_xpt("./data/brfss/CDBRFS08.xpt") %>% 
+  janitor::clean_names() %>% 
+  filter(state == 36) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, cvdinfr2 = cvdinfr4, cvdcrhd2 = cvdcrhd4, cvdstrk2 = cvdstrk3, asthma2, asthnow, asthmst)
+
+
+b2009 = read_xpt("./data/brfss/CDBRFS09.xpt") %>% 
+  janitor::clean_names() %>% 
+  filter(state == 36) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, cvdinfr2 = cvdinfr4, cvdcrhd2 = cvdcrhd4, cvdstrk2 = cvdstrk3, asthma2, asthnow, asthmst)
+
+
+b2010 = read_xpt("./data/brfss/CDBRFS10.xpt") %>% 
+  janitor::clean_names() %>% 
+  filter(state == 36) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, cvdinfr2 = cvdinfr4, cvdcrhd2 = cvdcrhd4, cvdstrk2 = cvdstrk3, asthma2, asthnow, asthmst)
+
+
+b2011 = read_xpt("./data/brfss/LLCP2011.xpt") %>% 
+  janitor::clean_names() %>% 
+  filter(state == 36) %>% 
+  select(state_code = state, county_code = ctycode1, year = iyear, month = imonth, day = iday, cvdinfr2 = cvdinfr4, cvdcrhd2 = cvdcrhd4, cvdstrk2 = cvdstrk3, asthma2 = asthma3, asthnow, asthmst = asthms1)
+
+
+b2012 = read_xpt("./data/brfss/LLCP2012.xpt") %>% 
+  janitor::clean_names() %>% 
+  filter(state == 36) %>% 
+  select(state_code = state, county_code = ctycode1, year = iyear, month = imonth, day = iday, cvdinfr2 = cvdinfr4, cvdcrhd2 = cvdcrhd4, cvdstrk2 = cvdstrk3, asthma2 = asthma3, asthnow, asthmst = asthms1)
+
+
+write.csv(b2003, file = ("./data/brfss/brfss_ny_2003.csv"))
+write.csv(b2004, file = ("./data/brfss/brfss_ny_2004.csv"))
+write.csv(b2005, file = ("./data/brfss/brfss_ny_2005.csv"))
+write.csv(b2006, file = ("./data/brfss/brfss_ny_2006.csv"))
+write.csv(b2007, file = ("./data/brfss/brfss_ny_2007.csv"))
+write.csv(b2008, file = ("./data/brfss/brfss_ny_2008.csv"))
+write.csv(b2009, file = ("./data/brfss/brfss_ny_2009.csv"))
+write.csv(b2010, file = ("./data/brfss/brfss_ny_2010.csv"))
+write.csv(b2011, file = ("./data/brfss/brfss_ny_2011.csv"))
+write.csv(b2012, file = ("./data/brfss/brfss_ny_2012.csv"))
+
+
+
+brfss_indi =  
+  bind_rows(b2003, b2004, b2005, b2006, b2007, b2008, b2009, b2010, b2011, b2012) %>%  
+  mutate(
+    year = as.numeric(year),
+    month = as.numeric(month),
+    day = as.numeric(day)
+  )
+
+write.csv(brfss_indi, file = ("./data/brfss_indi.csv"))
+
+
+
+```{r}
+brfs_for_merge = read_csv("./data/brfss_indi.csv") %>% 
+  mutate(
+    date = as.Date(paste(year,month,day,sep="-"),"%Y-%m-%d")
+  ) %>% 
+  select(date, county_code, year, month, day, starts_with("cvd"), starts_with("asth"))
+```
+
+```{r}
+air_daily1 = air_daily %>% 
+  mutate(county_code = as.numeric(county_code))
+
+brfss_with_air = 
+  left_join(brfs_for_merge, air_daily1, by = c("county_code", "date"))
+```
+
+```{r}
+write.csv(brfss_with_air, file = ("./data/brfss_with_air.csv"))
 ```
 
