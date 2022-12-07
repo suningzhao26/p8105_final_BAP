@@ -82,7 +82,38 @@ aqi_state_graph =
     y = "Air Quality Index"
   )+
   scale_x_continuous(breaks = 2003:2012 )
+
+aqi_state_graph
 ```
+
+
+##### Figure 2: Mean AQI for different county from 2003-2012 
+
+```{r}
+aqi_county_df = 
+  aqi_year_df %>% 
+  group_by(county) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(county = fct_reorder(county, aqi_all)) %>% 
+  ggplot(aes(x = county, y = aqi_all)) +
+  geom_point()+
+  geom_errorbar(mapping = aes(ymin = min, ymax = max))+
+  labs( x = "Year",  y = "Air Quality Index", title = "Mean AQI for different county from 2003-2012") + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+
+#### Figure 2: Map for Aqi in NY state
+
+```{r}
+
+```
+
 
 
 #### BRFSS
