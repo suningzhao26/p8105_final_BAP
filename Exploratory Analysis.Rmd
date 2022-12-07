@@ -1,0 +1,95 @@
+---
+title: "Exploratory Analysis"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(viridis)
+library(modelr)
+library(mgcv)
+
+
+devtools::install_github("p8105/p8105.datasets")
+library(p8105.datasets)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+set.seed(1)
+```
+
+
+```{r load_libraries}
+library(tidyverse)
+library(modelr)
+library(mgcv)
+library(purrr)
+```
+
+### Air Quality Index across year in NY state
+
+#### Load the data
+
+```{r}
+air_daily_df = 
+  read_csv("./data/air_daily.csv") %>% 
+  separate(col = date, into = c('year','month','day'), sep = "-" , convert = TRUE) %>% 
+  drop_na(aqi) %>% 
+  drop_na(county)
+```
+
+#### Calculate the mean aqi for each county each year
+
+```{r}
+aqi_year_df = 
+  air_daily_df %>% 
+  select(county_code, state, county, year, aqi) %>% 
+  group_by(county,year) %>% 
+  summarize(
+    aqi_mean = mean(aqi)
+  )
+```
+
+
+#### Figure 1: Aqi for different county from 2003-2012
+
+```{r}
+aqi_state_graph =
+  aqi_year_df %>% 
+  group_by(county) %>% 
+  ggplot(aes(x = year, y = aqi_mean, color = county)) +
+  geom_point(alpha=.3) +
+  geom_line() +
+  labs(
+    title = "Air Quality Index by county in NY state, 2003-2012",
+    x = "Year",
+    y = "Air Quality Index"
+  )+
+  scale_x_continuous(breaks = 2003:2012 )
+```
+
+
+#### BRFSS
+
+```{r}
+brfss_air_df = 
+  read_csv("./data/brfss_with_air.csv") %>% 
+  drop_na(county)
+```
+
