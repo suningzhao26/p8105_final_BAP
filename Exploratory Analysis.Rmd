@@ -157,11 +157,36 @@ Unhealthy_air_graph =
 Unhealthy_air_graph 
 ```
 
-
-
 ### Type of Pollutants in each counties
 
+#### Figure 5: Defining pollutants distribution in unhealthy air quality days
+
+```{r}
+Unhealthy_pollutants_graph = 
+  air_quality_day_df %>% 
+  filter(aqi_status == "Unhealthy") %>% 
+  group_by(defining_parameter) %>% 
+  summarize(
+    pollutants = n()
+  ) %>%
+  mutate(
+    defining_parameter = fct_reorder(defining_parameter, pollutants)
+    ) %>% 
+  ggplot(aes(x = defining_parameter, y = pollutants, fill = pollutants)) +
+  geom_col() +
+  labs(
+    title = "Defining pollutants distribution in unhealthy air quality days among 10 years in NY state",
+    x = "Defining pollutants",
+    y = "Unhealthy air quality days"
+  ) +
+  scale_fill_viridis(option = "turbo")
+
+Unhealthy_pollutants_graph
+```
+
 #### Ozone
+
+#### PM2.5
 
 #### BRFSS
 
