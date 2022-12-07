@@ -158,7 +158,33 @@ Unhealthy_air_graph
 
 ### Type of Pollutants in each counties
 
-#### Figure 5: Defining pollutants distribution in unhealthy air quality days
+#### Figure 5: Defining pollutants distribution
+
+``` r
+pollutants_graph = 
+  air_quality_day_df %>% 
+  group_by(defining_parameter) %>% 
+  summarize(
+    pollutants = n()
+  ) %>%
+  mutate(
+    defining_parameter = fct_reorder(defining_parameter, pollutants)
+    ) %>% 
+  ggplot(aes(x = defining_parameter, y = pollutants, fill = pollutants)) +
+  geom_col() +
+  labs(
+    title = "Defining pollutants distribution in unhealthy air quality days among 10 years in NY state",
+    x = "Defining pollutants",
+    y = "Unhealthy air quality days"
+  ) +
+  scale_fill_viridis(option = "turbo")
+
+pollutants_graph
+```
+
+<img src="Exploratory-Analysis_files/figure-gfm/unnamed-chunk-7-1.png" width="90%" />
+
+#### Figure 6: Defining pollutants distribution in unhealthy air quality days
 
 ``` r
 Unhealthy_pollutants_graph = 
@@ -183,7 +209,7 @@ Unhealthy_pollutants_graph =
 Unhealthy_pollutants_graph
 ```
 
-<img src="Exploratory-Analysis_files/figure-gfm/unnamed-chunk-7-1.png" width="90%" />
+<img src="Exploratory-Analysis_files/figure-gfm/unnamed-chunk-8-1.png" width="90%" />
 
 #### Ozone
 
