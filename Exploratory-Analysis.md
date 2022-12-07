@@ -78,7 +78,7 @@ aqi_county_graph =
   ggplot(aes(x = county, y = aqi_all)) +
   geom_point()+
   geom_errorbar(mapping = aes(ymin = min, ymax = max)) +
-  labs( x = "Year",  y = "Air Quality Index", title = "Mean AQI for different county from 2003-2012") + 
+  labs( x = "County",  y = "Air Quality Index", title = "Mean AQI for different county from 2003-2012") + 
   theme(plot.title = element_text(hjust = 0.5)) + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
@@ -286,6 +286,63 @@ ozone_county_plot_map
 
 #### PM2.5
 
+##### Figure 9: Days when PM2.5 can be detected for each counties
+
+``` r
+pm2_5_county_df = 
+  air_daily_df %>% 
+  select(state_code, county_code, state, county, year, mean_pm2_5) %>% 
+  drop_na(mean_pm2_5) %>% 
+  group_by(state_code, county_code,county) %>% 
+  summarize(
+    pm2_5 = n(),
+    pm2_5_all = mean(mean_pm2_5),
+    max = max(mean_pm2_5),
+    min = min(mean_pm2_5)
+  ) 
+```
+
+    ## `summarise()` has grouped output by 'state_code', 'county_code'. You can
+    ## override using the `.groups` argument.
+
+``` r
+pm2_5_county_graph = 
+  pm2_5_county_df %>% 
+  group_by(county) %>% 
+  mutate(county = fct_reorder(county, pm2_5)) %>%
+  ggplot(aes(y = county, x = pm2_5, fill = pm2_5)) +
+  geom_col() +
+  labs(
+    title = "Days when PM2.5 can be detected for each counties",
+    x = "Days when PM2.5 can be detected",
+    y = "County"
+  ) +
+  scale_fill_viridis(option = "turbo")
+  
+  pm2_5_county_graph
+```
+
+<img src="Exploratory-Analysis_files/figure-gfm/unnamed-chunk-11-1.png" width="90%" />
+
+##### Figure 10: PM2.5 range for each counties among 10 years
+
+``` r
+pm2_5_county_range_graph =   
+  pm2_5_county_df %>% 
+  group_by(county) %>% 
+  mutate(county = fct_reorder(county, pm2_5_all)) %>% 
+  ggplot(aes(x = county, y = pm2_5_all)) +
+  geom_point()+
+  geom_errorbar(mapping = aes(ymin = min, ymax = max)) +
+  labs( x = "County",  y = "PM2.5", title = "PM2.5 range for each counties among 10 years") + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+pm2_5_county_range_graph
+```
+
+<img src="Exploratory-Analysis_files/figure-gfm/unnamed-chunk-12-1.png" width="90%" />
+
 #### BRFSS
 
 ``` r
@@ -303,3 +360,5 @@ brfss_air_df =
     ## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
     ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
     ## • `` -> `...1`
+
+#### BRFSS & Air quality
