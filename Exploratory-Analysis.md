@@ -173,9 +173,9 @@ pollutants_graph =
   ggplot(aes(x = defining_parameter, y = pollutants, fill = pollutants)) +
   geom_col() +
   labs(
-    title = "Defining pollutants distribution in unhealthy air quality days among 10 years in NY state",
+    title = "Defining pollutants distribution among 10 years in NY state",
     x = "Defining pollutants",
-    y = "Unhealthy air quality days"
+    y = "days"
   ) +
   scale_fill_viridis(option = "turbo")
 
@@ -212,6 +212,77 @@ Unhealthy_pollutants_graph
 <img src="Exploratory-Analysis_files/figure-gfm/unnamed-chunk-8-1.png" width="90%" />
 
 #### Ozone
+
+##### Figure 7: Defining pollutants distribution in unhealthy air quality days
+
+``` r
+ozone_year_df = 
+  air_daily_df %>% 
+  select(state_code, county_code, state, county, year, mean_ozone) %>% 
+  group_by(state_code, county_code,county,year) %>% 
+  summarize(
+    ozone_mean = mean(mean_ozone)
+  ) %>% 
+  drop_na(ozone_mean)
+```
+
+    ## `summarise()` has grouped output by 'state_code', 'county_code', 'county'. You
+    ## can override using the `.groups` argument.
+
+``` r
+ozone_graph =
+  ozone_year_df %>% 
+  group_by(county) %>% 
+  ggplot(aes(x = year, y = ozone_mean, color = county)) +
+  geom_point(alpha=.3) +
+  geom_line() +
+  labs(
+    title = "Mean Ozone by county in NY state, 2003-2012",
+    x = "Year",
+    y = "Mean Ozone"
+  )+
+  scale_x_continuous(breaks = 2003:2012 )+
+  scale_color_viridis(
+    name = "Location", 
+    discrete = TRUE
+  )
+
+ozone_graph
+```
+
+<img src="Exploratory-Analysis_files/figure-gfm/unnamed-chunk-9-1.png" width="90%" />
+
+#### Figure 8: Map for ozone in NY state
+
+``` r
+ozone_county_df = 
+  ozone_year_df %>% 
+  group_by(state_code, county_code,county) %>% 
+  summarize(
+    ozone_all = mean(ozone_mean),
+    max = max(ozone_mean),
+    min = min(ozone_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+```
+
+    ## `summarise()` has grouped output by 'state_code', 'county_code'. You can
+    ## override using the `.groups` argument.
+
+``` r
+ozone_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = ozone_county_df, values = "ozone_all") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,0.04)
+  ) + 
+  theme(legend.position = "right")
+
+ozone_county_plot_map
+```
+
+<img src="Exploratory-Analysis_files/figure-gfm/unnamed-chunk-10-1.png" width="90%" />
 
 #### PM2.5
 
