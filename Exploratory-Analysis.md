@@ -1,13 +1,6 @@
 Exploratory Analysis
 ================
 
-``` r
-library(tidyverse)
-library(modelr)
-library(mgcv)
-library(purrr)
-```
-
 ### Air Quality Index across year in NY state
 
 #### Load the data
@@ -35,15 +28,15 @@ air_daily_df =
 ``` r
 aqi_year_df = 
   air_daily_df %>% 
-  select(county_code, state, county, year, aqi) %>% 
-  group_by(county,year) %>% 
+  select(state_code, county_code, state, county, year, aqi) %>% 
+  group_by(state_code, county_code,county,year) %>% 
   summarize(
     aqi_mean = mean(aqi)
   )
 ```
 
-    ## `summarise()` has grouped output by 'county'. You can override using the
-    ## `.groups` argument.
+    ## `summarise()` has grouped output by 'state_code', 'county_code', 'county'. You
+    ## can override using the `.groups` argument.
 
 #### Figure 1: Aqi for different county from 2003-2012
 
@@ -59,7 +52,11 @@ aqi_state_graph =
     x = "Year",
     y = "Air Quality Index"
   )+
-  scale_x_continuous(breaks = 2003:2012 )
+  scale_x_continuous(breaks = 2003:2012 )+
+  scale_color_viridis(
+    name = "Location", 
+    discrete = TRUE
+  )
 
 aqi_state_graph
 ```
@@ -69,7 +66,7 @@ aqi_state_graph
 ##### Figure 2: Mean AQI for different county from 2003-2012
 
 ``` r
-aqi_county_df = 
+aqi_county_graph = 
   aqi_year_df %>% 
   group_by(county) %>% 
   summarize(
@@ -80,13 +77,88 @@ aqi_county_df =
   mutate(county = fct_reorder(county, aqi_all)) %>% 
   ggplot(aes(x = county, y = aqi_all)) +
   geom_point()+
-  geom_errorbar(mapping = aes(ymin = min, ymax = max))+
+  geom_errorbar(mapping = aes(ymin = min, ymax = max)) +
   labs( x = "Year",  y = "Air Quality Index", title = "Mean AQI for different county from 2003-2012") + 
   theme(plot.title = element_text(hjust = 0.5)) + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+aqi_county_graph
 ```
 
-#### Figure 2: Map for Aqi in NY state
+<img src="Exploratory-Analysis_files/figure-gfm/unnamed-chunk-4-1.png" width="90%" />
+
+#### Figure 3: Map for Aqi in NY state
+
+``` r
+air_county_df = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+```
+
+    ## `summarise()` has grouped output by 'state_code', 'county_code'. You can
+    ## override using the `.groups` argument.
+
+``` r
+county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df, values = "aqi_all") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map
+```
+
+<img src="Exploratory-Analysis_files/figure-gfm/unnamed-chunk-5-1.png" width="90%" />
+
+#### Figure 4: Unhealthy air quality days in counties among 10 years
+
+``` r
+air_quality_day_df = 
+  air_daily_df %>% 
+  group_by(state_code, county_code,county) %>% 
+  mutate(
+    aqi_status = case_when(
+      category %in% c("Good", "Moderate") ~ "Healthy",
+      category %in% c("Unhealthy for Sensitive Groups", "Unhealthy", "Very Unhealthy") ~ "Unhealthy"
+    )
+  ) 
+
+Unhealthy_air_graph = 
+  air_quality_day_df %>% 
+  filter(aqi_status == "Unhealthy") %>% 
+  group_by(county) %>% 
+  summarize(
+    unhealthy_days = n()
+  ) %>% 
+  mutate(
+    county = fct_reorder(county, unhealthy_days)
+    ) %>% 
+  ggplot(aes(y = county, x = unhealthy_days, fill = unhealthy_days)) +
+  geom_col() +
+  labs(
+    title = "Unhealthy air quality days in counties among 10 years",
+    x = "Unhealthy air quality days",
+    y = "County"
+  ) +
+  scale_fill_viridis(option = "turbo")
+
+Unhealthy_air_graph 
+```
+
+<img src="Exploratory-Analysis_files/figure-gfm/unnamed-chunk-6-1.png" width="90%" />
+
+### Type of Pollutants in each counties
+
+#### Ozone
 
 #### BRFSS
 
