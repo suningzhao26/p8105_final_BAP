@@ -2,6 +2,33 @@
 title: "Statistical Analysis"
 output: github_document
 ---
+```{r setup, include=FALSE}
+library(plyr)
+library(tidyverse)
+library(patchwork)
+library(viridis)
+library(haven)
+
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+```
+
 ```{r}
 asthma_df = 
   read_csv("data/brfss_with_air.csv") %>%
@@ -13,11 +40,11 @@ asthma_df =
     aqi = as.numeric(aqi),
     mental_health = as.numeric(mental_health),
     physical_health = as.numeric(physical_health),
-    county = fct_infreq(county),
-    age = fct_infreq(age),
-    race = fct_infreq(race),
-    smoker = fct_infreq(smoker),
-    income = fct_infreq(income)
+    county = as.factor(county),
+    age = as.factor(age),
+    race = as.factor(race),
+    smoker = as.factor(smoker),
+    income = as.factor(income)
     )
   
 ```
@@ -30,7 +57,7 @@ linear_fit_1a =  asthma_df %>%
 
 ```{r}
 linear_fit_1a =
-  linear_fit_1 %>% 
+  linear_fit_1a %>% 
   broom::tidy() %>% 
   mutate(OR = exp(estimate)) %>%
   select(term, log_OR = estimate, OR, p.value) %>% 
@@ -93,10 +120,11 @@ asthma_df2 =
     mean_aqi_month = as.numeric(mean_aqi_month),
     mental_health = as.numeric(mental_health),
     physical_health = as.numeric(physical_health),
-    sex = as.numeric(sex),
-    
-    county = fct_infreq(county)
-  
+    county = as.factor(county),
+    age = as.factor(age),
+    race = as.factor(race),
+    smoker = as.factor(smoker),
+    income = as.factor(income)
     )
   
 ```
@@ -130,8 +158,8 @@ fit_logistic2b =
 ```
 
 ```{r}
-linear_fit=
-  linear_fit %>% 
+fit_logistic2b 
+  fit_logistic2b  %>% 
   broom::tidy() %>% 
   mutate(OR = exp(estimate)) %>%
   select(term, log_OR = estimate, OR, p.value) %>% 
