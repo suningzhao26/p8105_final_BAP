@@ -941,7 +941,7 @@ Code chunks used:
 b2003 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/cdbrfs03.XPT") %>% 
   janitor::clean_names() %>% 
   filter(state == 36) %>% 
-  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd2, cvdinfr2, cvdstrk2, educag,sex, smoker2, race2, ageg5yr, incomg) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack, aservist, asdrvist, asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd2, cvdinfr2, cvdstrk2, educag,sex, smoker2, race2, ageg5yr, incomg) %>% 
   drop_na(county_code) 
 
 b2003$physhlth[b2003$physhlth == "88"] <- 0
@@ -986,6 +986,14 @@ b2003$asattack[b2003$asattack == "2"] <- 0
 b2003$asattack[b2003$asattack == "7"] <- NA
 b2003$asattack[b2003$asattack == "9"] <- NA
 
+b2003$aservist[b2003$aservist == "88"] <- 0
+b2003$aservist[b2003$aservist == "98"] <- NA
+b2003$aservist[b2003$aservist == "99"] <- NA
+
+b2003$asdrvist[b2003$asdrvist == "88"] <- 0
+b2003$asdrvist[b2003$asdrvist == "98"] <- NA
+b2003$asdrvist[b2003$asdrvist == "99"] <- NA
+
 b2003$asymptom[b2003$asymptom == "8"] <- 0
 b2003$asymptom[b2003$asymptom == "7"] <- NA
 b2003$asymptom[b2003$asymptom == "9"] <- NA
@@ -1004,7 +1012,7 @@ b2003$incomg[b2003$incomg == "9"] <- NA
 
 b2003 = 
   b2003 %>% 
-  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd2, heart_attack = cvdinfr2, stroke = cvdstrk2, education = educag,sex, smoker = smoker2, race = race2, age = ageg5yr, income = incomg)
+  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd2, heart_attack = cvdinfr2, stroke = cvdstrk2, education = educag,sex, smoker = smoker2, race = race2, age = ageg5yr, income = incomg)
 
 b2003 %>% 
   write.csv(file = ("./data/brfss/brfss_ny_2003.csv"))
@@ -1014,7 +1022,7 @@ b2003 %>%
 b2004 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/CDBRFS04.XPT") %>% 
   janitor::clean_names() %>% 
   filter(state == 36) %>% 
-  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd2, cvdinfr2, cvdstrk2, educag,sex, smoker2, race2, ageg5yr, incomg) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,aservist, asdrvist, asattack,asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd2, cvdinfr2, cvdstrk2, educag,sex, smoker2, race2, ageg5yr, incomg) %>% 
   drop_na(county_code) 
 
 b2004$physhlth[b2004$physhlth == "88"] <- 0
@@ -1059,6 +1067,14 @@ b2004$asattack[b2004$asattack == "2"] <- 0
 b2004$asattack[b2004$asattack == "7"] <- NA
 b2004$asattack[b2004$asattack == "9"] <- NA
 
+b2004$aservist[b2004$aservist == "88"] <- 0
+b2004$aservist[b2004$aservist == "98"] <- NA
+b2004$aservist[b2004$aservist == "99"] <- NA
+
+b2004$asdrvist[b2004$asdrvist == "88"] <- 0
+b2004$asdrvist[b2004$asdrvist == "98"] <- NA
+b2004$asdrvist[b2004$asdrvist == "99"] <- NA
+
 b2004$asymptom[b2004$asymptom == "8"] <- 0
 b2004$asymptom[b2004$asymptom == "7"] <- NA
 b2004$asymptom[b2004$asymptom == "9"] <- NA
@@ -1077,7 +1093,7 @@ b2004$incomg[b2004$incomg == "9"] <- NA
 
 b2004 = 
   b2004 %>% 
-  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd2, heart_attack = cvdinfr2, stroke = cvdstrk2, education = educag,sex, smoker = smoker2, race = race2, age = ageg5yr, income = incomg)
+  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma,  asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd2, heart_attack = cvdinfr2, stroke = cvdstrk2, education = educag,sex, smoker = smoker2, race = race2, age = ageg5yr, income = incomg)
 
 b2004 %>% 
   write.csv(file = ("./data/brfss/brfss_ny_2004.csv"))
@@ -1087,7 +1103,7 @@ b2004 %>%
 b2005 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/CDBRFS05.XPT") %>% 
   janitor::clean_names() %>% 
   filter(state == 36) %>% 
-  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd3, cvdinfr3, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,aservist, asdrvist, asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd3, cvdinfr3, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
   drop_na(county_code) 
 
 b2005$physhlth[b2005$physhlth == "88"] <- 0
@@ -1132,6 +1148,14 @@ b2005$asattack[b2005$asattack == "2"] <- 0
 b2005$asattack[b2005$asattack == "7"] <- NA
 b2005$asattack[b2005$asattack == "9"] <- NA
 
+b2005$aservist[b2005$aservist == "88"] <- 0
+b2005$aservist[b2005$aservist == "98"] <- NA
+b2005$aservist[b2005$aservist == "99"] <- NA
+
+b2005$asdrvist[b2005$asdrvist == "88"] <- 0
+b2005$asdrvist[b2005$asdrvist == "98"] <- NA
+b2005$asdrvist[b2005$asdrvist == "99"] <- NA
+
 b2005$asymptom[b2005$asymptom == "8"] <- 0
 b2005$asymptom[b2005$asymptom == "7"] <- NA
 b2005$asymptom[b2005$asymptom == "9"] <- NA
@@ -1150,7 +1174,7 @@ b2005$incomg[b2005$incomg == "9"] <- NA
 
 b2005 = 
   b2005 %>% 
-  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd3, heart_attack = cvdinfr3, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
+  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd3, heart_attack = cvdinfr3, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
 
 b2005 %>% 
   write.csv(file = ("./data/brfss/brfss_ny_2005.csv"))
@@ -1160,7 +1184,7 @@ b2005 %>%
 b2006 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/CDBRFS06.XPT") %>% 
   janitor::clean_names() %>% 
   filter(state == 36) %>% 
-  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd3, cvdinfr3, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,aservist, asdrvist,asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd3, cvdinfr3, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
   drop_na(county_code) 
 
 b2006$physhlth[b2006$physhlth == "88"] <- 0
@@ -1203,7 +1227,15 @@ b2006$asthmage[b2006$asthmage == "97"] <- 10
 
 b2006$asattack[b2006$asattack == "2"] <- 0
 b2006$asattack[b2006$asattack == "7"] <- NA
-b2006$asattack[b2006$asattack == "9"] <- NA
+b2006$asattack[b2006$asattack == "9"] <- 
+
+b2006$aservist[b2006$aservist == "88"] <- 0
+b2006$aservist[b2006$aservist == "98"] <- NA
+b2006$aservist[b2006$aservist == "99"] <- NA
+
+b2006$asdrvist[b2006$asdrvist == "88"] <- 0
+b2006$asdrvist[b2006$asdrvist == "98"] <- NA
+b2006$asdrvist[b2006$asdrvist == "99"] <- NA
 
 b2006$asymptom[b2006$asymptom == "8"] <- 0
 b2006$asymptom[b2006$asymptom == "7"] <- NA
@@ -1223,7 +1255,7 @@ b2006$incomg[b2006$incomg == "9"] <- NA
 
 b2006 = 
   b2006 %>% 
-  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd3, heart_attack = cvdinfr3, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
+  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd3, heart_attack = cvdinfr3, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
 
 b2006 %>% 
   write.csv(file = ("./data/brfss/brfss_ny_2006.csv"))
@@ -1233,7 +1265,7 @@ b2006 %>%
 b2007 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/CDBRFS07.XPT") %>% 
   janitor::clean_names() %>% 
   filter(state == 36) %>% 
-  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd4, cvdinfr4, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,aservist, asdrvist, asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd4, cvdinfr4, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
   drop_na(county_code) 
 
 b2007$physhlth[b2007$physhlth == "88"] <- 0
@@ -1278,6 +1310,14 @@ b2007$asattack[b2007$asattack == "2"] <- 0
 b2007$asattack[b2007$asattack == "7"] <- NA
 b2007$asattack[b2007$asattack == "9"] <- NA
 
+b2007$aservist[b2007$aservist == "88"] <- 0
+b2007$aservist[b2007$aservist == "98"] <- NA
+b2007$aservist[b2007$aservist == "99"] <- NA
+
+b2007$asdrvist[b2007$asdrvist == "88"] <- 0
+b2007$asdrvist[b2007$asdrvist == "98"] <- NA
+b2007$asdrvist[b2007$asdrvist == "99"] <- NA
+
 b2007$asymptom[b2007$asymptom == "8"] <- 0
 b2007$asymptom[b2007$asymptom == "7"] <- NA
 b2007$asymptom[b2007$asymptom == "9"] <- NA
@@ -1296,7 +1336,7 @@ b2007$incomg[b2007$incomg == "9"] <- NA
 
 b2007 = 
   b2007 %>% 
-  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd4, heart_attack = cvdinfr4, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
+  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd4, heart_attack = cvdinfr4, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
 
 b2007 %>% 
   write.csv(file = ("./data/brfss/brfss_ny_2007.csv"))
@@ -1306,7 +1346,7 @@ b2007 %>%
 b2008 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/CDBRFS08.XPT") %>% 
   janitor::clean_names() %>% 
   filter(state == 36) %>% 
-  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd4, cvdinfr4, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,aservist, asdrvist, asattack,asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd4, cvdinfr4, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
   drop_na(county_code) 
 
 b2008$physhlth[b2008$physhlth == "88"] <- 0
@@ -1351,6 +1391,14 @@ b2008$asattack[b2008$asattack == "2"] <- 0
 b2008$asattack[b2008$asattack == "7"] <- NA
 b2008$asattack[b2008$asattack == "9"] <- NA
 
+b2008$aservist[b2008$aservist == "88"] <- 0
+b2008$aservist[b2008$aservist == "98"] <- NA
+b2008$aservist[b2008$aservist == "99"] <- NA
+
+b2008$asdrvist[b2008$asdrvist == "88"] <- 0
+b2008$asdrvist[b2008$asdrvist == "98"] <- NA
+b2008$asdrvist[b2008$asdrvist == "99"] <- NA
+
 b2008$asymptom[b2008$asymptom == "8"] <- 0
 b2008$asymptom[b2008$asymptom == "7"] <- NA
 b2008$asymptom[b2008$asymptom == "9"] <- NA
@@ -1369,7 +1417,7 @@ b2008$incomg[b2008$incomg == "9"] <- NA
 
 b2008 = 
   b2008 %>% 
-  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd4, heart_attack = cvdinfr4, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
+  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd4, heart_attack = cvdinfr4, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
 
 b2008 %>% 
   write.csv(file = ("./data/brfss/brfss_ny_2008.csv"))
@@ -1379,7 +1427,7 @@ b2008 %>%
 b2009 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/CDBRFS09.XPT") %>% 
   janitor::clean_names() %>% 
   filter(state == 36) %>% 
-  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd4, cvdinfr4, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,aservist,asdrvist,asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd4, cvdinfr4, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
   drop_na(county_code) 
 
 b2009$physhlth[b2009$physhlth == "88"] <- 0
@@ -1424,6 +1472,14 @@ b2009$asattack[b2009$asattack == "2"] <- 0
 b2009$asattack[b2009$asattack == "7"] <- NA
 b2009$asattack[b2009$asattack == "9"] <- NA
 
+b2009$aservist[b2009$aservist == "88"] <- 0
+b2009$aservist[b2009$aservist == "98"] <- NA
+b2009$aservist[b2009$aservist == "99"] <- NA
+
+b2009$asdrvist[b2009$asdrvist == "88"] <- 0
+b2009$asdrvist[b2009$asdrvist == "98"] <- NA
+b2009$asdrvist[b2009$asdrvist == "99"] <- NA
+
 b2009$asymptom[b2009$asymptom == "8"] <- 0
 b2009$asymptom[b2009$asymptom == "7"] <- NA
 b2009$asymptom[b2009$asymptom == "9"] <- NA
@@ -1442,7 +1498,7 @@ b2009$incomg[b2009$incomg == "9"] <- NA
 
 b2009 = 
   b2009 %>% 
-  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd4, heart_attack = cvdinfr4, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
+  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd4, heart_attack = cvdinfr4, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
 
 b2009 %>% 
 write.csv(file = ("./data/brfss/brfss_ny_2009.csv"))
@@ -1452,7 +1508,7 @@ write.csv(file = ("./data/brfss/brfss_ny_2009.csv"))
 b2010 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/CDBRFS10.XPT") %>% 
   janitor::clean_names() %>% 
   filter(state == 36) %>% 
-  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd4, cvdinfr4, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack,aservist, asdrvist, asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd4, cvdinfr4, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
   drop_na(county_code) 
 
 b2010$physhlth[b2010$physhlth == "88"] <- 0
@@ -1497,6 +1553,14 @@ b2010$asattack[b2010$asattack == "2"] <- 0
 b2010$asattack[b2010$asattack == "7"] <- NA
 b2010$asattack[b2010$asattack == "9"] <- NA
 
+b2010$aservist[b2010$aservist == "88"] <- 0
+b2010$aservist[b2010$aservist == "98"] <- NA
+b2010$aservist[b2010$aservist == "99"] <- NA
+
+b2010$asdrvist[b2010$asdrvist == "88"] <- 0
+b2010$asdrvist[b2010$asdrvist == "98"] <- NA
+b2010$asdrvist[b2010$asdrvist == "99"] <- NA
+
 b2010$asymptom[b2010$asymptom == "8"] <- 0
 b2010$asymptom[b2010$asymptom == "7"] <- NA
 b2010$asymptom[b2010$asymptom == "9"] <- NA
@@ -1515,7 +1579,7 @@ b2010$incomg[b2010$incomg == "9"] <- NA
 
 b2010 =
   b2010 %>% 
-  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd4, heart_attack = cvdinfr4, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
+  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd4, heart_attack = cvdinfr4, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
 
 b2010 %>% 
   write.csv(file = ("./data/brfss/brfss_ny_2010.csv"))
@@ -1525,7 +1589,7 @@ b2010 %>%
 b2011 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/LLCP2011.XPT") %>% 
   janitor::clean_names() %>% 
   filter(state == 36) %>% 
-  select(state_code = state, county_code = ctycode1, year = iyear, month = imonth, day = iday, asthma3, asthnow, asthmage,asattack,asymptom, asthms1, ltasth1, casthm1, physhlth, menthlth, cvdcrhd4, cvdinfr4, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
+  select(state_code = state, county_code = ctycode1, year = iyear, month = imonth, day = iday, asthma3, asthnow, asthmage,asattack,aservist, asdrvist, asymptom, asthms1, ltasth1, casthm1, physhlth, menthlth, cvdcrhd4, cvdinfr4, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
   drop_na(county_code) 
 
 b2011$physhlth[b2011$physhlth == "88"] <- 0
@@ -1570,6 +1634,14 @@ b2011$asattack[b2011$asattack == "2"] <- 0
 b2011$asattack[b2011$asattack == "7"] <- NA
 b2011$asattack[b2011$asattack == "9"] <- NA
 
+b2011$aservist[b2011$aservist == "88"] <- 0
+b2011$aservist[b2011$aservist == "98"] <- NA
+b2011$aservist[b2011$aservist == "99"] <- NA
+
+b2011$asdrvist[b2011$asdrvist == "88"] <- 0
+b2011$asdrvist[b2011$asdrvist == "98"] <- NA
+b2011$asdrvist[b2011$asdrvist == "99"] <- NA
+
 b2011$asymptom[b2011$asymptom == "8"] <- 0
 b2011$asymptom[b2011$asymptom == "7"] <- NA
 b2011$asymptom[b2011$asymptom == "9"] <- NA
@@ -1588,7 +1660,7 @@ b2011$incomg[b2011$incomg == "9"] <- NA
 
 b2011 = 
   b2011 %>% 
-  select(state_code, county_code, year, month, day, asthma = asthma3, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthms1, asthma_history = ltasth1, asthma_current = casthm1, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd4, heart_attack = cvdinfr4, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg) 
+  select(state_code, county_code, year, month, day, asthma = asthma3, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthms1, asthma_history = ltasth1, asthma_current = casthm1, asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd4, heart_attack = cvdinfr4, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg) 
 
 b2011 %>% 
   write.csv(file = ("./data/brfss/brfss_ny_2011.csv"))
@@ -1598,7 +1670,7 @@ b2011 %>%
 b2012 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/LLCP2012.XPT") %>% 
   janitor::clean_names() %>% 
   filter(state == 36) %>% 
-  select(state_code = state, county_code = ctycode1, year = iyear, month = imonth, day = iday, asthma3, asthnow, asthmage,asattack,asymptom, asthms1, ltasth1, casthm1, physhlth, menthlth, cvdcrhd4, cvdinfr4, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
+  select(state_code = state, county_code = ctycode1, year = iyear, month = imonth, day = iday, asthma3, asthnow, asthmage,asattack,aservist, asdrvist, asymptom, asthms1, ltasth1, casthm1, physhlth, menthlth, cvdcrhd4, cvdinfr4, cvdstrk3, educag,sex, smoker3, race2, ageg5yr, incomg) %>% 
   drop_na(county_code) 
 
 b2012$physhlth[b2012$physhlth == "88"] <- 0
@@ -1643,6 +1715,14 @@ b2012$asattack[b2012$asattack == "2"] <- 0
 b2012$asattack[b2012$asattack == "7"] <- NA
 b2012$asattack[b2012$asattack == "9"] <- NA
 
+b2012$aservist[b2012$aservist == "88"] <- 0
+b2012$aservist[b2012$aservist == "98"] <- NA
+b2012$aservist[b2012$aservist == "99"] <- NA
+
+b2012$asdrvist[b2012$asdrvist == "88"] <- 0
+b2012$asdrvist[b2012$asdrvist == "98"] <- NA
+b2012$asdrvist[b2012$asdrvist == "99"] <- NA
+
 b2012$asymptom[b2012$asymptom == "8"] <- 0
 b2012$asymptom[b2012$asymptom == "7"] <- NA
 b2012$asymptom[b2012$asymptom == "9"] <- NA
@@ -1661,7 +1741,7 @@ b2012$incomg[b2012$incomg == "9"] <- NA
 
 b2012 = 
   b2012 %>% 
-  select(state_code, county_code, year, month, day, asthma = asthma3, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthms1, asthma_history = ltasth1, asthma_current = casthm1, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd4, heart_attack = cvdinfr4, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
+  select(state_code, county_code, year, month, day, asthma = asthma3, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthms1, asthma_history = ltasth1, asthma_current = casthm1, asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd4, heart_attack = cvdinfr4, stroke = cvdstrk3, education = educag,sex, smoker = smoker3, race = race2, age = ageg5yr, income = incomg)
 
 b2012 %>% 
   write.csv(file = ("./data/brfss/brfss_ny_2012.csv"))
@@ -1687,10 +1767,10 @@ brfs_for_merge = read_csv("./data/brfss_indi.csv") %>%
 ```
 
     ## New names:
-    ## Rows: 65143 Columns: 25
+    ## Rows: 65143 Columns: 27
     ## ── Column specification
     ## ──────────────────────────────────────────────────────── Delimiter: "," dbl
-    ## (25): ...1, state_code, county_code, year, month, day, asthma, asthma_no...
+    ## (27): ...1, state_code, county_code, year, month, day, asthma, asthma_no...
     ## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
     ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
     ## • `` -> `...1`
@@ -1714,6 +1794,36 @@ air_daily1 =
 ``` r
 brfss_with_air = 
   left_join(brfs_for_merge, air_daily1, by = c("county_code", "date"))
+
+brfss_with_air$county_code[brfss_with_air$county_code == "1"] <- "001"
+brfss_with_air$county_code[brfss_with_air$county_code == "5"] <- "005"
+brfss_with_air$county_code[brfss_with_air$county_code == "7"] <- "007"
+brfss_with_air$county_code[brfss_with_air$county_code == "13"] <- "013"
+brfss_with_air$county_code[brfss_with_air$county_code == "15"] <- "015"
+brfss_with_air$county_code[brfss_with_air$county_code == "27"] <- "027"
+brfss_with_air$county_code[brfss_with_air$county_code == "29"] <- "029"
+brfss_with_air$county_code[brfss_with_air$county_code == "31"] <- "031"
+brfss_with_air$county_code[brfss_with_air$county_code == "33"] <- "033"
+brfss_with_air$county_code[brfss_with_air$county_code == "43"] <- "043"
+brfss_with_air$county_code[brfss_with_air$county_code == "45"] <- "045"
+brfss_with_air$county_code[brfss_with_air$county_code == "47"] <- "047"
+brfss_with_air$county_code[brfss_with_air$county_code == "53"] <- "053"
+brfss_with_air$county_code[brfss_with_air$county_code == "55"] <- "055"
+brfss_with_air$county_code[brfss_with_air$county_code == "59"] <- "059"
+brfss_with_air$county_code[brfss_with_air$county_code == "61"] <- "061"
+brfss_with_air$county_code[brfss_with_air$county_code == "63"] <- "063"
+brfss_with_air$county_code[brfss_with_air$county_code == "65"] <- "065"
+brfss_with_air$county_code[brfss_with_air$county_code == "67"] <- "067"
+brfss_with_air$county_code[brfss_with_air$county_code == "71"] <- "071"
+brfss_with_air$county_code[brfss_with_air$county_code == "75"] <- "075"
+brfss_with_air$county_code[brfss_with_air$county_code == "79"] <- "079"
+brfss_with_air$county_code[brfss_with_air$county_code == "81"] <- "081"
+brfss_with_air$county_code[brfss_with_air$county_code == "83"] <- "083"
+brfss_with_air$county_code[brfss_with_air$county_code == "85"] <- "085"
+brfss_with_air$county_code[brfss_with_air$county_code == "87"] <- "087"
+brfss_with_air$county_code[brfss_with_air$county_code == "89"] <- "089"
+brfss_with_air$county_code[brfss_with_air$county_code == "91"] <- "091"
+brfss_with_air$county_code[brfss_with_air$county_code == "93"] <- "093"
 
 write.csv(brfss_with_air, file = ("./data/brfss_with_air.csv"))
 ```
@@ -1742,6 +1852,36 @@ air_daily2 =
 ``` r
 brfss_with_air2 = 
   left_join(brfs_for_merge, air_daily2, by = c("county_code", "year","month"))
+
+brfss_with_air2$county_code[brfss_with_air2$county_code == "1"] <- "001"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "5"] <- "005"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "7"] <- "007"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "13"] <- "013"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "15"] <- "015"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "27"] <- "027"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "29"] <- "029"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "31"] <- "031"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "33"] <- "033"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "43"] <- "043"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "45"] <- "045"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "47"] <- "047"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "53"] <- "053"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "55"] <- "055"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "59"] <- "059"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "61"] <- "061"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "63"] <- "063"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "65"] <- "065"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "67"] <- "067"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "71"] <- "071"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "75"] <- "075"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "79"] <- "079"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "81"] <- "081"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "83"] <- "083"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "85"] <- "085"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "87"] <- "087"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "89"] <- "089"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "91"] <- "091"
+brfss_with_air2$county_code[brfss_with_air2$county_code == "93"] <- "093"
 
 write.csv(brfss_with_air2, file = ("./data/brfss_with_air2.csv"))
 ```
