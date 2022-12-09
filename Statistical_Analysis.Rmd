@@ -1,0 +1,140 @@
+---
+title: "Statistical Analysis"
+output: github_document
+---
+```{r}
+asthma_df = 
+  read_csv("data/brfss_with_air.csv") %>%
+  mutate(
+    #outcome
+    asthma = as.numeric(asthma),
+    asthma_now = as.numeric(asthma_now),
+    #predictors below
+    aqi = as.numeric(aqi),
+    mental_health = as.numeric(mental_health),
+    physical_health = as.numeric(physical_health),
+    county = fct_infreq(county),
+    age = fct_infreq(age),
+    race = fct_infreq(race),
+    smoker = fct_infreq(smoker),
+    income = fct_infreq(income)
+    )
+  
+```
+
+#linear regression
+```{r}
+linear_fit_1a =  asthma_df %>%
+  lm(asthma ~ mental_health + physical_health + sex + smoker + race + age + income + county + aqi, data = .)
+```
+
+```{r}
+linear_fit_1a =
+  linear_fit_1 %>% 
+  broom::tidy() %>% 
+  mutate(OR = exp(estimate)) %>%
+  select(term, log_OR = estimate, OR, p.value) %>% 
+  knitr::kable(digits = 3)
+```
+
+```{r}
+fit_linear1b = 
+  asthma_df %>% 
+  lm(asthma_attack ~ mental_health + physical_health + sex + smoker + race + age + income + county + aqi, data = .) 
+```
+
+```{r}
+fit_linear1b %>% 
+  broom::tidy() %>% 
+  mutate(OR = exp(estimate)) %>%
+  select(term, log_OR = estimate, OR, p.value) %>% 
+  knitr::kable(digits = 3)
+```
+
+#logistic regression
+```{r}
+fit_logistic1a = 
+  asthma_df %>% 
+  glm(asthma ~ mental_health + physical_health + sex + smoker + race + age + income + county + aqi, data = ., family = binomial()) 
+```
+
+```{r}
+fit_logistic1a %>% 
+  broom::tidy() %>% 
+  mutate(OR = exp(estimate)) %>%
+  select(term, log_OR = estimate, OR, p.value) %>% 
+  knitr::kable(digits = 3)
+```
+
+```{r}
+fit_logistic1b = 
+  asthma_df %>% 
+  glm(asthma_now ~ mental_health + physical_health + sex + smoker + race + age + income + county + aqi, data = ., family = binomial()) 
+```
+
+```{r}
+fit_logistic1b %>% 
+  broom::tidy() %>% 
+  mutate(OR = exp(estimate)) %>%
+  select(term, log_OR = estimate, OR, p.value) %>% 
+  knitr::kable(digits = 3)
+```
+
+
+
+```{r}
+asthma_df2 = 
+  read_csv("data/brfss_with_air2.csv") %>%
+  mutate(
+    #outcome
+    asthma = as.numeric(asthma),
+    asthma_now = as.numeric(asthma_now),
+    #predictors below
+    mean_aqi_month = as.numeric(mean_aqi_month),
+    mental_health = as.numeric(mental_health),
+    physical_health = as.numeric(physical_health),
+    sex = as.numeric(sex),
+    
+    county = fct_infreq(county)
+  
+    )
+  
+```
+
+```{r}
+linear_fit_2a =  asthma_df2 %>%
+  lm(asthma_attack ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_aqi_month, data = .)
+
+```
+
+```{r}
+linear_fit_2a =
+  linear_fit_2a %>% 
+  broom::tidy() %>% 
+  mutate(OR = exp(estimate)) %>%
+  select(term, log_OR = estimate, OR, p.value) %>% 
+  knitr::kable(digits = 3)
+```
+
+
+```{r}
+fit_logistic2a = 
+  asthma_df2 %>% 
+  glm(asthma ~ sex + smoker + race + age + income + county + mean_aqi_month, data = ., family = binomial()) 
+```
+
+```{r}
+fit_logistic2b = 
+  asthma_df2 %>% 
+  glm(asthma_now ~ year + sex + smoker + race + age + income + county + mean_aqi_month, data = ., family = binomial()) 
+```
+
+```{r}
+linear_fit=
+  linear_fit %>% 
+  broom::tidy() %>% 
+  mutate(OR = exp(estimate)) %>%
+  select(term, log_OR = estimate, OR, p.value) %>% 
+  knitr::kable(digits = 3)
+```
+
