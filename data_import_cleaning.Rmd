@@ -4,10 +4,12 @@ output: github_document
 ---
 
 ```{r setup, include=FALSE}
+library(plyr)
 library(tidyverse)
 library(patchwork)
 library(viridis)
 library(haven)
+
 
 knitr::opts_chunk$set(
 	echo = TRUE,
@@ -264,11 +266,18 @@ Dataset from brfss (raw datasets deleted, too large for push):
 
 Code chunks used:
 
+```{r}
 b2003 = read_xpt("./data/brfss/cdbrfs03.xpt") %>% 
   janitor::clean_names() %>% 
   filter(state == 36) %>% 
-  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, cvdinfr2, cvdcrhd2, cvdstrk2, asthma2, asthnow, asthmst)
-
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, physhlth, menthlth, cvdcrhd2, cvdinfr2, cvdstrk2, asthma2, asthnow, educag,sex, smoker2, asthmage,asattack,asymptom, asthmst, ltasthm, casthma, race2, ageg5yr, incomg) %>% 
+  drop_na(county_code) %>% 
+  mutate(
+    physhlth =  revalue(physhlth, "88" = "0")
+  )
+  
+summary(b2003)
+```
 
 b2004 = read_xpt("./data/brfss/CDBRFS04.xpt") %>% 
   janitor::clean_names() %>% 
