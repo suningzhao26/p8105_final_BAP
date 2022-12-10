@@ -75,6 +75,62 @@ Main variables in the six daily parameter tables we focus on:
 * mean_pm10: the average pm10 value for the day within that county (unit of measure: Micrograms/cubic meter (25 C))
 * max_pm10: the highest pm10 value for the day within that county (unit of measure: Micrograms/cubic meter (25 C))
 
+The “full_aqi” table from part a and daily parameter tables were left-joined using columns “county” and “date” (full_aqi as left table). In addition, the “defining_site” variable was separated as state_code, county_code, and site_code. The state_code and county_code were kept in the resulting dataset “air_daily”. The air_daily dataset was also saved as air_daily.csv file in the “data” folder.
+
+c. Individual health survey data in New York State from 2003 to 2012
+
+The annual survey data from CDC Behavioral Risk Factor Surveillance System provides information on the background, design, data collection and processing, statistical, and analytical issues. It also provides health related information of each interviewee. We gathered 10 raw data files (1 file per year) for processing.
+
+Firstly, we filtered by state code 36, then selected variables we were interested in. Finally, we filtered out rows in which county code was missing.
+
+Main variables:
+* state_code: state FIPS Codes, New York State code 36 specifically
+* county_code: county FIPS Codes in New York State
+* year: interview year
+* month: interview month
+* day: interview day
+* asthma: ever told had asthma; 1 for yes, 0 for no
+* asthma_now: still have asthma; 1 for yes, 0 for no
+* asthma_age: age at asthma diagnosis
+* asthma_attack: asthma during past 12 months; 1 for yes, 0 for no
+* asthma_emergency: how many times of visiting an emergency room or urgent care center because of asthma during past 12 months
+* asthma_visit: how many times of urgent asthma treatment during past 12 months
+* asthma_symptom: frequencies of asthma symptoms during past 30 days; 0 for none, 1 for less than once a week, 2 for once or twice a week, 3 for more than 2 times a week but not every day, 4 for every day but not all the time, 5 for every day all the time
+* asthma_status: computed asthma status, 1 for current, 2 for former, 3 for never
+* asthma_history: risk factor for lifetime asthma prevalence, 1 for not at risk, 2 for at risk
+* asthma_current: risk factor for current asthma prevalence, 1 for not at risk, 2 for at risk
+* physical_health: number of days physical health not good during the past 30 days
+* mental_health: number of days mental health not good during the past 30 days
+* coronary_heart_disease: angina or coronary heart disease, 1 for yes, 0 for no
+* heart_attack: ever diagnosed with heart attack, 1 for yes, 0 for no
+* stroke: ever diagnosed with stroke, 1 for yes, 0 for no
+* education: level of education completed, 1 for did not graduate high school, 2 for graduated high school, 3 for attended college or technical school, 4 for graduated from college or technical school
+* sex: respondents sex, 1 for male, 2 for female
+* smoker: computed smoking status, 1 for current smoker - now smokes every day, 2 for current smoker - now smokes some days, 3 for former smoker, 4 for never smoked
+* race: race categories, 1 for White only, non-hispanic, 2 for Black only, non-hidpanic, 3 for Asian only, non-hispanic, 4 for Native Hawaiian or other Pacific Islander only, non-hispanic, 5 for American Indian or Alaskan Native only, non-hispanic, 6 for other race only, non-hispanic, 7 for multiracial, non-hispanic, 8 for hispanic
+* age: reported age in five-year age categories, 1 for age 18-24, 2 for 25-29, 3 for 30-34, 4 for 35-39, 5 for 40-44, 6 for 45-49, 7 for 50-54, 8 for 55-59, 9 for 60-64, 10 for 65-69, 11 for 70-74, 12 for 75-79, 13 for 80 or older
+* income: income categories, 1 for less than $15000, 2 for $15000 to less than $25000, 3 for $25000 to less than $35000, 4 for $35000 to less than $50000, 5 for $50000 or more
+
+The combined 10-year brfss files was saved as a dataframe named “brfss_indi”, and it was also written as “brfss_indi.csv” file, stored in the “data” folder.
+
+d. Final resulting data files
+
+A new variable named “date” which concatenated year, month, and day using was created in the “brfss_indi” dataframe. Then it was left-joined with “air_daily” using columns “county_code” and “date” (“brfss_indi” as the left table). The resulting dataset was saved as “brfss_with_air” data frame and was written as “brfss_with_air.csv” file in “data” folder.
+
+In addition, another air quality dataset “air_daily2” was created by grouping and summarizing “air_daily”:
+
+* mean_aqi_month: mean daily aqi value in that month
+* max_aqi_month: max daily aqi value in that month
+* min_aqi_month: min daily aqi value in that month
+* mean_ozone_month: mean ozone value in that month (unit of measure: parts per million) 
+* mean_pm2_5_month:  mean pm2.5 value in that month (unit of measure: Micrograms/cubic meter (LC))   
+* mean_pm10_month: mean pm10 value in that month (unit of measure: Micrograms/cubic meter (25 C))  
+* mean_co_month: mean carbon monoxide value in that month (unit of measure: parts per million)     
+* mean_no2_month: mean nitrogen dioxide value in that month (unit of measure: parts per million)    
+* mean_so2_month: mean sulfur dioxide value in that month (unit of measure: parts per million)
+
+Then “brfss_indi” and “air_daily2” were left-joined using columns “county_code”, “year”, and “month” (“brfss_indi” as the left table). The resulting dataset was saved as “brfss_with_air2” data frame and was written as “brfss_with_air2.csv” file in the “data” folder.
+
 
 
 ## Exploratory Data Analysis
