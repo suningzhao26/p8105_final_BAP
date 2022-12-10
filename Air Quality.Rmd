@@ -25,9 +25,7 @@ set.seed(1)
 ```
 
 
-#### Load the data
-
-```{r}
+```{r, include=FALSE}
 air_daily_df = 
   read_csv("./data/air_daily.csv") %>% 
   separate(col = date, into = c('year','month','day'), sep = "-" , convert = TRUE) %>% 
@@ -35,9 +33,8 @@ air_daily_df =
   drop_na(county)
 ```
 
-#### Calculate the mean aqi for each county each year
 
-```{r}
+```{r, include=FALSE}
 aqi_year_df = 
   air_daily_df %>% 
   select(state_code, county_code, state, county, year, aqi) %>% 
@@ -47,7 +44,14 @@ aqi_year_df =
   )
 ```
 
-#### Maps
+* Air quality index is different among counties in 10years. We created maps with their air quality index on colors among counties in NY state.If the color is grey, that means there was no respondents in those counties at that year.
+
+#### Air quality index{.tabset} 
+
+According to the graphs, we can know that:
+* Overall, the air quality index is decreasing in 10 years in all counties, which means that the air quality is becoming better. 
+* Urban counties, including `Bronx`, `Queens` , `New York` and `Erie`, are  with a higher air quality index, which means they have worse air quality.
+* Based on the map, we can know that air quality index might with no relationship with asthma because in northern counties in NY state, where the asthma percentage are higher, the air quality are pretty good.
 
 ##### 2003
 
@@ -65,14 +69,14 @@ air_county_df1 =
     fips = str_c(state_code,county_code)
   )
 
-county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = air_county_df1, values = "aqi_all") +
+county_plot_map1 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df1, values = "aqi_all", labels = TRUE, label_color = "White") +
   scale_fill_continuous(
-    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = "right")
 
-county_plot_map
+county_plot_map1
 ```
 
 ##### 2004
@@ -91,14 +95,14 @@ air_county_df2 =
     fips = str_c(state_code,county_code)
   )
 
-county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = air_county_df2, values = "aqi_all") +
+county_plot_map2 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df2, values = "aqi_all", labels = TRUE, label_color = "White") +
   scale_fill_continuous(
-    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = "right")
 
-county_plot_map
+county_plot_map2
 ```
 
 ##### 2005
@@ -117,14 +121,14 @@ air_county_df3 =
     fips = str_c(state_code,county_code)
   )
 
-county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = air_county_df3, values = "aqi_all") +
+county_plot_map3 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df3, values = "aqi_all", labels = TRUE, label_color = "White") +
   scale_fill_continuous(
-    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = "right")
 
-county_plot_map
+county_plot_map3
 ```
 
 ##### 2006
@@ -143,14 +147,14 @@ air_county_df4 =
     fips = str_c(state_code,county_code)
   )
 
-county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = air_county_df4, values = "aqi_all") +
+county_plot_map4 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df4, values = "aqi_all", labels = TRUE, label_color = "White") +
   scale_fill_continuous(
-    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = "right")
 
-county_plot_map
+county_plot_map4
 ```
 
 ##### 2007
@@ -169,14 +173,14 @@ air_county_df5 =
     fips = str_c(state_code,county_code)
   )
 
-county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = air_county_df5, values = "aqi_all") +
+county_plot_map5 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df5, values = "aqi_all", labels = TRUE, label_color = "White") +
   scale_fill_continuous(
-    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = "right")
 
-county_plot_map
+county_plot_map5
 ```
 
 ##### 2008
@@ -195,14 +199,14 @@ air_county_df6 =
     fips = str_c(state_code,county_code)
   )
 
-county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = air_county_df6, values = "aqi_all") +
+county_plot_map6 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df6, values = "aqi_all", labels = TRUE, label_color = "White") +
   scale_fill_continuous(
-    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = "right")
 
-county_plot_map
+county_plot_map6
 ```
 
 ##### 2009
@@ -221,14 +225,14 @@ air_county_df7 =
     fips = str_c(state_code,county_code)
   )
 
-county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = air_county_df7, values = "aqi_all") +
+county_plot_map7 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df7, values = "aqi_all", labels = TRUE, label_color = "White") +
   scale_fill_continuous(
-    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = "right")
 
-county_plot_map
+county_plot_map7
 ```
 
 ##### 2010
@@ -247,14 +251,14 @@ air_county_df8 =
     fips = str_c(state_code,county_code)
   )
 
-county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = air_county_df8, values = "aqi_all") +
+county_plot_map8 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df8, values = "aqi_all", labels = TRUE, label_color = "White") +
   scale_fill_continuous(
-    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = "right")
 
-county_plot_map
+county_plot_map8
 ```
 
 ##### 2011
@@ -273,14 +277,14 @@ air_county_df9 =
     fips = str_c(state_code,county_code)
   )
 
-county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = air_county_df9, values = "aqi_all") +
+county_plot_map9 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df9, values = "aqi_all", labels = TRUE, label_color = "White") +
   scale_fill_continuous(
-    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = "right")
 
-county_plot_map
+county_plot_map9
 ```
 
 ##### 2012
@@ -299,12 +303,12 @@ air_county_df10 =
     fips = str_c(state_code,county_code)
   )
 
-county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = air_county_df10, values = "aqi_all") +
+county_plot_map10 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df10, values = "aqi_all", labels = TRUE, label_color = "White") +
   scale_fill_continuous(
-    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = "right")
 
-county_plot_map
+county_plot_map10
 ```

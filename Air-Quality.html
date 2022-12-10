@@ -334,12 +334,23 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">AQI Index Across Years in NY</li>
-    <li class="dropdown-header">Types of Pollutants in Counties</li>
-    <li class="dropdown-header">PM 2.5</li>
+    <li>
+      <a href="Exp-Air-Quality-Index-across-year-in-NY-state.html">AQI Index Across Years in NY</a>
+    </li>
+    <li>
+      <a href="Exp---Type-of-Pollutants-in-each-counties.html">Types of Pollutants in Counties</a>
+    </li>
+    <li>
+      <a href="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS.html">Asthma and Heart Disease in NY</a>
+    </li>
+    <li>
+      <a href="Exp---Asthma-and-air-quality.html">Asthma and air quality</a>
+    </li>
   </ul>
 </li>
-<li class="dropdown-header">Statistical Analyses</li>
+<li>
+  <a href="Analysis_in_website.html">Statistical Analyses</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Mapping
@@ -347,8 +358,12 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">AQI in NY</li>
-    <li class="dropdown-header">Ozone in NY</li>
+    <li>
+      <a href="Air-Quality.html">AQI in NY</a>
+    </li>
+    <li>
+      <a href="map---asthma.html">Current Asthma in NY</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown-header">Project Report</li>
@@ -383,38 +398,23 @@ state</h1>
 </div>
 
 
-<div id="load-the-data" class="section level4">
-<h4>Load the data</h4>
-<pre class="r"><code>air_daily_df = 
-  read_csv(&quot;./data/air_daily.csv&quot;) %&gt;% 
-  separate(col = date, into = c(&#39;year&#39;,&#39;month&#39;,&#39;day&#39;), sep = &quot;-&quot; , convert = TRUE) %&gt;% 
-  drop_na(aqi) %&gt;% 
-  drop_na(county)</code></pre>
-<pre><code>## New names:
-## Rows: 114549 Columns: 21
-## ── Column specification
-## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
-## (5): county_code, state, county, category, defining_parameter dbl (15): ...1,
-## state_code, aqi, mean_ozone, max_ozone, mean_co, max_co, me... date (1): date
-## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-## Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## • `` -&gt; `...1`</code></pre>
-</div>
-<div id="calculate-the-mean-aqi-for-each-county-each-year"
-class="section level4">
-<h4>Calculate the mean aqi for each county each year</h4>
-<pre class="r"><code>aqi_year_df = 
-  air_daily_df %&gt;% 
-  select(state_code, county_code, state, county, year, aqi) %&gt;% 
-  group_by(state_code, county_code,county,year) %&gt;% 
-  summarize(
-    aqi_mean = mean(aqi)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-</div>
-<div id="maps" class="section level4">
-<h4>Maps</h4>
+<ul>
+<li>Air quality index is different among counties in 10years. We created
+maps with their air quality index on colors among counties in NY
+state.If the color is grey, that means there was no respondents in those
+counties at that year.</li>
+</ul>
+<div id="air-quality-index" class="section level4 tabset">
+<h4 class="tabset">Air quality index</h4>
+<p>According to the graphs, we can know that: * Overall, the air quality
+index is decreasing in 10 years in all counties, which means that the
+air quality is becoming better. * Urban counties, including
+<code>Bronx</code>, <code>Queens</code> , <code>New York</code> and
+<code>Erie</code>, are with a higher air quality index, which means they
+have worse air quality. * Based on the map, we can know that air quality
+index might with no relationship with asthma because in northern
+counties in NY state, where the asthma percentage are higher, the air
+quality are pretty good.</p>
 <div id="section" class="section level5">
 <h5>2003</h5>
 <pre class="r"><code>air_county_df1 = 
@@ -431,14 +431,14 @@ class="section level4">
   )</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
 ## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df1, values = &quot;aqi_all&quot;) +
+<pre class="r"><code>county_plot_map1 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df1, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
-county_plot_map</code></pre>
+county_plot_map1</code></pre>
 <p><img src="Air-Quality_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
 </div>
 <div id="section-1" class="section level5">
@@ -457,14 +457,14 @@ county_plot_map</code></pre>
   )</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
 ## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df2, values = &quot;aqi_all&quot;) +
+<pre class="r"><code>county_plot_map2 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df2, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
-county_plot_map</code></pre>
+county_plot_map2</code></pre>
 <p><img src="Air-Quality_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
 </div>
 <div id="section-2" class="section level5">
@@ -483,14 +483,14 @@ county_plot_map</code></pre>
   )</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
 ## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df3, values = &quot;aqi_all&quot;) +
+<pre class="r"><code>county_plot_map3 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df3, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
-county_plot_map</code></pre>
+county_plot_map3</code></pre>
 <p><img src="Air-Quality_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
 </div>
 <div id="section-3" class="section level5">
@@ -509,14 +509,14 @@ county_plot_map</code></pre>
   )</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
 ## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df4, values = &quot;aqi_all&quot;) +
+<pre class="r"><code>county_plot_map4 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df4, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
-county_plot_map</code></pre>
+county_plot_map4</code></pre>
 <p><img src="Air-Quality_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
 </div>
 <div id="section-4" class="section level5">
@@ -535,14 +535,14 @@ county_plot_map</code></pre>
   )</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
 ## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df5, values = &quot;aqi_all&quot;) +
+<pre class="r"><code>county_plot_map5 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df5, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
-county_plot_map</code></pre>
+county_plot_map5</code></pre>
 <p><img src="Air-Quality_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
 </div>
 <div id="section-5" class="section level5">
@@ -561,14 +561,14 @@ county_plot_map</code></pre>
   )</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
 ## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df6, values = &quot;aqi_all&quot;) +
+<pre class="r"><code>county_plot_map6 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df6, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
-county_plot_map</code></pre>
+county_plot_map6</code></pre>
 <p><img src="Air-Quality_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
 </div>
 <div id="section-6" class="section level5">
@@ -587,14 +587,14 @@ county_plot_map</code></pre>
   )</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
 ## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df7, values = &quot;aqi_all&quot;) +
+<pre class="r"><code>county_plot_map7 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df7, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
-county_plot_map</code></pre>
+county_plot_map7</code></pre>
 <p><img src="Air-Quality_files/figure-html/unnamed-chunk-9-1.png" width="90%" /></p>
 </div>
 <div id="section-7" class="section level5">
@@ -613,14 +613,14 @@ county_plot_map</code></pre>
   )</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
 ## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df8, values = &quot;aqi_all&quot;) +
+<pre class="r"><code>county_plot_map8 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df8, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
-county_plot_map</code></pre>
+county_plot_map8</code></pre>
 <p><img src="Air-Quality_files/figure-html/unnamed-chunk-10-1.png" width="90%" /></p>
 </div>
 <div id="section-8" class="section level5">
@@ -639,14 +639,14 @@ county_plot_map</code></pre>
   )</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
 ## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df9, values = &quot;aqi_all&quot;) +
+<pre class="r"><code>county_plot_map9 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df9, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
-county_plot_map</code></pre>
+county_plot_map9</code></pre>
 <p><img src="Air-Quality_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
 </div>
 <div id="section-9" class="section level5">
@@ -665,14 +665,14 @@ county_plot_map</code></pre>
   )</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
 ## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df10, values = &quot;aqi_all&quot;) +
+<pre class="r"><code>county_plot_map10 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df10, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
-county_plot_map</code></pre>
+county_plot_map10</code></pre>
 <p><img src="Air-Quality_files/figure-html/unnamed-chunk-12-1.png" width="90%" /></p>
 </div>
 </div>
