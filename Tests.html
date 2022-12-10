@@ -429,9 +429,9 @@ div.tocify {
 </ul>
 <p>Hypothesis:</p>
 <ul>
-<li><p>H0:The proportion of the individuals who experience current
+<li><p>H0:The proportion of the individuals who experienced current
 asthma is the same across two aqi categories.</p></li>
-<li><p>H1:The proportion of the individuals who experience current
+<li><p>H1:The proportion of the individuals who experienced current
 asthma is not the same across two aqi categories.</p></li>
 </ul>
 <pre class="r"><code>asthma_df2 = asthma_df2 %&gt;%
@@ -449,13 +449,21 @@ chisq.test(asthma_df2$aqi_cat, asthma_df2$asthma_now, correct=FALSE)</code></pre
 ## data:  asthma_df2$aqi_cat and asthma_df2$asthma_now
 ## X-squared = 2.0033, df = 1, p-value = 0.157</code></pre>
 <p>Test statistics: X-squared = 2.0033, df = 1, p-value = 0.157</p>
+<ul>
+<li>Do not have enough evidence to conclude the proportion of
+individuals who experienced current asthma is different across two aqi
+categories.</li>
+</ul>
+<p><br></p>
 </div>
 <div id="welch-two-sample-t-test" class="section level1">
 <h1>Welch Two Sample t-test</h1>
-<p><em>H0:The average number of the visits to asthma emergency is the
-same for aqi good category and aqi not good category. </em>H1:The
-average number of the visits to asthma emergency is not the same for aqi
-good category and aqi not good category.</p>
+<ul>
+<li>H0: The average number of the visits to asthma emergency is the same
+for aqi good category and aqi not good category.</li>
+<li>H1: The average number of the visits to asthma emergency is not the
+same for aqi good category and aqi not good category.</li>
+</ul>
 <pre class="r"><code>asthma_df2_ttest = asthma_df2 %&gt;%
   mutate(
     aqi_cat = 
@@ -482,18 +490,17 @@ t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)</code></pre>
 ## mean of x mean of y 
 ##  0.718845  1.495868</code></pre>
 <ul>
-<li>t = -2.5689, df = 421.41, p-value = 0.01055</li>
-<li>alternative hypothesis: true difference in means is not equal to
-0</li>
-<li>95 percent confidence interval:</li>
-<li>-1.3715692 -0.1824764</li>
-<li>sample estimates:</li>
-<li>mean of x mean of y</li>
-<li>0.718845 1.495868</li>
-</ul>
-<p>*The p-value is less than 0.01 so we can conclude that the average
+<li><p>t = -2.5689, df = 421.41, p-value = 0.01055</p></li>
+<li><p>alternative hypothesis: true difference in means is not equal to
+0 95 percent confidence interval: (-1.3715692 -0.1824764) sample
+estimates:</p></li>
+<li><p>mean of x: 0.718845</p></li>
+<li><p>mean of y: 1.495868</p></li>
+<li><p>The p-value is less than 0.01 so we can conclude that the average
 number of the visits to asthma emergency is not the same for aqi good
-category and aqi not good category.</p>
+category and aqi not good category.</p></li>
+</ul>
+<p><br></p>
 </div>
 <div id="chi-squared-test-on-asthma_now-heart-disease"
 class="section level1">
