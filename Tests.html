@@ -402,69 +402,6 @@ div.tocify {
 </div>
 
 
-<pre class="r"><code>asthma_df1 = 
-  read_csv(&quot;./data/brfss_with_air.csv&quot;) %&gt;%
-  mutate(
-    #outcome
-    asthma = as.numeric(asthma),
-    asthma_now = as.numeric(asthma_now),
-    #predictors below
-    aqi = as.numeric(aqi),
-    mental_health = as.numeric(mental_health),
-    physical_health = as.numeric(physical_health),
-    county = as.factor(county),
-    age = as.factor(age),
-    race = as.factor(race),
-    smoker = as.factor(smoker),
-    income = as.factor(income)
-    )</code></pre>
-<pre><code>## New names:
-## Rows: 65143 Columns: 48
-## ── Column specification
-## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
-## (5): county_code, state, county, category, defining_parameter dbl (42): ...1,
-## ...2, state_code.x, year, month, day, asthma, asthma_now, a... date (1): date
-## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-## Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## • `` -&gt; `...1`
-## • `...1.x` -&gt; `...2`
-## • `...1.y` -&gt; `...30`</code></pre>
-<pre class="r"><code>asthma_df1 = asthma_df1 %&gt;%
-  mutate(county_code = as.factor(county_code)) 
-
-fit_model_month = lm(aqi ~ county_code, data = asthma_df1)
-anova(fit_model_month) %&gt;% knitr::kable(caption = &quot;One way ANOVA of monthly aqi mean and County&quot;)</code></pre>
-<table>
-<caption>One way ANOVA of monthly aqi mean and County</caption>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">Df</th>
-<th align="right">Sum Sq</th>
-<th align="right">Mean Sq</th>
-<th align="right">F value</th>
-<th align="right">Pr(&gt;F)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">county_code</td>
-<td align="right">34</td>
-<td align="right">2366860</td>
-<td align="right">69613.5419</td>
-<td align="right">152.8609</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left">Residuals</td>
-<td align="right">54184</td>
-<td align="right">24675633</td>
-<td align="right">455.4044</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
 <pre class="r"><code>asthma_df2 = 
   read_csv(&quot;./data/brfss_with_air2.csv&quot;) %&gt;%
   mutate(
@@ -492,45 +429,119 @@ anova(fit_model_month) %&gt;% knitr::kable(caption = &quot;One way ANOVA of mont
 ## • `` -&gt; `...1`
 ## • `...1` -&gt; `...2`</code></pre>
 <pre class="r"><code>asthma_df2 = asthma_df2 %&gt;%
-  mutate(county_code = as.factor(county_code)) 
-
-fit_model_month = lm(mean_aqi_month ~ county_code, data = asthma_df2)
-anova(fit_model_month) %&gt;% knitr::kable(caption = &quot;One way ANOVA of monthly aqi mean and County&quot;)</code></pre>
-<table>
-<caption>One way ANOVA of monthly aqi mean and County</caption>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">Df</th>
-<th align="right">Sum Sq</th>
-<th align="right">Mean Sq</th>
-<th align="right">F value</th>
-<th align="right">Pr(&gt;F)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">county_code</td>
-<td align="right">34</td>
-<td align="right">2433569</td>
-<td align="right">71575.5724</td>
-<td align="right">667.5814</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left">Residuals</td>
-<td align="right">55563</td>
-<td align="right">5957256</td>
-<td align="right">107.2162</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-<p>#We reject the null hypothesis that the mean number of monthly aqi
-are consistent across the different conties. There is evidence that
-indicates that the the mean number of aqi monthly varies across
-different counties.</p>
+  mutate(
+    aqi_cat = 
+         case_when(
+           mean_aqi_month &lt;= 50 ~ &quot;Good&quot;,
+           mean_aqi_month &gt; 50  ~ &quot;Not Good&quot;,
+           )
+      ) 
+chisq.test(asthma_df2$aqi_cat, asthma_df2$asthma_now, correct=FALSE)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  asthma_df2$aqi_cat and asthma_df2$asthma_now
+## X-squared = 2.0033, df = 1, p-value = 0.157</code></pre>
+<div id="pearsons-chi-squared-test" class="section level1">
+<h1>Pearson’s Chi-squared test</h1>
+<p>#data: asthma_df2<span class="math inline">\(aqi_cat and
+asthma_df2\)</span>asthma_now #X-squared = 2.0033, df = 1, p-value =
+0.157</p>
+<pre class="r"><code>asthma_df2_ttest = asthma_df2 %&gt;%
+  mutate(
+    aqi_cat = 
+         case_when(
+           mean_aqi_month &lt;= 50 ~ &quot;Good&quot;,
+           mean_aqi_month &gt; 50  ~ &quot;Not_Good&quot;,
+           )
+      ) %&gt;%
+  pivot_wider(
+    names_from = &quot;aqi_cat&quot;,
+    values_from = &quot;asthma_emergency&quot;
+  )</code></pre>
+<pre class="r"><code>t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  asthma_df2_ttest$Good and asthma_df2_ttest$Not_Good
+## t = -2.5689, df = 421.41, p-value = 0.01055
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -1.3715692 -0.1824764
+## sample estimates:
+## mean of x mean of y 
+##  0.718845  1.495868</code></pre>
+</div>
+<div id="welch-two-sample-t-test" class="section level1">
+<h1>Welch Two Sample t-test</h1>
+<p>#data: asthma_df2_ttest<span class="math inline">\(Good and
+asthma_df2_ttest\)</span>Not_Good #t = -2.5689, df = 421.41, p-value =
+0.01055 #alternative hypothesis: true difference in means is not equal
+to 0 #95 percent confidence interval: # -1.3715692 -0.1824764 #sample
+estimates: #mean of x mean of y # 0.718845 1.495868</p>
+<p>#Chi-square test asthma &amp; heart disease</p>
+<pre class="r"><code>asthma_df2_chi = asthma_df2 %&gt;%
+  mutate(
+    heart_disease = ifelse(coronary_heart_disease == &quot;1&quot; | heart_attack == &quot;1&quot; | stroke == &quot;1&quot;, &quot;1&quot;, &quot;0&quot;)
+  ) 
+chisq.test(asthma_df2_chi$heart_disease, asthma_df2_chi$asthma_now, correct=FALSE)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  asthma_df2_chi$heart_disease and asthma_df2_chi$asthma_now
+## X-squared = 54.976, df = 1, p-value = 1.22e-13</code></pre>
+<p>#Pearson’s Chi-squared test</p>
+<p>#data: asthma_df2_chi<span class="math inline">\(heart_disease and
+asthma_df2_chi\)</span>asthma_now #X-squared = 54.976, df = 1, p-value =
+1.22e-13</p>
+<pre class="r"><code>asthma_now_1 =
+  asthma_df2 %&gt;%
+  drop_na(asthma_now) %&gt;%
+  group_by(county) %&gt;%
+  filter(asthma_now==1) %&gt;%
+  count(asthma_now==1) </code></pre>
+<pre class="r"><code>asthma_now_all =
+  asthma_df2 %&gt;%
+  drop_na(asthma_now) %&gt;%
+  group_by(county) %&gt;%
+  count() </code></pre>
+<pre class="r"><code>data_for_proptest = 
+  left_join(asthma_now_1, asthma_now_all, by = &quot;county&quot;)</code></pre>
+<pre class="r"><code>prop.test(data_for_proptest$n.x, data_for_proptest$n.y)</code></pre>
+<pre><code>## 
+##  36-sample test for equality of proportions without continuity
+##  correction
+## 
+## data:  data_for_proptest$n.x out of data_for_proptest$n.y
+## X-squared = 83.022, df = 35, p-value = 8.893e-06
+## alternative hypothesis: two.sided
+## sample estimates:
+##    prop 1    prop 2    prop 3    prop 4    prop 5    prop 6    prop 7    prop 8 
+## 0.6945813 0.7164179 0.6666667 0.8073394 0.7368421 0.6266667 0.7641326 0.7272727 
+##    prop 9   prop 10   prop 11   prop 12   prop 13   prop 14   prop 15   prop 16 
+## 0.7575758 0.8666667 0.8082192 0.7090164 0.4827586 0.6976744 0.6505747 0.6563758 
+##   prop 17   prop 18   prop 19   prop 20   prop 21   prop 22   prop 23   prop 24 
+## 0.7680000 0.7785714 0.7564576 0.6782178 0.8059701 0.7222222 0.6617916 0.7383178 
+##   prop 25   prop 26   prop 27   prop 28   prop 29   prop 30   prop 31   prop 32 
+## 0.6770186 0.6571429 0.7482014 0.7415730 0.7462687 0.8333333 0.6954813 0.7000000 
+##   prop 33   prop 34   prop 35   prop 36 
+## 0.6967213 0.8620690 0.6851312 0.7271330</code></pre>
+<p>#36-sample test for equality of proportions without continuity
+correction</p>
+<p>#data: data_for_proptest<span class="math inline">\(n.x out of
+data_for_proptest\)</span>n.y #X-squared = 83.022, df = 35, p-value =
+8.893e-06 #alternative hypothesis: two.sided #sample estimates: # prop 1
+prop 2 prop 3 prop 4 prop 5 prop 6 prop 7 prop 8 prop 9 prop 10 prop 11
+prop 12 prop 13 #0.6945813 0.7164179 0.6666667 0.8073394 0.7368421
+0.6266667 0.7641326 0.7272727 0.7575758 0.8666667 0.8082192 0.7090164
+0.4827586 # prop 14 prop 15 prop 16 prop 17 prop 18 prop 19 prop 20 prop
+21 prop 22 prop 23 prop 24 prop 25 prop 26 #0.6976744 0.6505747
+0.6563758 0.7680000 0.7785714 0.7564576 0.6782178 0.8059701 0.7222222
+0.6617916 0.7383178 0.6770186 0.6571429 # prop 27 prop 28 prop 29 prop
+30 prop 31 prop 32 prop 33 prop 34 prop 35 prop 36 #0.7482014 0.7415730
+0.7462687 0.8333333 0.6954813 0.7000000 0.6967213 0.8620690 0.6851312
+0.7271330</p>
+</div>
 
 
 

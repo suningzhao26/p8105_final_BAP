@@ -30,35 +30,6 @@ theme_set(theme_minimal() + theme(legend.position = "bottom"))
 ```
 
 ```{r}
-asthma_df1 = 
-  read_csv("./data/brfss_with_air.csv") %>%
-  mutate(
-    #outcome
-    asthma = as.numeric(asthma),
-    asthma_now = as.numeric(asthma_now),
-    #predictors below
-    aqi = as.numeric(aqi),
-    mental_health = as.numeric(mental_health),
-    physical_health = as.numeric(physical_health),
-    county = as.factor(county),
-    age = as.factor(age),
-    race = as.factor(race),
-    smoker = as.factor(smoker),
-    income = as.factor(income)
-    )
-  
-```
-
-```{r}
-asthma_df1 = asthma_df1 %>%
-  mutate(county_code = as.factor(county_code)) 
-
-fit_model_month = lm(aqi ~ county_code, data = asthma_df1)
-anova(fit_model_month) %>% knitr::kable(caption = "One way ANOVA of monthly aqi mean and County")
-```
-
-
-```{r}
 asthma_df2 = 
   read_csv("./data/brfss_with_air2.csv") %>%
   mutate(
@@ -80,11 +51,101 @@ asthma_df2 =
 
 ```{r}
 asthma_df2 = asthma_df2 %>%
-  mutate(county_code = as.factor(county_code)) 
-
-fit_model_month = lm(mean_aqi_month ~ county_code, data = asthma_df2)
-anova(fit_model_month) %>% knitr::kable(caption = "One way ANOVA of monthly aqi mean and County")
+  mutate(
+    aqi_cat = 
+         case_when(
+           mean_aqi_month <= 50 ~ "Good",
+           mean_aqi_month > 50  ~ "Not Good",
+           )
+      ) 
+chisq.test(asthma_df2$aqi_cat, asthma_df2$asthma_now, correct=FALSE)
 ```
-#We reject the null hypothesis that the mean number of monthly aqi are consistent across the different conties. There is evidence that indicates that the the mean number of aqi monthly varies across different counties.
+#	Pearson's Chi-squared test
+
+#data:  asthma_df2$aqi_cat and asthma_df2$asthma_now
+#X-squared = 2.0033, df = 1, p-value = 0.157
 
 
+```{r}
+asthma_df2_ttest = asthma_df2 %>%
+  mutate(
+    aqi_cat = 
+         case_when(
+           mean_aqi_month <= 50 ~ "Good",
+           mean_aqi_month > 50  ~ "Not_Good",
+           )
+      ) %>%
+  pivot_wider(
+    names_from = "aqi_cat",
+    values_from = "asthma_emergency"
+  )
+```
+
+```{r}
+t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)
+```
+#	Welch Two Sample t-test
+
+#data:  asthma_df2_ttest$Good and asthma_df2_ttest$Not_Good
+#t = -2.5689, df = 421.41, p-value = 0.01055
+#alternative hypothesis: true difference in means is not equal to 0
+#95 percent confidence interval:
+# -1.3715692 -0.1824764
+#sample estimates:
+#mean of x mean of y 
+# 0.718845  1.495868 
+
+
+#Chi-square test asthma & heart disease
+```{r}
+asthma_df2_chi = asthma_df2 %>%
+  mutate(
+    heart_disease = ifelse(coronary_heart_disease == "1" | heart_attack == "1" | stroke == "1", "1", "0")
+  ) 
+chisq.test(asthma_df2_chi$heart_disease, asthma_df2_chi$asthma_now, correct=FALSE)
+```
+#Pearson's Chi-squared test
+
+#data:  asthma_df2_chi$heart_disease and asthma_df2_chi$asthma_now
+#X-squared = 54.976, df = 1, p-value = 1.22e-13
+
+```{r}
+asthma_now_1 =
+  asthma_df2 %>%
+  drop_na(asthma_now) %>%
+  group_by(county) %>%
+  filter(asthma_now==1) %>%
+  count(asthma_now==1) 
+```
+
+```{r}
+asthma_now_all =
+  asthma_df2 %>%
+  drop_na(asthma_now) %>%
+  group_by(county) %>%
+  count() 
+```
+
+```{r}
+data_for_proptest = 
+  left_join(asthma_now_1, asthma_now_all, by = "county")
+
+```
+
+
+```{r}
+prop.test(data_for_proptest$n.x, data_for_proptest$n.y)
+```
+
+#36-sample test for equality of proportions without continuity correction
+
+#data:  data_for_proptest$n.x out of data_for_proptest$n.y
+#X-squared = 83.022, df = 35, p-value = 8.893e-06
+#alternative hypothesis: two.sided
+#sample estimates:
+#   prop 1    prop 2    prop 3    prop 4    prop 5    prop 6    prop 7    prop 8    prop 9   prop 10   prop 11   prop 12   prop 13 
+#0.6945813 0.7164179 0.6666667 0.8073394 0.7368421 0.6266667 0.7641326 0.7272727 0.7575758 0.8666667 0.8082192 0.7090164 0.4827586 
+#  prop 14   prop 15   prop 16   prop 17   prop 18   prop 19   prop 20   prop 21   prop 22   prop 23   prop 24   prop 25   prop 26 
+#0.6976744 0.6505747 0.6563758 0.7680000 0.7785714 0.7564576 0.6782178 0.8059701 0.7222222 0.6617916 0.7383178 0.6770186 0.6571429 
+#  prop 27   prop 28   prop 29   prop 30   prop 31   prop 32   prop 33   prop 34   prop 35   prop 36 
+#0.7482014 0.7415730 0.7462687 0.8333333 0.6954813 0.7000000 0.6967213 0.8620690 0.6851312 0.7271330 
