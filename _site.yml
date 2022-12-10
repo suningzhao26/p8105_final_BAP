@@ -14,6 +14,7 @@ navbar:
       - text: 'Asthma and air quality'
         href: Exp---Asthma-and-air-quality.html
     - text: "Statistical Analyses"
+      href: Analysis_in_website.html
     - text: "Mapping"
       menu:
       - text: 'AQI in NY'

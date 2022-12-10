@@ -1,0 +1,95 @@
+---
+title: "Project Report"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Final Report
+
+## Motivation
+
+With air quality becoming a great concern of modern era, especially as an important public health topic. Environmental health is an important factor of our health as well. Air pollution has always been a big concern in public health topic. Since we believe it is a common cause such as Asthma, cardiovascular diseases, and many other health problems. So we decided to propose some analytical tests on correlation between these factors and air pollution. 
+
+We are curious on investigating on the effects of several potential factors and their relationship to AQI(air quality index), an indicating value of air quality. We are interested in air quality problems within NY state and at each county level from year 2003 to 2012. We aim to figure out the main causes of poor air quality and help health organizations and the public better assess and deal with the problem.
+
+
+## Questions and Planned Analysis
+
+**Questions:**
+
+1. What are rates of Asthma in each county in NY state across years?
+2. What are rates of heart diseases in each county in NY state across years?
+3. What pollutants distributions in each county in NY state across years?
+4. What are the AQI conditions in each county in NY state aross years?
+
+**Planned Analysis**
+
+1. Asthma and AQI
+2. Heart diseases and AQI
+3. Pollutants and AQI
+
+
+## Data Processing and Cleaning
+
+We referred to two data sources to construct our main dataset for further analysis. The air quality information (including daily aqi and six pollutant parameters) are from EPA database, and those health related data are from CDC Behavioral Risk Factor Surveillance System (BRFSS).
+
+a. Daily aqi for each county in New York State from 2003 to 2012 [(dataset)](https://aqs.epa.gov/aqsweb/airdata/download_files.html#AQI)
+
+We downloaded daily aqi files from “Daily AQI by County” Section ranged from 2003 to 2012 (one .csv file per year). Each dataset contains daily air quality index and other relative information for each county in the United States over a whole year. Those raw data files are stored in the “daily_aqi” folder from the “data” subdirectory in our repository. 
+
+For the process of data cleaning, firstly we used map function to combine those 10 datasets in order by year. Then we filtered by state name to keep counties that belong to New York State. Finally, we kept these variables that we will focus on:
+
+* state: state name, New York State specifically
+* county: county names in New York State
+* date: date on which the air quality was monitored
+* aqi: air quality index value
+* category: levels of health concern according to aqi
+* defining_parameter: pollutants that define the aqi on that day
+* defining_site: the site code that define the daily aqi on that day (consists of state code, county code, and site code, separated by “-”)
+
+The resulting dataset was saved as an object named “full_aqi” in data_import_cleaning.Rmd file.
+
+b. Six main parameter values [(dataset)](https://aqs.epa.gov/aqsweb/airdata/download_files.html#Daily)
+
+According to the National Weather Service, EPA calculates the AQI for five major air pollutants regulated by the Clean Air Act: ground-level ozone, particle pollution (also known as particulate matter), carbon monoxide, sulfur dioxide, and nitrogen dioxide. In the EPA database, each daily summary file contains data for every monitor (sampled parameter) for each day. These files are separated by parameter (or parameter group) to make the sizes more manageable. As a result, we collected 60 data files concerning daily values about six pollutants (carbon monoxide, sulfur dioxide, nitrogen dioxide, ozone, PM2.5, and PM10) in each county from 2003 to 2012 (one .csv file per year per parameter). Those data files are stored in the “daily_parameter” folder from the “data” subdirectory in our repository. What should be pointed out is that files from ozone, pm2.5, and so2 categories were pre-processed (filter by state name “New York”) in pre-processing.Rmd file, since the size of most of them exceeded the 100M git push limit. After the pre-processing, files in `ozone`, `pm2.5`, and `so2` folder contain data for New York State, others contain data across the US.
+
+During the process of data cleaning, we first combined 10-year datasets for each parameter using map function, then filtered by “New York'' state name, and selected the main variables that we were concerned about. Six data frames were created after these. Secondly, for each dataframe, we extracted daily parameter mean values from different sites for each county using “group_by” and “summarize” statements. Six summary tables were produced. 
+
+Main variables in the six daily parameter tables we focus on:
+
+* county: county names in New York State
+* date: date on which the air quality was monitored
+* mean_ozone: the average ozone value for the day within that county (unit of measure: parts per million)
+* max_ozone: the highest ozone value for the day within that county (unit of measure: parts per million)
+* mean_co: the average carbon monoxide value for the day within that county (unit of measure: parts per million)
+* max_co: the highest carbon monoxide value for the day within that county (unit of measure: parts per million)
+* mean_no2: the average nitrogen dioxide value for the day within that county (unit of measure: parts per million)
+* max_no2: the highest nitrogen dioxide value for the day within that county (unit of measure: parts per million)
+* mean_so2: the average sulfur dioxide value for the day within that county (unit of measure: parts per million)
+* max_so2: the highest sulfur dioxide value for the day within that county (unit of measure: parts per million)
+* mean_pm2_5: the average pm2.5 value for the day within that county (unit of measure: Micrograms/cubic meter (LC))
+* max_pm2_5: the highest pm2.5 value for the day within that county (unit of measure: Micrograms/cubic meter (LC))
+* mean_pm10: the average pm10 value for the day within that county (unit of measure: Micrograms/cubic meter (25 C))
+* max_pm10: the highest pm10 value for the day within that county (unit of measure: Micrograms/cubic meter (25 C))
+
+
+
+## Exploratory Data Analysis
+
+
+## Statistical Analysis
+
+
+## Mapping and Spatial Analysis
+
+
+## Next Steps and Discussion
+
+
+## Findings and Summary
+
+
+## Limitations and Reflections
