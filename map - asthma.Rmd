@@ -1,0 +1,337 @@
+---
+title: "Asthma and heart disease in NY state - from BRFSS"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(viridis)
+library(modelr)
+library(mgcv)
+library(patchwork)
+library(usmap)
+library(dplyr)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+set.seed(1)
+```
+
+### Data Loading
+
+```{r}
+brfss_air_df = 
+  read_csv("./data/brfss_with_air.csv") %>% 
+  drop_na(county) %>% 
+  mutate(
+    county_code = as.character(county_code)
+  )
+```
+
+##### Asthma Map
+
+```{r}
+asthma_now_county_df1 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2003) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df1, values = "1") +
+  scale_fill_continuous(
+    low = "white", high = "Blue", name = "Rate for people who currently have asthma", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+```{r}
+asthma_now_county_df2 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2004) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df2, values = "1") +
+  scale_fill_continuous(
+    low = "white", high = "Blue", name = "Rate for people who currently have asthma", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+```{r}
+asthma_now_county_df3 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2005) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df3, values = "1") +
+  scale_fill_continuous(
+    low = "white", high = "Blue", name = "Rate for people who currently have asthma", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+```{r}
+asthma_now_county_df4 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2006) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df4, values = "1") +
+  scale_fill_continuous(
+    low = "white", high = "Blue", name = "Rate for people who currently have asthma", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+```{r}
+asthma_now_county_df5 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2007) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df5, values = "1") +
+  scale_fill_continuous(
+    low = "white", high = "Blue", name = "Rate for people who currently have asthma", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+```{r}
+asthma_now_county_df6 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2008) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df6, values = "1") +
+  scale_fill_continuous(
+    low = "white", high = "Blue", name = "Rate for people who currently have asthma", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+```{r}
+asthma_now_county_df6 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2008) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df6, values = "1") +
+  scale_fill_continuous(
+    low = "white", high = "Blue", name = "Rate for people who currently have asthma", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+
+```{r}
+asthma_now_county_df7 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2009) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df7, values = "1") +
+  scale_fill_continuous(
+    low = "white", high = "Blue", name = "Rate for people who currently have asthma", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+```{r}
+asthma_now_county_df8 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2010) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df8, values = "1") +
+  scale_fill_continuous(
+    low = "white", high = "Blue", name = "Rate for people who currently have asthma", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+```{r}
+asthma_now_county_df9 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2011) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df9, values = "1") +
+  scale_fill_continuous(
+    low = "white", high = "Blue", name = "Rate for people who currently have asthma", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+```{r}
+asthma_now_county_df10 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2012) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df10, values = "1") +
+  scale_fill_continuous(
+    low = "white", high = "Blue", name = "Rate for people who currently have asthma", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
