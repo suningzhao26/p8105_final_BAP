@@ -13,7 +13,7 @@
 
 <title>Statistical Analysis</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,16 +193,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -341,12 +334,35 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">AQI Index Across Years in NY</li>
-    <li class="dropdown-header">Types of Pollutants in Counties</li>
-    <li class="dropdown-header">PM 2.5</li>
+    <li>
+      <a href="Exp-Air-Quality-Index-across-year-in-NY-state.html">AQI Index Across Years in NY</a>
+    </li>
+    <li>
+      <a href="Exp---Type-of-Pollutants-in-each-counties.html">Types of Pollutants in Counties</a>
+    </li>
+    <li>
+      <a href="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS.html">Asthma and Heart Disease in NY</a>
+    </li>
+    <li>
+      <a href="Exp---Asthma-and-air-quality.html">Asthma and air quality</a>
+    </li>
   </ul>
 </li>
-<li class="dropdown-header">Statistical Analyses</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Statistical Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Tests.html">Statistical Tests</a>
+    </li>
+    <li>
+      <a href="Analysis_in_website.html">Statistical Modeling</a>
+    </li>
+  </ul>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Mapping
@@ -354,13 +370,21 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">AQI in NY</li>
-    <li class="dropdown-header">Ozone in NY</li>
+    <li>
+      <a href="map---asthma.html">Current Asthma in NY</a>
+    </li>
+    <li>
+      <a href="Air-Quality.html">Air Quality Index in NY</a>
+    </li>
   </ul>
 </li>
-<li class="dropdown-header">Project Report</li>
+<li>
+  <a href="Project_Report.html">Project Report</a>
+</li>
 <li class="dropdown-header">Screencast</li>
-<li class="dropdown-header">References</li>
+<li>
+  <a href="reference.html">Reference</a>
+</li>
 <li>
   <a href="https://github.com/suningzhao26/p8105_final_BAP.git">
     <span class="fa fa-github fa-lg"></span>
@@ -440,7 +464,8 @@ div.tocify {
 ##  8 race2           -0.117     0.0688     -1.70  0.0898    
 ##  9 race3           -0.229     0.143      -1.60  0.109     
 ## 10 race4           -0.413     0.503      -0.821 0.412     
-## # … with 47 more rows</code></pre>
+## # … with 47 more rows
+## # ℹ Use `print(n = ...)` to see more rows</code></pre>
 <pre class="r"><code>asthma_df2 = 
   read_csv(&quot;data/brfss_with_air2.csv&quot;) %&gt;%
   mutate(
