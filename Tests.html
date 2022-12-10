@@ -13,7 +13,7 @@
 
 <title>Tests_in_website</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,16 +193,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -404,34 +397,8 @@ div.tocify {
 </div>
 
 
-<pre class="r"><code>asthma_df2 = 
-  read_csv(&quot;./data/brfss_with_air2.csv&quot;) %&gt;%
-  mutate(
-    #outcome
-    asthma = as.numeric(asthma),
-    asthma_now = as.numeric(asthma_now),
-    #predictors below
-    mean_aqi_month = as.numeric(mean_aqi_month),
-    mental_health = as.numeric(mental_health),
-    physical_health = as.numeric(physical_health),
-    county = as.factor(county),
-    age = as.factor(age),
-    race = as.factor(race),
-    smoker = as.factor(smoker),
-    income = as.factor(income)
-    )</code></pre>
-<pre><code>## New names:
-## Rows: 65143 Columns: 39
-## ── Column specification
-## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
-## (2): county_code, county dbl (36): ...1, ...2, state_code, year, month, day,
-## asthma, asthma_now, ast... date (1): date
-## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-## Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## • `` -&gt; `...1`
-## • `...1` -&gt; `...2`</code></pre>
-<div id="tests-of-statistical-analysis" class="section level1 tabset">
-<h1 class="tabset">Tests of Statistical Analysis</h1>
+<div id="tests-of-statistical-analysis" class="section level1">
+<h1>Tests of Statistical Analysis</h1>
 <div id="pearsons-chi-squared-test" class="section level2">
 <h2>Pearson’s Chi-squared test</h2>
 <p><em>Create two categories of qqi values </em>Those aqi values &lt; 50
@@ -455,8 +422,8 @@ chisq.test(asthma_df2$aqi_cat, asthma_df2$asthma_now, correct=FALSE)</code></pre
 ## data:  asthma_df2$aqi_cat and asthma_df2$asthma_now
 ## X-squared = 2.0033, df = 1, p-value = 0.157</code></pre>
 <ul>
-<li>data: asthma_df2<span class="math inline">\(aqi_cat and
-asthma_df2\)</span>asthma_now</li>
+<li>data: <code>asthma_df2$aqi_cat</code> and
+<code>asthma_df2$asthma_now</code></li>
 <li>X-squared = 2.0033, df = 1, p-value = 0.157</li>
 </ul>
 </div>
@@ -488,8 +455,8 @@ t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)</code></pre>
 ## mean of x mean of y 
 ##  0.718845  1.495868</code></pre>
 <ul>
-<li>data: asthma_df2_ttest<span class="math inline">\(Good and
-asthma_df2_ttest\)</span>Not_Good</li>
+<li>data: <code>asthma_df2_ttest$Good</code> and
+<code>asthma_df2_ttest$Not_Good</code></li>
 <li>t = -2.5689, df = 421.41, p-value = 0.01055</li>
 <li>alternative hypothesis: true difference in means is not equal to
 0</li>
@@ -522,8 +489,8 @@ chisq.test(asthma_df2_chi$heart_disease, asthma_df2_chi$asthma_now, correct=FALS
 ## data:  asthma_df2_chi$heart_disease and asthma_df2_chi$asthma_now
 ## X-squared = 54.976, df = 1, p-value = 1.22e-13</code></pre>
 <ul>
-<li>data: asthma_df2_chi<span class="math inline">\(heart_disease and
-asthma_df2_chi\)</span>asthma_now</li>
+<li>data: <code>asthma_df2_chi$heart_disease</code> and
+<code>asthma_df2_chi$asthma_now</code></li>
 <li>X-squared = 54.976, df = 1, p-value = 1.22e-13</li>
 <li>The p-value is less than 0.05. So we can conclude that the
 proportion of the individuals who experienced heart disease is not the
@@ -574,8 +541,8 @@ prop.test(data_for_proptest$n.x, data_for_proptest$n.y)</code></pre>
 ##   prop 33   prop 34   prop 35   prop 36 
 ## 0.6967213 0.8620690 0.6851312 0.7271330</code></pre>
 <ul>
-<li>data: data_for_proptest<span class="math inline">\(n.x out of
-data_for_proptest\)</span>n.y</li>
+<li>data: <code>data_for_proptest$n.x</code> out of
+<code>data_for_proptest$n.y</code></li>
 <li>X-squared = 83.022, df = 35, p-value = 8.893e-06</li>
 <li>alternative hypothesis: two.sided</li>
 <li>sample estimates:</li>
