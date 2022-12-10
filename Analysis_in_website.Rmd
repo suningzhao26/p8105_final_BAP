@@ -29,7 +29,17 @@ scale_fill_discrete = scale_fill_viridis_d
 theme_set(theme_minimal() + theme(legend.position = "bottom"))
 ```
 
-```{r}
+
+
+
+# Data Import and Manipulation
+
+
+
+  We first read in our cleaned data brfss_with_air2.csv and mutate the variable types as needed.
+
+  We have asthma and asthma_now as the outcome variables, mean_co_month,mean_aqi_month, mental_health, physical_health, county, age, race, smoker and income as the predictors
+```{r,message = FALSE}
 asthma_df2 = 
   read_csv("./data/brfss_with_air2.csv") %>%
   mutate(
@@ -49,8 +59,11 @@ asthma_df2 =
   
 ```
 
-#linear regression with mean CO as exposure
-```{r}
+# Linear Regression with Mean CO as Exposure
+
+
+  
+```{r,message = FALSE}
 linear_fit_co_emergency = asthma_df2 %>%
   lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_co_month, data = .)
 
@@ -60,20 +73,34 @@ linear_fit_co_emergency = asthma_df2 %>%
 linear_fit_co_emergency =
   linear_fit_co_emergency %>% 
   broom::tidy()
+  
 ```
+
+  We first ran a linear regression model with asthma_emergency as the outcome variable and check the correlation of mean_co_month with Asthma adjusting for other predictors.
 
 ```{r}
 print(linear_fit_co_emergency, n=60)
 ```
 
-#logistic regression
-##logistic regression with asthma emergency as outcome
+**Interpretation**
+
+  The results show that mean_co_month, the average CO concentration has a positive coefficient of 1.64 with Asthma_emergency occurrence. This means that higher CO concentration contributes to Asthma_emergency emergency with an 1.64 in cases per unit increase of mean_co_concentration.
+  
+  
+  
+
+  
+# Logistic regression AQI as exposure
+
 ```{r}
 fit_logistic1b = 
   asthma_df2 %>% 
   glm(asthma ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_aqi_month, data = ., family = binomial()) 
 ```
+We then conducted a Logistic regression with asthma as the main outcome varibale and check the relationship between mean_aqi month with asthma status.
 
+
+A logistic regression model was used because of the binary outcome variable.
 ```{r}
 fit_logistic1b %>% 
   broom::tidy() %>% 
@@ -81,3 +108,7 @@ fit_logistic1b %>%
   select(term, log_OR = estimate, OR, p.value) %>% 
   knitr::kable(digits = 3)
 ```
+
+**Interpretation**
+
+The results show that mean_aqi_month, the average Air quality index value, has an odd ratio of 1 towards Asthma status. This implies that mean_aqi_month does not have any influence on Asthma occurrences within our investigation.
