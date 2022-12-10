@@ -355,7 +355,9 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li class="dropdown-header">Statistical Analyses</li>
+<li>
+  <a href="Analysis_in_website.html">Statistical Analyses</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Mapping
@@ -458,8 +460,9 @@ asthma_df2\)</span>asthma_now #X-squared = 2.0033, df = 1, p-value =
   pivot_wider(
     names_from = &quot;aqi_cat&quot;,
     values_from = &quot;asthma_emergency&quot;
-  )</code></pre>
-<pre class="r"><code>t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)</code></pre>
+  )
+
+t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -499,15 +502,18 @@ asthma_df2_chi\)</span>asthma_now #X-squared = 54.976, df = 1, p-value =
   drop_na(asthma_now) %&gt;%
   group_by(county) %&gt;%
   filter(asthma_now==1) %&gt;%
-  count(asthma_now==1) </code></pre>
-<pre class="r"><code>asthma_now_all =
+  count(asthma_now==1) 
+
+asthma_now_all =
   asthma_df2 %&gt;%
   drop_na(asthma_now) %&gt;%
   group_by(county) %&gt;%
-  count() </code></pre>
-<pre class="r"><code>data_for_proptest = 
-  left_join(asthma_now_1, asthma_now_all, by = &quot;county&quot;)</code></pre>
-<pre class="r"><code>prop.test(data_for_proptest$n.x, data_for_proptest$n.y)</code></pre>
+  count() 
+
+data_for_proptest = 
+  left_join(asthma_now_1, asthma_now_all, by = &quot;county&quot;)
+
+prop.test(data_for_proptest$n.x, data_for_proptest$n.y)</code></pre>
 <pre><code>## 
 ##  36-sample test for equality of proportions without continuity
 ##  correction

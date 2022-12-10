@@ -79,9 +79,7 @@ asthma_df2_ttest = asthma_df2 %>%
     names_from = "aqi_cat",
     values_from = "asthma_emergency"
   )
-```
 
-```{r}
 t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)
 ```
 #	Welch Two Sample t-test
@@ -116,24 +114,16 @@ asthma_now_1 =
   group_by(county) %>%
   filter(asthma_now==1) %>%
   count(asthma_now==1) 
-```
 
-```{r}
 asthma_now_all =
   asthma_df2 %>%
   drop_na(asthma_now) %>%
   group_by(county) %>%
   count() 
-```
 
-```{r}
 data_for_proptest = 
   left_join(asthma_now_1, asthma_now_all, by = "county")
 
-```
-
-
-```{r}
 prop.test(data_for_proptest$n.x, data_for_proptest$n.y)
 ```
 
