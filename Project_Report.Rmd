@@ -4,7 +4,25 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(eval = FALSE)
+library(tidyverse)
+library(viridis)
+library(modelr)
+library(mgcv)
+library(patchwork)
+library(usmap)
+library(haven)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+set.seed(1)
 ```
 
 <br>
@@ -40,7 +58,7 @@ We referred to two data sources to construct our main dataset for further analys
 
 a. Daily aqi for each county in New York State from 2003 to 2012 [(dataset)](https://aqs.epa.gov/aqsweb/airdata/download_files.html#AQI)
 
-```{r}
+```{r, eval = FALSE}
 full_aqi = 
   tibble(
     files = list.files("data/daily_aqi/"),
@@ -70,7 +88,7 @@ The resulting dataset was saved as an object named “full_aqi” in data_import
 
 b. Six main parameter values [(dataset)](https://aqs.epa.gov/aqsweb/airdata/download_files.html#Daily)
 
-```{r}
+```{r, eval = FALSE}
 full_ozone = 
   tibble(
     files = list.files("data/daily_parameter/ozone/"),
@@ -197,7 +215,7 @@ The “full_aqi” table from part a and daily parameter tables were left-joined
 
 c. Individual health survey data in New York State from 2003 to 2012 [(dataset)](https://www.cdc.gov/brfss/annual_data/annual_data.htm)
 
-```{r}
+```{r, eval = FALSE}
 b2003 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/cdbrfs03.XPT") %>% 
   janitor::clean_names() %>% 
   filter(state == 36) %>% 
@@ -300,7 +318,7 @@ The combined 10-year brfss files was saved as a dataframe named “brfss_indi”
 
 d. Final resulting data files
 
-```{r}
+```{r, eval = FALSE}
 brfs_for_merge = read_csv("./data/brfss_indi.csv") %>% 
   mutate(
     date = as.Date(paste(year,month,day,sep="-"),"%Y-%m-%d")
