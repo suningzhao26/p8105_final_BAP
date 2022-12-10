@@ -25,9 +25,8 @@ theme_set(theme_minimal() + theme(legend.position = "bottom"))
 set.seed(1)
 ```
 
-### Data Loading
 
-```{r}
+```{r, include=FALSE}
 brfss_air_df = 
   read_csv("./data/brfss_with_air.csv") %>% 
   drop_na(county) %>% 
@@ -38,7 +37,7 @@ brfss_air_df =
 
 #### Asthma
 
-##### Figure 1: Trend of the rate for people who have asthma history in NY state among 10 years
+##### Figure 11: Trend of the rate for people who have asthma history in NY state among 10 years
 
 ```{r}
 asthma_history_df = 
@@ -75,7 +74,11 @@ asthma_history_graph =
 asthma_history_graph
 ```
 
-##### Figure 2: Map of the rate for people who currently have asthma among 10 years
+* In the graph, it can be seen that we have two Asthma Status. `Asthma 1` stands for `People who currently have asthma` while `Asthma 2` stands for `People who formerly have asthma`.
+* According to the graph, we can know that the percentage of people who currently have asthma is higher than the percentage of people who formerly have asthma. 
+* While the percentage of people who formerly have asthma is decreasing, the percentage of people who currently have asthma is increasing among 10 years.
+
+##### Figure 12: Map of the percentage of people who currently have asthma among 10 years
 
 ```{r}
 asthma_now_county_df = 
@@ -94,16 +97,21 @@ asthma_now_county_df =
   spread(asthma_status, percent)
 
 asthma_now_county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df, values = "1") +
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df, values = "1", labels = TRUE, label_color = "White") +
   scale_fill_continuous(
-    low = "white", high = "Blue", name = "Rate for people who currently have asthma", label = scales::comma, limits = c(0.05,0.17)
-  ) + 
+    low = "white", high = "Orange", name = "Percentage", label = scales::comma, limits = c(0.05,0.17)
+  ) +   
+  labs(
+    title = "Map of the percentage of people who currently have asthma among 10 years"
+  ) +
   theme(legend.position = "right")
 
 asthma_now_county_plot_map
 ```
 
-##### Figure 3: Trend of average doctor visits for urgent treatment of worsening asthma symptoms in counties among 10 years
+* To directly view the percentage of people who currently have asthma, we create a map. According to the map, we can see that `Franklin`, `Jefferson`, `Steuben` and `Bronx` are with highest percentage of people who currently have asthma.
+
+##### Figure 13: Trend of average doctor visits for urgent treatment of worsening asthma symptoms in counties among 10 years
 
 ```{r}
 asthma_visit_df = 
@@ -115,13 +123,15 @@ asthma_visit_df =
     mean_asthma_visit = mean(asthma_visit),
     max_asthma_visit = max(asthma_visit),
     min_asthma_visit = min(asthma_visit)
-  ) 
+  ) %>% 
+  ungroup() %>% 
+  arrange(mean_asthma_visit) %>% 
+  mutate(
+    county = fct_reorder(county, mean_asthma_visit)
+  )
 
 asthma_visit_graph = 
   asthma_visit_df %>% 
-  mutate(
-    county = fct_reorder(county, desc(mean_asthma_visit))
-  ) %>% 
   ggplot(aes(x = county, y = mean_asthma_visit)) +
   geom_point()+
   geom_errorbar(mapping = aes(ymin = min_asthma_visit, ymax = max_asthma_visit )) +
@@ -132,9 +142,12 @@ asthma_visit_graph =
 asthma_visit_graph
 ```
 
+* According to the graph, we can know that people in `Richmond`, `Oneida` and `Kings` are with more than 5 average doctor visits for asthma. 
+* It seems that average doctor visits doesn't have relationship with the percentage of people who currently have asthma. Counties which have the highest percentage of patients don't have the highest average doctor visits for asthma. 
+
 #### Heart disease
 
-##### Figure 4: Trend of the rate for people who have any heart disease in NY state among 10 years
+##### Figure 14: Trend of the percentage of people who have any heart disease in NY state among 10 years
 
 ```{r}
 hd_history_df = 
@@ -161,7 +174,7 @@ hd_history_graph =
   geom_point()+
   scale_fill_viridis(option = "viridis")+
   labs(
-    title = "Trend of the rate for people who have any heart disease in NY state among 10 years",
+    title = "Trend of the percentage of people who have any heart disease in NY state among 10 years",
     x = "Year",
     y = "Percent of people who have heart disease"
   ) +
@@ -170,7 +183,10 @@ hd_history_graph =
 hd_history_graph
 ```
 
-##### Figure 5: Map of the rate for people who have heart disease among 10 years
+* BRFSS also includes heart disease variables. Previous research suggests that asthma might be associated with heart disease. Thus, we try to find some relationships using our dataset. 
+* According to this graph, we can know that the percentage of people who have heart disease(including stroke, coronary heart disease and heart attack) is increasing among 10 years.
+
+##### Figure 15: Map of the percentage for people who have heart disease among 10 years
 
 ```{r}
 hd_county_df = 
@@ -190,12 +206,16 @@ hd_county_df =
   drop_na(heart_disease)
 
 hd_county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = hd_county_df, values = "percent") +
+  plot_usmap(regions = "county", include = c("NY"), data = hd_county_df, values = "percent", labels = TRUE, label_color = "white") +
   scale_fill_continuous(
-    low = "white", high = "Green", name = "Rate of people who have heart disease", label = scales::comma, limits = c(0,0.8)
-  ) + 
+    low = "white", high = "Purple", name = "Percentage", label = scales::comma, limits = c(0,0.8)
+  ) +   
+  labs(
+    title = "Map of the percentage for people who have heart disease among 10 years"
+  ) +
   theme(legend.position = "right")
 
 hd_county_plot_map 
 ```
 
+* To directly view the percentage of people who have heart disease among 10 years, we create a map. According to the map, we can see that `Broome` are with highest percentage of people who have heart disease among 10 years.

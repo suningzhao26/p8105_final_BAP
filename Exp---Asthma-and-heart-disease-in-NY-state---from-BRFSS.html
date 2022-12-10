@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Asthma and heart disease in NY state - from BRFSS</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Exploratory Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Exp-Air-Quality-Index-across-year-in-NY-state.html">AQI Index Across Years in NY</a>
+    </li>
+    <li>
+      <a href="Exp---Type-of-Pollutants-in-each-counties.html">Types of Pollutants in Counties</a>
+    </li>
+    <li>
+      <a href="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS.html">Asthma and Heart Disease in NY</a>
+    </li>
+    <li>
+      <a href="Exp---Asthma-and-air-quality.html">Asthma and air quality</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Analysis_in_website.html">Statistical Analyses</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Mapping
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Air-Quality.html">AQI in NY</a>
+    </li>
+    <li>
+      <a href="map---asthma.html">Current Asthma in NY</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown-header">Project Report</li>
+<li class="dropdown-header">Screencast</li>
+<li class="dropdown-header">References</li>
+<li>
+  <a href="https://github.com/suningzhao26/p8105_final_BAP.git">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Asthma and heart disease in NY state - from
+BRFSS</h1>
+
+</div>
+
+
+<div id="asthma" class="section level4">
+<h4>Asthma</h4>
+<div
+id="figure-11-trend-of-the-rate-for-people-who-have-asthma-history-in-ny-state-among-10-years"
+class="section level5">
+<h5>Figure 11: Trend of the rate for people who have asthma history in
+NY state among 10 years</h5>
+<pre class="r"><code>asthma_history_df = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(year) %&gt;% 
+  count(
+    year, asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n),
+    asthma_status = as.factor(asthma_status)
+  ) %&gt;% 
+  drop_na(asthma_status)
+
+asthma_history_graph = 
+  asthma_history_df %&gt;% 
+  filter(asthma_status != &quot;3&quot;) %&gt;% 
+  group_by(asthma_status) %&gt;%
+  ggplot(aes(x = year, y = percent, group = asthma_status, color = asthma_status)) +
+  geom_smooth()+
+  geom_point()+
+  scale_fill_viridis(option = &quot;viridis&quot;)+
+  labs(
+    title = &quot;Trend of the rate for people who have asthma history in NY state among 10 years&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Percent of people who have asthma&quot;,
+    color = &quot;Asthma Status&quot;
+  ) +
+  scale_x_continuous(breaks = 2003:2012 )
+
+asthma_history_graph</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
+<ul>
+<li>In the graph, it can be seen that we have two Asthma Status.
+<code>Asthma 1</code> stands for
+<code>People who currently have asthma</code> while
+<code>Asthma 2</code> stands for
+<code>People who formerly have asthma</code>.</li>
+<li>According to the graph, we can know that the percentage of people
+who currently have asthma is higher than the percentage of people who
+formerly have asthma.</li>
+<li>While the percentage of people who formerly have asthma is
+decreasing, the percentage of people who currently have asthma is
+increasing among 10 years.</li>
+</ul>
+</div>
+<div
+id="figure-12-map-of-the-percentage-of-people-who-currently-have-asthma-among-10-years"
+class="section level5">
+<h5>Figure 12: Map of the percentage of people who currently have asthma
+among 10 years</h5>
+<pre class="r"><code>asthma_now_county_df = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips) %&gt;% 
+  count(
+    county,asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n)
+  ) %&gt;% 
+  filter(asthma_status == &quot;1&quot;) %&gt;% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df, values = &quot;1&quot;, labels = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
+  ) +   
+  labs(
+    title = &quot;Map of the percentage of people who currently have asthma among 10 years&quot;
+  ) +
+  theme(legend.position = &quot;right&quot;)
+
+asthma_now_county_plot_map</code></pre>
+<p><img src="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+<ul>
+<li>To directly view the percentage of people who currently have asthma,
+we create a map. According to the map, we can see that
+<code>Franklin</code>, <code>Jefferson</code>, <code>Steuben</code> and
+<code>Bronx</code> are with highest percentage of people who currently
+have asthma.</li>
+</ul>
+</div>
+<div
+id="figure-13-trend-of-average-doctor-visits-for-urgent-treatment-of-worsening-asthma-symptoms-in-counties-among-10-years"
+class="section level5">
+<h5>Figure 13: Trend of average doctor visits for urgent treatment of
+worsening asthma symptoms in counties among 10 years</h5>
+<pre class="r"><code>asthma_visit_df = 
+  brfss_air_df %&gt;% 
+  drop_na(asthma_visit) %&gt;% 
+  filter(asthma_visit != 0) %&gt;% 
+  group_by(state_code.x, county_code,county) %&gt;% 
+  summarize(
+    mean_asthma_visit = mean(asthma_visit),
+    max_asthma_visit = max(asthma_visit),
+    min_asthma_visit = min(asthma_visit)
+  ) %&gt;% 
+  ungroup() %&gt;% 
+  arrange(mean_asthma_visit) %&gt;% 
+  mutate(
+    county = fct_reorder(county, mean_asthma_visit)
+  )</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;state_code.x&#39;, &#39;county_code&#39;. You can
+## override using the `.groups` argument.</code></pre>
+<pre class="r"><code>asthma_visit_graph = 
+  asthma_visit_df %&gt;% 
+  ggplot(aes(x = county, y = mean_asthma_visit)) +
+  geom_point()+
+  geom_errorbar(mapping = aes(ymin = min_asthma_visit, ymax = max_asthma_visit )) +
+  labs( x = &quot;County&quot;,  y = &quot;Average Doctor Visits for Asthma&quot;, title = &quot;Average doctor visits for urgent treatment of worsening asthma symptoms among 10 years&quot;) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+asthma_visit_graph</code></pre>
+<p><img src="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
+<ul>
+<li>According to the graph, we can know that people in
+<code>Richmond</code>, <code>Oneida</code> and <code>Kings</code> are
+with more than 5 average doctor visits for asthma.</li>
+<li>It seems that average doctor visits doesn’t have relationship with
+the percentage of people who currently have asthma. Counties which have
+the highest percentage of patients don’t have the highest average doctor
+visits for asthma.</li>
+</ul>
+</div>
+</div>
+<div id="heart-disease" class="section level4">
+<h4>Heart disease</h4>
+<div
+id="figure-14-trend-of-the-percentage-of-people-who-have-any-heart-disease-in-ny-state-among-10-years"
+class="section level5">
+<h5>Figure 14: Trend of the percentage of people who have any heart
+disease in NY state among 10 years</h5>
+<pre class="r"><code>hd_history_df = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code),
+    heart_disease = ifelse(coronary_heart_disease == &quot;1&quot; | heart_attack == &quot;1&quot; | stroke == &quot;1&quot;, &quot;1&quot;, &quot;0&quot;)
+  ) %&gt;% 
+  group_by(year) %&gt;% 
+  count(
+    year, heart_disease
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n),
+    heart_disease = as.factor(heart_disease)
+  ) %&gt;% 
+  drop_na(heart_disease)
+
+hd_history_graph = 
+ hd_history_df %&gt;% 
+  filter(heart_disease == &quot;1&quot;) %&gt;% 
+  ggplot(aes(x = year, y = percent)) +
+  geom_smooth()+
+  geom_point()+
+  scale_fill_viridis(option = &quot;viridis&quot;)+
+  labs(
+    title = &quot;Trend of the percentage of people who have any heart disease in NY state among 10 years&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Percent of people who have heart disease&quot;
+  ) +
+  scale_x_continuous(breaks = 2003:2012 )
+
+hd_history_graph</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
+<ul>
+<li>BRFSS also includes heart disease variables. Previous research
+suggests that asthma might be associated with heart disease. Thus, we
+try to find some relationships using our dataset.</li>
+<li>According to this graph, we can know that the percentage of people
+who have heart disease(including stroke, coronary heart disease and
+heart attack) is increasing among 10 years.</li>
+</ul>
+</div>
+<div
+id="figure-15-map-of-the-percentage-for-people-who-have-heart-disease-among-10-years"
+class="section level5">
+<h5>Figure 15: Map of the percentage for people who have heart disease
+among 10 years</h5>
+<pre class="r"><code>hd_county_df = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code),
+    heart_disease = ifelse(coronary_heart_disease == &quot;1&quot; | heart_attack == &quot;1&quot; | stroke == &quot;1&quot;, &quot;1&quot;, &quot;0&quot;)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips) %&gt;% 
+  count(
+    year, heart_disease
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n),
+    heart_disease = as.factor(heart_disease)
+  ) %&gt;% 
+  drop_na(heart_disease)
+
+hd_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = hd_county_df, values = &quot;percent&quot;, labels = TRUE, label_color = &quot;white&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Purple&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0,0.8)
+  ) +   
+  labs(
+    title = &quot;Map of the percentage for people who have heart disease among 10 years&quot;
+  ) +
+  theme(legend.position = &quot;right&quot;)
+
+hd_county_plot_map </code></pre>
+<p><img src="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
+<ul>
+<li>To directly view the percentage of people who have heart disease
+among 10 years, we create a map. According to the map, we can see that
+<code>Broome</code> are with highest percentage of people who have heart
+disease among 10 years.</li>
+</ul>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
