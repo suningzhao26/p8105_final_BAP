@@ -1,0 +1,17 @@
+---
+title: "References"
+output: github_document
+---
+Here are the resources we have used in the artible
+
+![](https://www.airnow.gov/sites/default/files/2018-04/aqi-logo-280x150.jpg){width=10%}
+
+
+[AQI database](https://www.airnow.gov/aqi-and-health/) :identifies AQI values of each counties throughout the years
+
+<br>
+
+
+![](https://www.cdc.gov/brfss/images/featured_images/BRFSS_TM.jpg?_=08762){width=10%}
+
+[BRFSS](https://www.cdc.gov/brfss/index.html): provides geographical features and information across counties within NY states 

@@ -1895,14 +1895,10 @@ county_plot_map10 =
 county_plot_map10
 ```
 
-# Next Steps and Discussion
-
-<br>
-
 # Findings and Summary
 
 * Franklin county has the lowest AQI of about 18 throughout years 2003-2012.
-* The AQI's generally remain at similar levels acorss years
+* The AQI's generally remain at similar levels across years
 * The western and eastern regions generally have higher AQI values which indicate higher pollution and more health concerns compared to central areas of NY State. Some possible explanations include more transits and more factories.
 * Asthma is most prevalent in Franklin county at a rate of approximately 0.17
 * Heart Disease is most prevalent in Broome county at a rate of approximately 0.8
@@ -1910,15 +1906,43 @@ county_plot_map10
 * Queens and Bronx counties have the most presence of PM2.5 particles, over 3000 days within the 10 year range(that means almost every day!)
 * Suffolk County ranks #1 with more than 200 unhealthy days across the years
 
-
 ## Statistical Analysis findings:
-### Linear Regression model
-* NO2 and SO2 contributes the most to Asthma
+
+### Statistical tests
+
+* The average number of the visits to asthma emergency is not the same for aqi good category and aqi not good category.
+* The proportion of the individuals who experienced heart disease is not the same in those who had asthma now and those who did not have asthma now.
+* The proportions of people getting asthma now are different across boroughs.
+
+### Statistical modeling
+
+#### Linear Regression model
+* NO2 and SO2 contributes the most to Asthma emergency visits
 * CO and PM2.5 have insignificant results based on the test
 
-### Logistic Regression model
+#### Logistic Regression model
+
 * AQI has perfect 1 OR with Asthma which implies no correlation 
 
-# Limitations and Reflections
+# Limitations and Discussion
 
-* One way our project can be helpful to the community is that our findings can help the environmental and health department better assess the weight of each of the factors we investigated on and decide how to spend their budget on regulating pollutes and manage AQI qualities to a higher extent. With better AQI, we are able to reduce occurrences of many health problems including, but not limited to, Asthma and heart diseases.
+## Limitation
+
+* After 2013, BRFSS datasets does not include county codes and county names. Thus, we can only use datasets from previous 2012. That might be out of dated. To research the association between air quality and asthma disease, researchers should find a dataset with county code or other variables with location information.
+* BRFSS is only a survey surveillance with respondents providing their information via phone. It does not include data from hospital or clinics, which will be more precise for our analysis.
+* After statistical modeling, we find that air quality index is not associated with asthma status, but find some pollutants are associated with asthma emergency visits. It is likely that asthma is more correlated with personal genetic or personal health status. Besides, some air pollutants that can affect asthma including pollen are not under monitor. 
+
+## Discussion
+* At first, we believed that air quality is correlated with many diseases and we knew that air quality index was a good database for us to analyze. However, the result was not that appealing. We didn't find any relationship between air quality index and asthma status.
+* Luckily we find that still some pollutants can significantly impact on asthma emergency visits, including So2 and No2. That makes sense because those toxic pollutants can harm the whole pulmonary system.
+
+
+# Reflections and Next Step
+
+## Reflections
+* One way our project can be helpful to the community is that our findings can help the environmental and health department better assess the weight of each of the factors we investigated on and decide how to spend their budget on regulating pollutes and manage air qualities to a higher extent. With better air, we are able to reduce occurrences of many health problems including, but not limited to, Asthma and heart diseases.
+
+## Next step
+
+* In order to further analyze the relationship between pollutants, air quality and asthma status. It is better for us to find better database, especially for asthma surveillance. 
+* In this project, we use `usmap` package to map. This package can illustrate the data at county level. However, it is not flexible for mapping. We need to find a new package, which can not only show the data at county level, but also can change the label size and apply in `Rshiny`.

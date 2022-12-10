@@ -378,7 +378,9 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li class="dropdown-header">Project Report</li>
+<li>
+  <a href="Project_Report.html">Project Report</a>
+</li>
 <li class="dropdown-header">Screencast</li>
 <li class="dropdown-header">References</li>
 <li>
@@ -2404,16 +2406,12 @@ county_plot_map10</code></pre>
 </div>
 </div>
 </div>
-<div id="next-steps-and-discussion" class="section level1">
-<h1>Next Steps and Discussion</h1>
-<p><br></p>
-</div>
 <div id="findings-and-summary" class="section level1">
 <h1>Findings and Summary</h1>
 <ul>
 <li>Franklin county has the lowest AQI of about 18 throughout years
 2003-2012.</li>
-<li>The AQI’s generally remain at similar levels acorss years</li>
+<li>The AQI’s generally remain at similar levels across years</li>
 <li>The western and eastern regions generally have higher AQI values
 which indicate higher pollution and more health concerns compared to
 central areas of NY State. Some possible explanations include more
@@ -2432,32 +2430,97 @@ years</li>
 </ul>
 <div id="statistical-analysis-findings" class="section level2">
 <h2>Statistical Analysis findings:</h2>
-<div id="linear-regression-model" class="section level3">
-<h3>Linear Regression model</h3>
+<div id="statistical-tests" class="section level3">
+<h3>Statistical tests</h3>
 <ul>
-<li>NO2 and SO2 contributes the most to Asthma</li>
+<li>The average number of the visits to asthma emergency is not the same
+for aqi good category and aqi not good category.</li>
+<li>The proportion of the individuals who experienced heart disease is
+not the same in those who had asthma now and those who did not have
+asthma now.</li>
+<li>The proportions of people getting asthma now are different across
+boroughs.</li>
+</ul>
+</div>
+<div id="statistical-modeling-1" class="section level3">
+<h3>Statistical modeling</h3>
+<div id="linear-regression-model" class="section level4">
+<h4>Linear Regression model</h4>
+<ul>
+<li>NO2 and SO2 contributes the most to Asthma emergency visits</li>
 <li>CO and PM2.5 have insignificant results based on the test</li>
 </ul>
 </div>
-<div id="logistic-regression-model" class="section level3">
-<h3>Logistic Regression model</h3>
+<div id="logistic-regression-model" class="section level4">
+<h4>Logistic Regression model</h4>
 <ul>
 <li>AQI has perfect 1 OR with Asthma which implies no correlation</li>
 </ul>
 </div>
 </div>
 </div>
-<div id="limitations-and-reflections" class="section level1">
-<h1>Limitations and Reflections</h1>
+</div>
+<div id="limitations-and-discussion" class="section level1">
+<h1>Limitations and Discussion</h1>
+<div id="limitation" class="section level2">
+<h2>Limitation</h2>
+<ul>
+<li>After 2013, BRFSS datasets does not include county codes and county
+names. Thus, we can only use datasets from previous 2012. That might be
+out of dated. To research the association between air quality and asthma
+disease, researchers should find a dataset with county code or other
+variables with location information.</li>
+<li>BRFSS is only a survey surveillance with respondents providing their
+information via phone. It does not include data from hospital or
+clinics, which will be more precise for our analysis.</li>
+<li>After statistical modeling, we find that air quality index is not
+associated with asthma status, but find some pollutants are associated
+with asthma emergency visits. It is likely that asthma is more
+correlated with personal genetic or personal health status. Besides,
+some air pollutants that can affect asthma including pollen are not
+under monitor.</li>
+</ul>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<ul>
+<li>At first, we believed that air quality is correlated with many
+diseases and we knew that air quality index was a good database for us
+to analyze. However, the result was not that appealing. We didn’t find
+any relationship between air quality index and asthma status.</li>
+<li>Luckily we find that still some pollutants can significantly impact
+on asthma emergency visits, including So2 and No2. That makes sense
+because those toxic pollutants can harm the whole pulmonary system.</li>
+</ul>
+</div>
+</div>
+<div id="reflections-and-next-step" class="section level1">
+<h1>Reflections and Next Step</h1>
+<div id="reflections" class="section level2">
+<h2>Reflections</h2>
 <ul>
 <li>One way our project can be helpful to the community is that our
 findings can help the environmental and health department better assess
 the weight of each of the factors we investigated on and decide how to
-spend their budget on regulating pollutes and manage AQI qualities to a
-higher extent. With better AQI, we are able to reduce occurrences of
+spend their budget on regulating pollutes and manage air qualities to a
+higher extent. With better air, we are able to reduce occurrences of
 many health problems including, but not limited to, Asthma and heart
 diseases.</li>
 </ul>
+</div>
+<div id="next-step" class="section level2">
+<h2>Next step</h2>
+<ul>
+<li>In order to further analyze the relationship between pollutants, air
+quality and asthma status. It is better for us to find better database,
+especially for asthma surveillance.</li>
+<li>In this project, we use <code>usmap</code> package to map. This
+package can illustrate the data at county level. However, it is not
+flexible for mapping. We need to find a new package, which can not only
+show the data at county level, but also can change the label size and
+apply in <code>Rshiny</code>.</li>
+</ul>
+</div>
 </div>
 
 
