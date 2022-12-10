@@ -56,11 +56,11 @@ asthma_df2 =
   
 ```
 
-# Linear Regression with asthma emergency visits time as outcome
+# Linear Regression with asthma emergency visits time as outcome{.tabset}
 
 * Based on our exploratory analysis, We first ran a linear regression model with `asthma_emergency` as the outcome variable and check the correlation with `mean_so2_month`, `mean_no2_month`, `mean_co_month` and `mean_pm2_5_month` adjusting for other predictors.
 
-### SO2
+## SO2
 
 ```{r,message = FALSE}
 linear_fit_so2_emergency = 
@@ -72,7 +72,7 @@ linear_fit_so2_emergency %>%
   knitr::kable(digits = 3)
 ```
 
-### NO2
+## NO2
 
 ```{r,message = FALSE}
 linear_fit_no2_emergency = asthma_df2 %>%
@@ -83,7 +83,7 @@ linear_fit_no2_emergency %>%
   knitr::kable(digits = 3)
 ```
 
-### CO
+## CO
 
 ```{r,message = FALSE}
 linear_fit_co_emergency = asthma_df2 %>%
@@ -95,7 +95,7 @@ linear_fit_co_emergency %>%
 ```
 
 
-### PM2.5
+## PM2.5
 
 ```{r,message = FALSE}
 linear_fit_pm2_5_emergency = asthma_df2 %>%

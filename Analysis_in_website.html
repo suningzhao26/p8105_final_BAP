@@ -428,8 +428,9 @@ covariates.</p></li>
     )</code></pre>
 </div>
 <div id="linear-regression-with-asthma-emergency-visits-time-as-outcome"
-class="section level1">
-<h1>Linear Regression with asthma emergency visits time as outcome</h1>
+class="section level1 tabset">
+<h1 class="tabset">Linear Regression with asthma emergency visits time
+as outcome</h1>
 <ul>
 <li>Based on our exploratory analysis, We first ran a linear regression
 model with <code>asthma_emergency</code> as the outcome variable and
@@ -437,8 +438,8 @@ check the correlation with <code>mean_so2_month</code>,
 <code>mean_no2_month</code>, <code>mean_co_month</code> and
 <code>mean_pm2_5_month</code> adjusting for other predictors.</li>
 </ul>
-<div id="so2" class="section level3">
-<h3>SO2</h3>
+<div id="so2" class="section level2">
+<h2>SO2</h2>
 <pre class="r"><code>linear_fit_so2_emergency = 
   asthma_df2 %&gt;%
   lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_so2_month, data = .) %&gt;% 
@@ -768,8 +769,8 @@ linear_fit_so2_emergency %&gt;%
 </tbody>
 </table>
 </div>
-<div id="no2" class="section level3">
-<h3>NO2</h3>
+<div id="no2" class="section level2">
+<h2>NO2</h2>
 <pre class="r"><code>linear_fit_no2_emergency = asthma_df2 %&gt;%
   lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_no2_month, data = .) %&gt;% 
   broom::tidy()
@@ -1042,8 +1043,8 @@ linear_fit_no2_emergency %&gt;%
 </tbody>
 </table>
 </div>
-<div id="co" class="section level3">
-<h3>CO</h3>
+<div id="co" class="section level2">
+<h2>CO</h2>
 <pre class="r"><code>linear_fit_co_emergency = asthma_df2 %&gt;%
   lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_co_month, data = .) %&gt;% 
   broom::tidy()
@@ -1351,8 +1352,8 @@ linear_fit_co_emergency %&gt;%
 </tbody>
 </table>
 </div>
-<div id="pm2.5" class="section level3">
-<h3>PM2.5</h3>
+<div id="pm2.5" class="section level2">
+<h2>PM2.5</h2>
 <pre class="r"><code>linear_fit_pm2_5_emergency = asthma_df2 %&gt;%
   lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_pm2_5_month, data = .)%&gt;% 
   broom::tidy()
