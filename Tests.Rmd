@@ -49,6 +49,14 @@ asthma_df2 =
   
 ```
 
+#Create two categories of qqi values
+#The aqi values < 50 are categorized as good
+#The aqi values >= 50 are categorized as not good
+#H0:
+# The proportion of the individuals who experienced asthma now is the same across two aqi categories.
+
+#H1:
+# The proportion of the individuals who experienced asthma now is not the same across two aqi categories.
 ```{r}
 asthma_df2 = asthma_df2 %>%
   mutate(

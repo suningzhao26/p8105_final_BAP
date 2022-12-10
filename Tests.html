@@ -430,6 +430,12 @@ div.tocify {
 ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ## • `` -&gt; `...1`
 ## • `...1` -&gt; `...2`</code></pre>
+<p>#Create two categories of qqi values #The aqi values &lt; 50 are
+categorized as good #The aqi values &gt;= 50 are categorized as not good
+#H0: # The proportion of the individuals who experienced asthma now is
+the same across two aqi categories.</p>
+<p>#H1: # The proportion of the individuals who experienced asthma now
+is not the same across two aqi categories.</p>
 <pre class="r"><code>asthma_df2 = asthma_df2 %&gt;%
   mutate(
     aqi_cat = 
