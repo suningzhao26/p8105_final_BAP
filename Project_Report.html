@@ -1667,13 +1667,18 @@ asthma_air_graph6</code></pre>
 <h2>Tests of Statistical Analysis</h2>
 <div id="pearsons-chi-squared-test" class="section level3">
 <h3>Pearson’s Chi-squared test</h3>
-<p><em>Create two categories of qqi values </em>Those aqi values &lt; 50
-are categorized as good *Those aqi values &gt;= 50 are categorized as
-not good</p>
-<p><em>H0:The proportion of the individuals who experienced asthma now
-is the same across two aqi categories. </em>H1:The proportion of the
-individuals who experienced asthma now is not the same across two aqi
-categories.</p>
+<p>Create two categories of aqi values:</p>
+<ul>
+<li><p>Those aqi values &lt; 50 are categorized as good.</p></li>
+<li><p>Those aqi values &gt;= 50 are categorized as not good.</p></li>
+</ul>
+<p>Hypothesis:</p>
+<ul>
+<li><p>H0:The proportion of the individuals who experienced current
+asthma is the same across two aqi categories.</p></li>
+<li><p>H1:The proportion of the individuals who experienced current
+asthma is not the same across two aqi categories.</p></li>
+</ul>
 <pre class="r"><code>asthma_df2 = asthma_df2 %&gt;%
   mutate(
     aqi_cat = 
@@ -1688,16 +1693,21 @@ chisq.test(asthma_df2$aqi_cat, asthma_df2$asthma_now, correct=FALSE)</code></pre
 ## 
 ## data:  asthma_df2$aqi_cat and asthma_df2$asthma_now
 ## X-squared = 2.0033, df = 1, p-value = 0.157</code></pre>
+<p>Test statistics: X-squared = 2.0033, df = 1, p-value = 0.157</p>
 <ul>
-<li>X-squared = 2.0033, df = 1, p-value = 0.157</li>
+<li>Do not have enough evidence to conclude the proportion of
+individuals who experienced current asthma is different across two aqi
+categories.</li>
 </ul>
 </div>
 <div id="welch-two-sample-t-test" class="section level3">
 <h3>Welch Two Sample t-test</h3>
-<p><em>H0:The average number of the visits to asthma emergency is the
-same for aqi good category and aqi not good category. </em>H1:The
-average number of the visits to asthma emergency is not the same for aqi
-good category and aqi not good category.</p>
+<ul>
+<li><p>H0: The average number of the visits to asthma emergency is the
+same for aqi good category and aqi not good category.</p></li>
+<li><p>H1: The average number of the visits to asthma emergency is not
+the same for aqi good category and aqi not good category.</p></li>
+</ul>
 <pre class="r"><code>asthma_df2_ttest = asthma_df2 %&gt;%
   mutate(
     aqi_cat = 
@@ -1727,26 +1737,23 @@ t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)</code></pre>
 <li>t = -2.5689, df = 421.41, p-value = 0.01055</li>
 <li>alternative hypothesis: true difference in means is not equal to
 0</li>
-<li>95 percent confidence interval:</li>
-<li>-1.3715692 -0.1824764</li>
-<li>sample estimates:</li>
-<li>mean of x mean of y</li>
-<li>0.718845 1.495868</li>
-</ul>
-<p>*The p-value is less than 0.01 so we can conclude that the average
+<li>95 percent confidence interval: (-1.3715692 -0.1824764)</li>
+<li>sample estimates: mean of x: 0.718845; mean of y: 1.495868</li>
+<li>The p-value is less than 0.01 so we can conclude that the average
 number of the visits to asthma emergency is not the same for aqi good
-category and aqi not good category.</p>
+category and aqi not good category.</li>
+</ul>
 </div>
 <div id="chi-squared-test-on-asthma_now-heart-disease"
 class="section level3">
 <h3>Chi-squared test on asthma_now &amp; heart disease</h3>
 <ul>
-<li>H0: The proportion of the individuals who experienced heart diseases
-is the same across those who had asthma now and those who did not have
-asthma now .</li>
-<li>H1: The proportion of the individuals who experienced heart diseases
-is not the same across those who had asthma now and those who did not
-have asthma now .</li>
+<li><p>H0: The proportion of the individuals who experienced heart
+diseases is the same across those who had asthma now and those who did
+not have asthma now.</p></li>
+<li><p>H1: The proportion of the individuals who experienced heart
+diseases is not the same across those who had asthma now and those who
+did not have asthma now.</p></li>
 </ul>
 <pre class="r"><code>asthma_df2_chi = asthma_df2 %&gt;%
   mutate(
@@ -1768,15 +1775,15 @@ now.</li>
 </div>
 <div id="proportion-test" class="section level3">
 <h3>Proportion Test</h3>
-<ul>
-<li>Now we want to see whether having asthma now is am equally common
+<p>Now we want to see whether having asthma now is am equally common
 occurrence within the residents of each county. To fufil this goal, we
-would conduct a proportion test.</li>
+would conduct a proportion test.</p>
+<ul>
+<li><p>H0:The proportion of the individuals who experienced asthma now
+is the same across all counties.</p></li>
+<li><p>H1:The proportion of the individuals who experienced asthma now
+is not the same across all counties.</p></li>
 </ul>
-<p><em>H0:The proportion of the individuals who experienced asthma now
-is the same across all counties. </em>H1:The proportion of the
-individuals who experienced asthma now is not the same across all
-counties.</p>
 <pre class="r"><code>asthma_now_1 =
   asthma_df2 %&gt;%
   drop_na(asthma_now) %&gt;%
@@ -3517,15 +3524,19 @@ means there was no respondents in those counties at that year.</li>
 </ul>
 <div id="asthma-map" class="section level2 tabset">
 <h2 class="tabset">Asthma Map</h2>
-<p>According to the graphs, we can know that: * In 2003,
-<code>Chautauqua</code> county is with the most asthma patients. After
-that, the percentage decreased until 2009. * After 2008, asthma patients
-in <code>Steuben</code> and <code>Chemung</code> were increasing. *
-Counties in north of New York, including <code>Jefferson</code>,
+<p>According to the graphs, we can know that:</p>
+<ul>
+<li>In 2003, <code>Chautauqua</code> county is with the most asthma
+patients. After that, the percentage decreased until 2009.</li>
+<li>After 2008, asthma patients in <code>Steuben</code> and
+<code>Chemung</code> were increasing.</li>
+<li>Counties in north of New York, including <code>Jefferson</code>,
 <code>St. Lawrence</code>, <code>Franklin</code> and <code>Essex</code>
-are also with higher percentage of asthma patients. * Urban counties,
-including <code>Bronx</code>, <code>Queens</code> and <code>Erie</code>,
-are also with a higher percentage of asthma patients.</p>
+are also with higher percentage of asthma patients.</li>
+<li>Urban counties, including <code>Bronx</code>, <code>Queens</code>
+and <code>Erie</code>, are also with a higher percentage of asthma
+patients.</li>
+</ul>
 <div id="section" class="section level3">
 <h3>2003</h3>
 <pre class="r"><code>asthma_now_county_df1 = 
@@ -3815,15 +3826,17 @@ counties at that year.</li>
 </div>
 <div id="air-quality-index-2" class="section level2 tabset">
 <h2 class="tabset">Air quality index</h2>
-<p>According to the graphs, we can know that: * Overall, the air quality
-index is decreasing in 10 years in all counties, which means that the
-air quality is becoming better. * Urban counties, including
-<code>Bronx</code>, <code>Queens</code> , <code>New York</code> and
-<code>Erie</code>, are with a higher air quality index, which means they
-have worse air quality. * Based on the map, we can know that air quality
-index might with no relationship with asthma because in northern
-counties in NY state, where the asthma percentage are higher, the air
-quality are pretty good.</p>
+<p>According to the graphs, we can know that:</p>
+<ul>
+<li>Overall, the air quality index is decreasing in 10 years in all
+counties, which means that the air quality is becoming better.</li>
+<li>Urban counties, including <code>Bronx</code>, <code>Queens</code> ,
+<code>New York</code> and <code>Erie</code>, are with a higher air
+quality index, which means they have worse air quality.</li>
+<li>Based on the map, we can know that air quality index might with no
+relationship with asthma because in northern counties in NY state, where
+the asthma percentage are higher, the air quality are pretty good.</li>
+</ul>
 <div id="section-10" class="section level3">
 <h3>2003</h3>
 <pre class="r"><code>air_county_df1 = 
