@@ -26,6 +26,7 @@ navbar:
       - text: 'Air Quality Index in NY'
         href: Air-Quality.html
     - text: "Project Report"
+      href: Project_Report.html
     - text: "Screencast"
     - text: "References"
     - icon: fa-github fa-lg
