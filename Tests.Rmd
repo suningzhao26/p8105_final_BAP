@@ -83,6 +83,7 @@ Test statistics: X-squared = 2.0033, df = 1, p-value = 0.157
 
 #	Welch Two Sample t-test
 * H0: The average number of the visits to asthma emergency is the same for aqi good category and aqi not good category.
+
 * H1: The average number of the visits to asthma emergency is not the same for aqi good category and aqi not good category.
 
 ```{r}
@@ -104,17 +105,15 @@ t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)
 
 * t = -2.5689, df = 421.41, p-value = 0.01055
 * alternative hypothesis: true difference in means is not equal to 0
-95 percent confidence interval: (-1.3715692 -0.1824764)
-sample estimates:
-* mean of x: 0.718845
-* mean of y: 1.495868 
-
+* 95 percent confidence interval: (-1.3715692 -0.1824764)
+* sample estimates: mean of x: 0.718845; mean of y: 1.495868
 * The p-value is less than 0.01 so we can conclude that the average number of the visits to asthma emergency is not the same for aqi good category and aqi not good category.
 
 <br>
 
 # Chi-squared test on asthma_now & heart disease
 * H0: The proportion of the individuals who experienced heart diseases is the same across those who had asthma now and those who did not have asthma now .
+
 * H1: The proportion of the individuals who experienced heart diseases is not the same across those who had asthma now and those who did not have asthma now .
 ```{r}
 asthma_df2_chi = asthma_df2 %>%
@@ -127,13 +126,15 @@ chisq.test(asthma_df2_chi$heart_disease, asthma_df2_chi$asthma_now, correct=FALS
 * X-squared = 54.976, df = 1, p-value = 1.22e-13
 * The p-value is less than 0.05. So we can conclude that the proportion of the individuals who experienced heart disease is not the same in those who had asthma now and those who did not have asthma now.
 
+<br>
 
 # Proportion Test
 
-* Now we want to see whether having asthma now is am equally common occurrence within the residents of each county. To fufil this goal, we would conduct a proportion test.
+Now we want to see whether having asthma now is am equally common occurrence within the residents of each county. To fufil this goal, we would conduct a proportion test.
 
-*H0:The proportion of the individuals who experienced asthma now is the same across all counties.
-*H1:The proportion of the individuals who experienced asthma now is not the same across all counties.
+* H0:The proportion of the individuals who experienced asthma now is the same across all counties.
+
+* H1:The proportion of the individuals who experienced asthma now is not the same across all counties.
 ```{r}
 asthma_now_1 =
   asthma_df2 %>%

@@ -459,10 +459,10 @@ categories.</li>
 <div id="welch-two-sample-t-test" class="section level1">
 <h1>Welch Two Sample t-test</h1>
 <ul>
-<li>H0: The average number of the visits to asthma emergency is the same
-for aqi good category and aqi not good category.</li>
-<li>H1: The average number of the visits to asthma emergency is not the
-same for aqi good category and aqi not good category.</li>
+<li><p>H0: The average number of the visits to asthma emergency is the
+same for aqi good category and aqi not good category.</p></li>
+<li><p>H1: The average number of the visits to asthma emergency is not
+the same for aqi good category and aqi not good category.</p></li>
 </ul>
 <pre class="r"><code>asthma_df2_ttest = asthma_df2 %&gt;%
   mutate(
@@ -490,15 +490,14 @@ t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)</code></pre>
 ## mean of x mean of y 
 ##  0.718845  1.495868</code></pre>
 <ul>
-<li><p>t = -2.5689, df = 421.41, p-value = 0.01055</p></li>
-<li><p>alternative hypothesis: true difference in means is not equal to
-0 95 percent confidence interval: (-1.3715692 -0.1824764) sample
-estimates:</p></li>
-<li><p>mean of x: 0.718845</p></li>
-<li><p>mean of y: 1.495868</p></li>
-<li><p>The p-value is less than 0.01 so we can conclude that the average
+<li>t = -2.5689, df = 421.41, p-value = 0.01055</li>
+<li>alternative hypothesis: true difference in means is not equal to
+0</li>
+<li>95 percent confidence interval: (-1.3715692 -0.1824764)</li>
+<li>sample estimates: mean of x: 0.718845; mean of y: 1.495868</li>
+<li>The p-value is less than 0.01 so we can conclude that the average
 number of the visits to asthma emergency is not the same for aqi good
-category and aqi not good category.</p></li>
+category and aqi not good category.</li>
 </ul>
 <p><br></p>
 </div>
@@ -506,12 +505,12 @@ category and aqi not good category.</p></li>
 class="section level1">
 <h1>Chi-squared test on asthma_now &amp; heart disease</h1>
 <ul>
-<li>H0: The proportion of the individuals who experienced heart diseases
-is the same across those who had asthma now and those who did not have
-asthma now .</li>
-<li>H1: The proportion of the individuals who experienced heart diseases
-is not the same across those who had asthma now and those who did not
-have asthma now .</li>
+<li><p>H0: The proportion of the individuals who experienced heart
+diseases is the same across those who had asthma now and those who did
+not have asthma now .</p></li>
+<li><p>H1: The proportion of the individuals who experienced heart
+diseases is not the same across those who had asthma now and those who
+did not have asthma now .</p></li>
 </ul>
 <pre class="r"><code>asthma_df2_chi = asthma_df2 %&gt;%
   mutate(
@@ -530,18 +529,19 @@ proportion of the individuals who experienced heart disease is not the
 same in those who had asthma now and those who did not have asthma
 now.</li>
 </ul>
+<p><br></p>
 </div>
 <div id="proportion-test" class="section level1">
 <h1>Proportion Test</h1>
-<ul>
-<li>Now we want to see whether having asthma now is am equally common
+<p>Now we want to see whether having asthma now is am equally common
 occurrence within the residents of each county. To fufil this goal, we
-would conduct a proportion test.</li>
+would conduct a proportion test.</p>
+<ul>
+<li><p>H0:The proportion of the individuals who experienced asthma now
+is the same across all counties.</p></li>
+<li><p>H1:The proportion of the individuals who experienced asthma now
+is not the same across all counties.</p></li>
 </ul>
-<p><em>H0:The proportion of the individuals who experienced asthma now
-is the same across all counties. </em>H1:The proportion of the
-individuals who experienced asthma now is not the same across all
-counties.</p>
 <pre class="r"><code>asthma_now_1 =
   asthma_df2 %&gt;%
   drop_na(asthma_now) %&gt;%
