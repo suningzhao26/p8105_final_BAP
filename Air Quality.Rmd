@@ -1,0 +1,310 @@
+---
+title: "Air Quality Index across year in NY state"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(viridis)
+library(modelr)
+library(mgcv)
+library(patchwork)
+library(usmap)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+set.seed(1)
+```
+
+
+#### Load the data
+
+```{r}
+air_daily_df = 
+  read_csv("./data/air_daily.csv") %>% 
+  separate(col = date, into = c('year','month','day'), sep = "-" , convert = TRUE) %>% 
+  drop_na(aqi) %>% 
+  drop_na(county)
+```
+
+#### Calculate the mean aqi for each county each year
+
+```{r}
+aqi_year_df = 
+  air_daily_df %>% 
+  select(state_code, county_code, state, county, year, aqi) %>% 
+  group_by(state_code, county_code,county,year) %>% 
+  summarize(
+    aqi_mean = mean(aqi)
+  )
+```
+
+#### Maps
+
+##### 2003
+
+```{r}
+air_county_df1 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2003) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df1, values = "aqi_all") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map
+```
+
+##### 2004
+
+```{r}
+air_county_df2 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2004) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df2, values = "aqi_all") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map
+```
+
+##### 2005
+
+```{r}
+air_county_df3 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2005) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df3, values = "aqi_all") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map
+```
+
+##### 2006
+
+```{r}
+air_county_df4 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2006) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df4, values = "aqi_all") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map
+```
+
+##### 2007
+
+```{r}
+air_county_df5 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2007) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df5, values = "aqi_all") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map
+```
+
+##### 2008
+
+```{r}
+air_county_df6 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2008) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df6, values = "aqi_all") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map
+```
+
+##### 2009
+
+```{r}
+air_county_df7 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2009) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df7, values = "aqi_all") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map
+```
+
+##### 2010
+
+```{r}
+air_county_df8 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2010) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df8, values = "aqi_all") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map
+```
+
+##### 2011
+
+```{r}
+air_county_df9 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2011) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df9, values = "aqi_all") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map
+```
+
+##### 2012
+
+```{r}
+air_county_df10 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2012) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df10, values = "aqi_all") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map
+```
