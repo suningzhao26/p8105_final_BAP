@@ -43,7 +43,7 @@ brfss_air2_df =
 ```
 
 
-#### Figure 1: Association between air quality and Asthma emergency visit
+#### Figure 1: Association between air quality and Asthma emergency visit{.tabset}
 
 * In order to find the association between air quality and asthma emergency visit times, we use several different predictors and plot graphs.
 * Based on the graphs, we can find that `air quality index` and `ozone` are with no relationships with asthma emergency visit times; `CO`, `NO`, `SO2` and `PM2.5` are with positive relationships with asthma emergency visit times. Thus, we can use those predictors for our modeling.
@@ -120,7 +120,7 @@ asthma_air_graph6 =
 asthma_air_graph6
 ```
 
-#### Figure 2: Association between air quality and Asthma doctor visit
+#### Figure 2: Association between air quality and Asthma doctor visit{.tabset}
 
 * In order to find the association between air quality and asthma doctor visit times, we use several different predictors and plot graphs.
 * Based on the graphs, we can find that all predictors are with no relationships with asthma doctor visit times.
