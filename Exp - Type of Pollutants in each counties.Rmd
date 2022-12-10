@@ -65,7 +65,9 @@ air_quality_day_df =
   )
 ```
 
-#### Figure 5: Defining pollutants distribution among 10 years in NY State
+# Defining Pollutants
+
+## Figure 5: Defining pollutants distribution among 10 years in NY State
 
 ```{r}
 pollutants_graph = 
@@ -91,7 +93,7 @@ pollutants_graph
 
 * Defining pollutants is the most important pollutants in one day in a place. If there is no other pollutants that exceeds the control line, the defining pollutants is `Ozone`. Based on the graph, we can know that except for `Ozone`, `PM2.5` and `NO2` are pollutants that affect NY state in past 10 years.
 
-#### Figure 6: Defining pollutants distribution in unhealthy air quality days among 10 years in NY State
+## Figure 6: Defining pollutants distribution in unhealthy air quality days among 10 years in NY State
 
 ```{r}
 Unhealthy_pollutants_graph = 
@@ -119,9 +121,9 @@ Unhealthy_pollutants_graph
 * There are nearly 3000 unhealthy days in total for counties in past 10 years.
 * Based on the graph, we can know that `Ozone`and `PM2.5` are main defining pollutants during unhealthy air days. 
 
-#### Ozone
+# Ozone
 
-##### Figure 7: Mean Ozone by county in NY state, 2003-2012, by counties
+## Figure 7: Mean Ozone by county in NY state, 2003-2012, by counties
 
 ```{r}
 ozone_year_df = 
@@ -156,7 +158,7 @@ ozone_graph
 * The United States Environmental Protection Agency test ground-level ozone. Thus, when `ozone` is increasing, air quality is worse. Based on the graph, it can be sen that `ozone` Concentration is increasing among 10 years.
 * We can also find that some counties are with a lower `ozone` concentration among 10 years, such as `New York`, `Bronx` and `Queens`. However, some counties are with higher `ozone` concentration, for example, `Tompkins`, `Rensselaer` and `Chautauqua`.
 
-#### Figure 8: Ozone by counties on map
+## Figure 8: Ozone by counties on map
 
 ```{r}
 ozone_county_df = 
@@ -186,9 +188,9 @@ ozone_county_plot_map
 
 * Maps can help us directly view the `ozone` concentration in counties. This map is based on mean ozone concentration among 10 years. According to the map, we can see that `Essex`, `Ulster` and `Chautauqua` are with the highest ozone concentration among 10 years. 
 
-#### PM2.5
+# PM2.5
 
-##### Figure 9: Days for PM2.5 presence by counties within 10 years
+## Figure 9: Days for PM2.5 presence by counties within 10 years
 
 ```{r}
 pm2_5_county_df = 
@@ -223,7 +225,7 @@ pm2_5_county_graph
 
 * `PM2.5` is a harmful pollutant that will affect human health. According to the result, `Queens`, `Bronx`, `Steuben`, `Albany` and `Erie` are counties with most PM2.5, while `St. Lawrence`, `Oneida`, `Schenectady`, `Dutchess` and `Broome` are hard to detect PM2.5.
 
-##### Figure 10: PM2.5 distribution by counties within 10 years
+## Figure 10: PM2.5 distribution by counties within 10 years
 
 ```{r}
 pm2_5_range_df = 

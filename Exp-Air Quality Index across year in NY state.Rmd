@@ -44,8 +44,9 @@ aqi_year_df =
   )
 ```
 
+# Air Quality Index
 
-#### Figure 1: Air Quality Index by counties in NY State, 2003-2012
+## Figure 1: Air Quality Index by counties in NY State, 2003-2012
 
 ```{r}
 aqi_state_graph =
@@ -71,7 +72,7 @@ aqi_state_graph
 * According to the graph, we can find that some counties are with a high air quality among 10 years, reaching 50-60(Moderate), for example, `New York`, `Bronx`, `Erie` and `Queens`. However, some counties are with lower air quality index, as lower as 10-30, for example, `Franklin`, `Columbia`,`St. Lawrence` and `Kings`. 
 * It can be seen that air quality in most of counties are decreasing among 10 years, which means that air quality in NY state is getting better. 
 
-#### Figure 2: Mean AQI for different counties in NY State, 2003-2012
+## Figure 2: Mean AQI for different counties in NY State, 2003-2012
 
 ```{r}
 aqi_county_graph = 
@@ -95,7 +96,7 @@ aqi_county_graph
 
 * This graph is based on mean air quality among 10 years in different counties. According to this graph, we can directly find the top 5 counties with worst air quality(`Bronx`, `New York`, `Queens`, `Erie` and `Richmond`) and top 5 counties with best air quality(`Columbia`, `Franklin`, `St. Lawrence`, `Schenectady` and `Dutchess`)
 
-#### Figure 3: AQI by counties in NY State on map
+## Figure 3: AQI by counties in NY State on map
 
 ```{r}
 air_county_df = 
@@ -126,7 +127,7 @@ county_plot_map
 * Maps can help us directly view the air quality in counties. This map is based on mean air quality index among 10 years. 
 
 
-#### Figure 4: Unhealthy air quality days by counties in NY State, 2003-2012
+## Figure 4: Unhealthy air quality days by counties in NY State, 2003-2012
 
 ```{r}
 air_quality_day_df = 

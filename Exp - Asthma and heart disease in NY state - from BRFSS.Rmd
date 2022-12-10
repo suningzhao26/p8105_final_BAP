@@ -35,9 +35,9 @@ brfss_air_df =
   )
 ```
 
-#### Asthma
+# Asthma
 
-##### Figure 11: Trend of the rate for people who have asthma history in NY state among 10 years
+## Figure 11: Trend of the rate for people who have asthma history in NY state among 10 years
 
 ```{r}
 asthma_history_df = 
@@ -78,7 +78,7 @@ asthma_history_graph
 * According to the graph, we can know that the percentage of people who currently have asthma is higher than the percentage of people who formerly have asthma. 
 * While the percentage of people who formerly have asthma is decreasing, the percentage of people who currently have asthma is increasing among 10 years.
 
-##### Figure 12: Map of the percentage of people who currently have asthma among 10 years
+## Figure 12: Map of the percentage of people who currently have asthma among 10 years
 
 ```{r}
 asthma_now_county_df = 
@@ -111,7 +111,7 @@ asthma_now_county_plot_map
 
 * To directly view the percentage of people who currently have asthma, we create a map. According to the map, we can see that `Franklin`, `Jefferson`, `Steuben` and `Bronx` are with highest percentage of people who currently have asthma.
 
-##### Figure 13: Trend of average doctor visits for urgent treatment of worsening asthma symptoms in counties among 10 years
+## Figure 13: Trend of average doctor visits for urgent treatment of worsening asthma symptoms in counties among 10 years
 
 ```{r}
 asthma_visit_df = 
@@ -145,9 +145,9 @@ asthma_visit_graph
 * According to the graph, we can know that people in `Richmond`, `Oneida` and `Kings` are with more than 5 average doctor visits for asthma. 
 * It seems that average doctor visits doesn't have relationship with the percentage of people who currently have asthma. Counties which have the highest percentage of patients don't have the highest average doctor visits for asthma. 
 
-#### Heart disease
+# Heart disease
 
-##### Figure 14: Trend of the percentage of people who have any heart disease in NY state among 10 years
+## Figure 14: Trend of the percentage of people who have any heart disease in NY state among 10 years
 
 ```{r}
 hd_history_df = 
@@ -186,7 +186,7 @@ hd_history_graph
 * BRFSS also includes heart disease variables. Previous research suggests that asthma might be associated with heart disease. Thus, we try to find some relationships using our dataset. 
 * According to this graph, we can know that the percentage of people who have heart disease(including stroke, coronary heart disease and heart attack) is increasing among 10 years.
 
-##### Figure 15: Map of the percentage for people who have heart disease among 10 years
+## Figure 15: Map of the percentage for people who have heart disease among 10 years
 
 ```{r}
 hd_county_df = 

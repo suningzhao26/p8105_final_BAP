@@ -397,11 +397,13 @@ div.tocify {
 </div>
 
 
+<div id="defining-pollutants" class="section level1">
+<h1>Defining Pollutants</h1>
 <div
 id="figure-5-defining-pollutants-distribution-among-10-years-in-ny-state"
-class="section level4">
-<h4>Figure 5: Defining pollutants distribution among 10 years in NY
-State</h4>
+class="section level2">
+<h2>Figure 5: Defining pollutants distribution among 10 years in NY
+State</h2>
 <pre class="r"><code>pollutants_graph = 
   air_quality_day_df %&gt;% 
   group_by(defining_parameter) %&gt;% 
@@ -433,9 +435,9 @@ years.</li>
 </div>
 <div
 id="figure-6-defining-pollutants-distribution-in-unhealthy-air-quality-days-among-10-years-in-ny-state"
-class="section level4">
-<h4>Figure 6: Defining pollutants distribution in unhealthy air quality
-days among 10 years in NY State</h4>
+class="section level2">
+<h2>Figure 6: Defining pollutants distribution in unhealthy air quality
+days among 10 years in NY State</h2>
 <pre class="r"><code>Unhealthy_pollutants_graph = 
   air_quality_day_df %&gt;% 
   filter(aqi_status == &quot;Unhealthy&quot;) %&gt;% 
@@ -465,13 +467,14 @@ Unhealthy_pollutants_graph</code></pre>
 days.</li>
 </ul>
 </div>
-<div id="ozone" class="section level4">
-<h4>Ozone</h4>
+</div>
+<div id="ozone" class="section level1">
+<h1>Ozone</h1>
 <div
 id="figure-7-mean-ozone-by-county-in-ny-state-2003-2012-by-counties"
-class="section level5">
-<h5>Figure 7: Mean Ozone by county in NY state, 2003-2012, by
-counties</h5>
+class="section level2">
+<h2>Figure 7: Mean Ozone by county in NY state, 2003-2012, by
+counties</h2>
 <pre class="r"><code>ozone_year_df = 
   air_daily_df %&gt;% 
   select(state_code, county_code, state, county, year, mean_ozone) %&gt;% 
@@ -514,9 +517,8 @@ for example, <code>Tompkins</code>, <code>Rensselaer</code> and
 <code>Chautauqua</code>.</li>
 </ul>
 </div>
-</div>
-<div id="figure-8-ozone-by-counties-on-map" class="section level4">
-<h4>Figure 8: Ozone by counties on map</h4>
+<div id="figure-8-ozone-by-counties-on-map" class="section level2">
+<h2>Figure 8: Ozone by counties on map</h2>
 <pre class="r"><code>ozone_county_df = 
   ozone_year_df %&gt;% 
   group_by(state_code, county_code,county) %&gt;% 
@@ -550,11 +552,12 @@ years. According to the map, we can see that <code>Essex</code>,
 ozone concentration among 10 years.</li>
 </ul>
 </div>
-<div id="pm2.5" class="section level4">
-<h4>PM2.5</h4>
+</div>
+<div id="pm2.5" class="section level1">
+<h1>PM2.5</h1>
 <div id="figure-9-days-for-pm2.5-presence-by-counties-within-10-years"
-class="section level5">
-<h5>Figure 9: Days for PM2.5 presence by counties within 10 years</h5>
+class="section level2">
+<h2>Figure 9: Days for PM2.5 presence by counties within 10 years</h2>
 <pre class="r"><code>pm2_5_county_df = 
   air_daily_df %&gt;% 
   select(state_code, county_code, state, county, year, mean_pm2_5) %&gt;% 
@@ -596,8 +599,8 @@ are hard to detect PM2.5.</li>
 </ul>
 </div>
 <div id="figure-10-pm2.5-distribution-by-counties-within-10-years"
-class="section level5">
-<h5>Figure 10: PM2.5 distribution by counties within 10 years</h5>
+class="section level2">
+<h2>Figure 10: PM2.5 distribution by counties within 10 years</h2>
 <pre class="r"><code>pm2_5_range_df = 
   pm2_5_county_df %&gt;% 
   mutate(

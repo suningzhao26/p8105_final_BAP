@@ -398,9 +398,11 @@ state</h1>
 </div>
 
 
+<div id="air-quality-index" class="section level1">
+<h1>Air Quality Index</h1>
 <div id="figure-1-air-quality-index-by-counties-in-ny-state-2003-2012"
-class="section level4">
-<h4>Figure 1: Air Quality Index by counties in NY State, 2003-2012</h4>
+class="section level2">
+<h2>Figure 1: Air Quality Index by counties in NY State, 2003-2012</h2>
 <pre class="r"><code>aqi_state_graph =
   aqi_year_df %&gt;% 
   group_by(county) %&gt;% 
@@ -434,9 +436,9 @@ better.</li>
 </ul>
 </div>
 <div id="figure-2-mean-aqi-for-different-counties-in-ny-state-2003-2012"
-class="section level4">
-<h4>Figure 2: Mean AQI for different counties in NY State,
-2003-2012</h4>
+class="section level2">
+<h2>Figure 2: Mean AQI for different counties in NY State,
+2003-2012</h2>
 <pre class="r"><code>aqi_county_graph = 
   aqi_year_df %&gt;% 
   group_by(county) %&gt;% 
@@ -467,8 +469,8 @@ quality(<code>Columbia</code>, <code>Franklin</code>,
 </ul>
 </div>
 <div id="figure-3-aqi-by-counties-in-ny-state-on-map"
-class="section level4">
-<h4>Figure 3: AQI by counties in NY State on map</h4>
+class="section level2">
+<h2>Figure 3: AQI by counties in NY State on map</h2>
 <pre class="r"><code>air_county_df = 
   aqi_year_df %&gt;% 
   group_by(state_code, county_code,county) %&gt;% 
@@ -501,9 +503,9 @@ is based on mean air quality index among 10 years.</li>
 </div>
 <div
 id="figure-4-unhealthy-air-quality-days-by-counties-in-ny-state-2003-2012"
-class="section level4">
-<h4>Figure 4: Unhealthy air quality days by counties in NY State,
-2003-2012</h4>
+class="section level2">
+<h2>Figure 4: Unhealthy air quality days by counties in NY State,
+2003-2012</h2>
 <pre class="r"><code>air_quality_day_df = 
   air_daily_df %&gt;% 
   group_by(state_code, county_code,county) %&gt;% 
@@ -542,6 +544,7 @@ know that top 5 counties with the most unhealthy air quality days are
 <code>Suffolk</code>, <code>Chautauqua</code>, <code>Richmond</code>,
 <code>Erie</code> and <code>Westchester</code>.</li>
 </ul>
+</div>
 </div>
 
 
