@@ -11,7 +11,7 @@
 
 
 
-<title>Tests_in_website</title>
+<title>Statistical Test</title>
 
 <script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -378,9 +378,13 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li class="dropdown-header">Project Report</li>
+<li>
+  <a href="Project_Report.html">Project Report</a>
+</li>
 <li class="dropdown-header">Screencast</li>
-<li class="dropdown-header">References</li>
+<li>
+  <a href="reference.html">References</a>
+</li>
 <li>
   <a href="https://github.com/suningzhao26/p8105_final_BAP.git">
     <span class="fa fa-github fa-lg"></span>
@@ -404,15 +408,13 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Tests_in_website</h1>
+<h1 class="title toc-ignore">Statistical Test</h1>
 
 </div>
 
 
-<div id="tests-of-statistical-analysis" class="section level1">
-<h1>Tests of Statistical Analysis</h1>
-<div id="pearsons-chi-squared-test" class="section level2">
-<h2>Pearson’s Chi-squared test</h2>
+<div id="pearsons-chi-squared-test" class="section level1">
+<h1>Pearson’s Chi-squared test</h1>
 <p><em>Create two categories of qqi values </em>Those aqi values &lt; 50
 are categorized as good *Those aqi values &gt;= 50 are categorized as
 not good</p>
@@ -438,8 +440,8 @@ chisq.test(asthma_df2$aqi_cat, asthma_df2$asthma_now, correct=FALSE)</code></pre
 <li>X-squared = 2.0033, df = 1, p-value = 0.157</li>
 </ul>
 </div>
-<div id="welch-two-sample-t-test" class="section level2">
-<h2>Welch Two Sample t-test</h2>
+<div id="welch-two-sample-t-test" class="section level1">
+<h1>Welch Two Sample t-test</h1>
 <p><em>H0:The average number of the visits to asthma emergency is the
 same for aqi good category and aqi not good category. </em>H1:The
 average number of the visits to asthma emergency is not the same for aqi
@@ -484,8 +486,8 @@ number of the visits to asthma emergency is not the same for aqi good
 category and aqi not good category.</p>
 </div>
 <div id="chi-squared-test-on-asthma_now-heart-disease"
-class="section level2">
-<h2>Chi-squared test on asthma_now &amp; heart disease</h2>
+class="section level1">
+<h1>Chi-squared test on asthma_now &amp; heart disease</h1>
 <ul>
 <li>H0: The proportion of the individuals who experienced heart diseases
 is the same across those who had asthma now and those who did not have
@@ -512,8 +514,8 @@ same in those who had asthma now and those who did not have asthma
 now.</li>
 </ul>
 </div>
-<div id="proportion-test" class="section level2">
-<h2>Proportion Test</h2>
+<div id="proportion-test" class="section level1">
+<h1>Proportion Test</h1>
 <ul>
 <li>Now we want to see whether having asthma now is am equally common
 occurrence within the residents of each county. To fufil this goal, we
@@ -580,7 +582,6 @@ prop 35 prop 36</p></li>
 that the proportions of people getting asthma now are different across
 boroughs.</p></li>
 </ul>
-</div>
 </div>
 
 
