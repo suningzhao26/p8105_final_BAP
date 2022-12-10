@@ -11,7 +11,7 @@
 
 
 
-<title>Air Quality Index across year in NY state</title>
+<title>Type of Pollutants in each counties</title>
 
 <script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -392,25 +392,106 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Air Quality Index across year in NY
-state</h1>
+<h1 class="title toc-ignore">Type of Pollutants in each counties</h1>
 
 </div>
 
 
-<div id="figure-1-air-quality-index-by-counties-in-ny-state-2003-2012"
+<div
+id="figure-5-defining-pollutants-distribution-among-10-years-in-ny-state"
 class="section level4">
-<h4>Figure 1: Air Quality Index by counties in NY State, 2003-2012</h4>
-<pre class="r"><code>aqi_state_graph =
-  aqi_year_df %&gt;% 
+<h4>Figure 5: Defining pollutants distribution among 10 years in NY
+State</h4>
+<pre class="r"><code>pollutants_graph = 
+  air_quality_day_df %&gt;% 
+  group_by(defining_parameter) %&gt;% 
+  summarize(
+    pollutants = n()
+  ) %&gt;%
+  mutate(
+    defining_parameter = fct_reorder(defining_parameter, pollutants)
+    ) %&gt;% 
+  ggplot(aes(x = defining_parameter, y = pollutants, fill = pollutants)) +
+  geom_col() +
+  labs(
+    title = &quot;Defining pollutants distribution among 10 years in NY State&quot;,
+    x = &quot;Defining pollutants&quot;,
+    y = &quot;days&quot;
+  ) +
+  scale_fill_viridis(option = &quot;turbo&quot;)
+
+pollutants_graph</code></pre>
+<p><img src="Exp---Type-of-Pollutants-in-each-counties_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+<ul>
+<li>Defining pollutants is the most important pollutants in one day in a
+place. If there is no other pollutants that exceeds the control line,
+the defining pollutants is <code>Ozone</code>. Based on the graph, we
+can know that except for <code>Ozone</code>, <code>PM2.5</code> and
+<code>NO2</code> are pollutants that affect NY state in past 10
+years.</li>
+</ul>
+</div>
+<div
+id="figure-6-defining-pollutants-distribution-in-unhealthy-air-quality-days-among-10-years-in-ny-state"
+class="section level4">
+<h4>Figure 6: Defining pollutants distribution in unhealthy air quality
+days among 10 years in NY State</h4>
+<pre class="r"><code>Unhealthy_pollutants_graph = 
+  air_quality_day_df %&gt;% 
+  filter(aqi_status == &quot;Unhealthy&quot;) %&gt;% 
+  group_by(defining_parameter) %&gt;% 
+  summarize(
+    pollutants = n()
+  ) %&gt;%
+  mutate(
+    defining_parameter = fct_reorder(defining_parameter, pollutants)
+    ) %&gt;% 
+  ggplot(aes(x = defining_parameter, y = pollutants, fill = pollutants)) +
+  geom_col() +
+  labs(
+    title = &quot;Defining pollutants distribution in unhealthy air quality days among 10 years in NY State&quot;,
+    x = &quot;Defining pollutants&quot;,
+    y = &quot;Unhealthy air quality days&quot;
+  ) +
+  scale_fill_viridis(option = &quot;turbo&quot;)
+
+Unhealthy_pollutants_graph</code></pre>
+<p><img src="Exp---Type-of-Pollutants-in-each-counties_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
+<ul>
+<li>There are nearly 3000 unhealthy days in total for counties in past
+10 years.</li>
+<li>Based on the graph, we can know that <code>Ozone</code>and
+<code>PM2.5</code> are main defining pollutants during unhealthy air
+days.</li>
+</ul>
+</div>
+<div id="ozone" class="section level4">
+<h4>Ozone</h4>
+<div
+id="figure-7-mean-ozone-by-county-in-ny-state-2003-2012-by-counties"
+class="section level5">
+<h5>Figure 7: Mean Ozone by county in NY state, 2003-2012, by
+counties</h5>
+<pre class="r"><code>ozone_year_df = 
+  air_daily_df %&gt;% 
+  select(state_code, county_code, state, county, year, mean_ozone) %&gt;% 
+  group_by(state_code, county_code,county,year) %&gt;% 
+  summarize(
+    ozone_mean = mean(mean_ozone)
+  ) %&gt;% 
+  drop_na(ozone_mean)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
+## can override using the `.groups` argument.</code></pre>
+<pre class="r"><code>ozone_graph =
+  ozone_year_df %&gt;% 
   group_by(county) %&gt;% 
-  ggplot(aes(x = year, y = aqi_mean, color = county)) +
+  ggplot(aes(x = year, y = ozone_mean, color = county)) +
   geom_point(alpha=.3) +
   geom_line() +
   labs(
-    title = &quot;Air Quality Index by county in NY state, 2003-2012&quot;,
+    title = &quot;Mean Ozone by county in NY state, 2003-2012, by counties&quot;,
     x = &quot;Year&quot;,
-    y = &quot;Air Quality Index&quot;
+    y = &quot;Mean Ozone&quot;
   )+
   scale_x_continuous(breaks = 2003:2012 )+
   scale_color_viridis(
@@ -418,130 +499,131 @@ class="section level4">
     discrete = TRUE
   )
 
-aqi_state_graph</code></pre>
-<p><img src="Exp-Air-Quality-Index-across-year-in-NY-state_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+ozone_graph</code></pre>
+<p><img src="Exp---Type-of-Pollutants-in-each-counties_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
 <ul>
-<li>According to the graph, we can find that some counties are with a
-high air quality among 10 years, reaching 50-60(Moderate), for example,
-<code>New York</code>, <code>Bronx</code>, <code>Erie</code> and
-<code>Queens</code>. However, some counties are with lower air quality
-index, as lower as 10-30, for example, <code>Franklin</code>,
-<code>Columbia</code>,<code>St. Lawrence</code> and
-<code>Kings</code>.</li>
-<li>It can be seen that air quality in most of counties are decreasing
-among 10 years, which means that air quality in NY state is getting
-better.</li>
+<li>The United States Environmental Protection Agency test ground-level
+ozone. Thus, when <code>ozone</code> is increasing, air quality is
+worse. Based on the graph, it can be sen that <code>ozone</code>
+Concentration is increasing among 10 years.</li>
+<li>We can also find that some counties are with a lower
+<code>ozone</code> concentration among 10 years, such as
+<code>New York</code>, <code>Bronx</code> and <code>Queens</code>.
+However, some counties are with higher <code>ozone</code> concentration,
+for example, <code>Tompkins</code>, <code>Rensselaer</code> and
+<code>Chautauqua</code>.</li>
 </ul>
 </div>
-<div id="figure-2-mean-aqi-for-different-counties-in-ny-state-2003-2012"
-class="section level4">
-<h4>Figure 2: Mean AQI for different counties in NY State,
-2003-2012</h4>
-<pre class="r"><code>aqi_county_graph = 
-  aqi_year_df %&gt;% 
-  group_by(county) %&gt;% 
-  summarize(
-    aqi_all = mean(aqi_mean),
-    max = max(aqi_mean),
-    min = min(aqi_mean)
-  ) %&gt;% 
-  mutate(county = fct_reorder(county, aqi_all)) %&gt;% 
-  ggplot(aes(x = county, y = aqi_all)) +
-  geom_point()+
-  geom_errorbar(mapping = aes(ymin = min, ymax = max)) +
-  labs( x = &quot;County&quot;,  y = &quot;Air Quality Index&quot;, title = &quot;Mean AQI for different counties in NY State, 2003-2012&quot;) + 
-  theme(plot.title = element_text(hjust = 0.5)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-
-aqi_county_graph</code></pre>
-<p><img src="Exp-Air-Quality-Index-across-year-in-NY-state_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
-<ul>
-<li>This graph is based on mean air quality among 10 years in different
-counties. According to this graph, we can directly find the top 5
-counties with worst air quality(<code>Bronx</code>,
-<code>New York</code>, <code>Queens</code>, <code>Erie</code> and
-<code>Richmond</code>) and top 5 counties with best air
-quality(<code>Columbia</code>, <code>Franklin</code>,
-<code>St. Lawrence</code>, <code>Schenectady</code> and
-<code>Dutchess</code>)</li>
-</ul>
 </div>
-<div id="figure-3-aqi-by-counties-in-ny-state-on-map"
-class="section level4">
-<h4>Figure 3: AQI by counties in NY State on map</h4>
-<pre class="r"><code>air_county_df = 
-  aqi_year_df %&gt;% 
+<div id="figure-8-ozone-by-counties-on-map" class="section level4">
+<h4>Figure 8: Ozone by counties on map</h4>
+<pre class="r"><code>ozone_county_df = 
+  ozone_year_df %&gt;% 
   group_by(state_code, county_code,county) %&gt;% 
   summarize(
-    aqi_all = mean(aqi_mean),
-    max = max(aqi_mean),
-    min = min(aqi_mean)
+    ozone_all = mean(ozone_mean),
+    max = max(ozone_mean),
+    min = min(ozone_mean)
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
+  ) </code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;. You can
 ## override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;white&quot;) +
+<pre class="r"><code>ozone_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = ozone_county_df, values = &quot;ozone_all&quot;, labels = TRUE, label_color = &quot;white&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
+    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,0.04)
   ) +   
   labs(
-    title = &quot;AQI by counties in NY State on mapp&quot;
+    title = &quot;Ozone by counties on map&quot;
   )+
   theme(legend.position = &quot;right&quot;)
 
-county_plot_map</code></pre>
-<p><img src="Exp-Air-Quality-Index-across-year-in-NY-state_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
+ozone_county_plot_map</code></pre>
+<p><img src="Exp---Type-of-Pollutants-in-each-counties_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
 <ul>
-<li>Maps can help us directly view the air quality in counties. This map
-is based on mean air quality index among 10 years.</li>
+<li>Maps can help us directly view the <code>ozone</code> concentration
+in counties. This map is based on mean ozone concentration among 10
+years. According to the map, we can see that <code>Essex</code>,
+<code>Ulster</code> and <code>Chautauqua</code> are with the highest
+ozone concentration among 10 years.</li>
 </ul>
 </div>
-<div
-id="figure-4-unhealthy-air-quality-days-by-counties-in-ny-state-2003-2012"
-class="section level4">
-<h4>Figure 4: Unhealthy air quality days by counties in NY State,
-2003-2012</h4>
-<pre class="r"><code>air_quality_day_df = 
+<div id="pm2.5" class="section level4">
+<h4>PM2.5</h4>
+<div id="figure-9-days-for-pm2.5-presence-by-counties-within-10-years"
+class="section level5">
+<h5>Figure 9: Days for PM2.5 presence by counties within 10 years</h5>
+<pre class="r"><code>pm2_5_county_df = 
   air_daily_df %&gt;% 
+  select(state_code, county_code, state, county, year, mean_pm2_5) %&gt;% 
+  drop_na(mean_pm2_5) %&gt;% 
   group_by(state_code, county_code,county) %&gt;% 
-  mutate(
-    aqi_status = case_when(
-      category %in% c(&quot;Good&quot;, &quot;Moderate&quot;) ~ &quot;Healthy&quot;,
-      category %in% c(&quot;Unhealthy for Sensitive Groups&quot;, &quot;Unhealthy&quot;, &quot;Very Unhealthy&quot;) ~ &quot;Unhealthy&quot;
-    )
-  ) 
-
-Unhealthy_air_graph = 
-  air_quality_day_df %&gt;% 
-  filter(aqi_status == &quot;Unhealthy&quot;) %&gt;% 
-  group_by(county) %&gt;% 
   summarize(
-    unhealthy_days = n()
+    pm2_5 = n(),
+    pm2_5_all = mean(mean_pm2_5),
+    max = max(mean_pm2_5),
+    min = min(mean_pm2_5)
   ) %&gt;% 
+  ungroup() %&gt;% 
+  arrange(pm2_5) %&gt;% 
   mutate(
-    county = fct_reorder(county, unhealthy_days)
-    ) %&gt;% 
-  ggplot(aes(y = county, x = unhealthy_days, fill = unhealthy_days)) +
+    county = fct_reorder(county, pm2_5)
+  )</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;. You can
+## override using the `.groups` argument.</code></pre>
+<pre class="r"><code>pm2_5_county_graph = 
+  ggplot(pm2_5_county_df, aes(y = county, x = pm2_5, fill = pm2_5)) +
   geom_col() +
   labs(
-    title = &quot;Unhealthy air quality days by counties in NY State, 2003-2012&quot;,
-    x = &quot;Unhealthy air quality days&quot;,
+    title = &quot;Days for PM2.5 presence by counties within 10 years&quot;,
+    x = &quot;Days when PM2.5 can be detected&quot;,
     y = &quot;County&quot;
   ) +
   scale_fill_viridis(option = &quot;turbo&quot;)
-
-Unhealthy_air_graph </code></pre>
-<p><img src="Exp-Air-Quality-Index-across-year-in-NY-state_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
+  
+pm2_5_county_graph</code></pre>
+<p><img src="Exp---Type-of-Pollutants-in-each-counties_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
 <ul>
-<li>According to the classification, the air is defined as unhealthy
-when air quality index is higher than 100. Based on the graph, we can
-know that top 5 counties with the most unhealthy air quality days are
-<code>Suffolk</code>, <code>Chautauqua</code>, <code>Richmond</code>,
-<code>Erie</code> and <code>Westchester</code>.</li>
+<li><code>PM2.5</code> is a harmful pollutant that will affect human
+health. According to the result, <code>Queens</code>,
+<code>Bronx</code>, <code>Steuben</code>, <code>Albany</code> and
+<code>Erie</code> are counties with most PM2.5, while
+<code>St. Lawrence</code>, <code>Oneida</code>,
+<code>Schenectady</code>, <code>Dutchess</code> and <code>Broome</code>
+are hard to detect PM2.5.</li>
 </ul>
+</div>
+<div id="figure-10-pm2.5-distribution-by-counties-within-10-years"
+class="section level5">
+<h5>Figure 10: PM2.5 distribution by counties within 10 years</h5>
+<pre class="r"><code>pm2_5_range_df = 
+  pm2_5_county_df %&gt;% 
+  mutate(
+    county = fct_reorder(county, pm2_5_all)
+  )
+
+pm2_5_county_range_graph =   
+  pm2_5_range_df %&gt;% 
+  group_by(county) %&gt;% 
+  ggplot(aes(x = county, y = pm2_5_all)) +
+  geom_point()+
+  geom_errorbar(mapping = aes(ymin = min, ymax = max)) +
+  labs( x = &quot;County&quot;,  y = &quot;PM2.5&quot;, title = &quot;PM2.5 distribution by counties within 10 years&quot;) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+pm2_5_county_range_graph</code></pre>
+<p><img src="Exp---Type-of-Pollutants-in-each-counties_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
+<ul>
+<li>According to the error bar graph, we can know that there isn’t much
+difference for mean PM2.5 concentration among different counties in 10
+years, but we can find that the ranges for PM2.5 concentration are
+different. <code>Queens</code> is the county with the highest PM2.5
+observation.</li>
+</ul>
+</div>
 </div>
 
 

@@ -25,9 +25,7 @@ set.seed(1)
 ```
 
 
-#### Load the data
-
-```{r}
+```{r, include=FALSE}
 air_daily_df = 
   read_csv("./data/air_daily.csv") %>% 
   separate(col = date, into = c('year','month','day'), sep = "-" , convert = TRUE) %>% 
@@ -35,9 +33,7 @@ air_daily_df =
   drop_na(county)
 ```
 
-#### Calculation
-
-```{r}
+```{r, include=FALSE}
 aqi_year_df = 
   air_daily_df %>% 
   select(state_code, county_code, state, county, year, aqi) %>% 
@@ -69,7 +65,7 @@ air_quality_day_df =
   )
 ```
 
-#### Figure 5: Defining pollutants distribution
+#### Figure 5: Defining pollutants distribution among 10 years in NY State
 
 ```{r}
 pollutants_graph = 
@@ -84,7 +80,7 @@ pollutants_graph =
   ggplot(aes(x = defining_parameter, y = pollutants, fill = pollutants)) +
   geom_col() +
   labs(
-    title = "Defining pollutants distribution among 10 years in NY state",
+    title = "Defining pollutants distribution among 10 years in NY State",
     x = "Defining pollutants",
     y = "days"
   ) +
@@ -93,7 +89,9 @@ pollutants_graph =
 pollutants_graph
 ```
 
-#### Figure 6: Defining pollutants distribution in unhealthy air quality days
+* Defining pollutants is the most important pollutants in one day in a place. If there is no other pollutants that exceeds the control line, the defining pollutants is `Ozone`. Based on the graph, we can know that except for `Ozone`, `PM2.5` and `NO2` are pollutants that affect NY state in past 10 years.
+
+#### Figure 6: Defining pollutants distribution in unhealthy air quality days among 10 years in NY State
 
 ```{r}
 Unhealthy_pollutants_graph = 
@@ -109,7 +107,7 @@ Unhealthy_pollutants_graph =
   ggplot(aes(x = defining_parameter, y = pollutants, fill = pollutants)) +
   geom_col() +
   labs(
-    title = "Defining pollutants distribution in unhealthy air quality days among 10 years in NY state",
+    title = "Defining pollutants distribution in unhealthy air quality days among 10 years in NY State",
     x = "Defining pollutants",
     y = "Unhealthy air quality days"
   ) +
@@ -118,9 +116,12 @@ Unhealthy_pollutants_graph =
 Unhealthy_pollutants_graph
 ```
 
+* There are nearly 3000 unhealthy days in total for counties in past 10 years.
+* Based on the graph, we can know that `Ozone`and `PM2.5` are main defining pollutants during unhealthy air days. 
+
 #### Ozone
 
-##### Figure 7: Defining pollutants distribution in unhealthy air quality days
+##### Figure 7: Mean Ozone by county in NY state, 2003-2012, by counties
 
 ```{r}
 ozone_year_df = 
@@ -139,20 +140,23 @@ ozone_graph =
   geom_point(alpha=.3) +
   geom_line() +
   labs(
-    title = "Mean Ozone by county in NY state, 2003-2012",
+    title = "Mean Ozone by county in NY state, 2003-2012, by counties",
     x = "Year",
     y = "Mean Ozone"
   )+
   scale_x_continuous(breaks = 2003:2012 )+
   scale_color_viridis(
-    name = "Location", 
+    name = "County", 
     discrete = TRUE
   )
 
 ozone_graph
 ```
 
-#### Figure 8: Map for ozone in NY state
+* The United States Environmental Protection Agency test ground-level ozone. Thus, when `ozone` is increasing, air quality is worse. Based on the graph, it can be sen that `ozone` Concentration is increasing among 10 years.
+* We can also find that some counties are with a lower `ozone` concentration among 10 years, such as `New York`, `Bronx` and `Queens`. However, some counties are with higher `ozone` concentration, for example, `Tompkins`, `Rensselaer` and `Chautauqua`.
+
+#### Figure 8: Ozone by counties on map
 
 ```{r}
 ozone_county_df = 
@@ -165,21 +169,26 @@ ozone_county_df =
   ) %>% 
   mutate(
     fips = str_c(state_code,county_code)
-  )
+  ) 
 
 ozone_county_plot_map = 
-  plot_usmap(regions = "county", include = c("NY"), data = ozone_county_df, values = "ozone_all") +
+  plot_usmap(regions = "county", include = c("NY"), data = ozone_county_df, values = "ozone_all", labels = TRUE, label_color = "white") +
   scale_fill_continuous(
-    low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,0.04)
-  ) + 
+    low = "white", high = "Blue", name = "Air Quality Index", label = scales::comma, limits = c(0,0.04)
+  ) +   
+  labs(
+    title = "Ozone by counties on map"
+  )+
   theme(legend.position = "right")
 
 ozone_county_plot_map
 ```
 
+* Maps can help us directly view the `ozone` concentration in counties. This map is based on mean ozone concentration among 10 years. According to the map, we can see that `Essex`, `Ulster` and `Chautauqua` are with the highest ozone concentration among 10 years. 
+
 #### PM2.5
 
-##### Figure 9: Days when PM2.5 can be detected for each counties 
+##### Figure 9: Days for PM2.5 presence by counties within 10 years
 
 ```{r}
 pm2_5_county_df = 
@@ -192,38 +201,48 @@ pm2_5_county_df =
     pm2_5_all = mean(mean_pm2_5),
     max = max(mean_pm2_5),
     min = min(mean_pm2_5)
-  ) 
+  ) %>% 
+  ungroup() %>% 
+  arrange(pm2_5) %>% 
+  mutate(
+    county = fct_reorder(county, pm2_5)
+  )
   
 pm2_5_county_graph = 
-  pm2_5_county_df %>% 
-  group_by(county) %>% 
-  mutate(county = fct_reorder(county, pm2_5)) %>%
-  ggplot(aes(y = county, x = pm2_5, fill = pm2_5)) +
+  ggplot(pm2_5_county_df, aes(y = county, x = pm2_5, fill = pm2_5)) +
   geom_col() +
   labs(
-    title = "Days when PM2.5 can be detected for each counties",
+    title = "Days for PM2.5 presence by counties within 10 years",
     x = "Days when PM2.5 can be detected",
     y = "County"
   ) +
   scale_fill_viridis(option = "turbo")
   
-  pm2_5_county_graph
+pm2_5_county_graph
 ```
 
-##### Figure 10: PM2.5 range for each counties among 10 years
+* `PM2.5` is a harmful pollutant that will affect human health. According to the result, `Queens`, `Bronx`, `Steuben`, `Albany` and `Erie` are counties with most PM2.5, while `St. Lawrence`, `Oneida`, `Schenectady`, `Dutchess` and `Broome` are hard to detect PM2.5.
+
+##### Figure 10: PM2.5 distribution by counties within 10 years
 
 ```{r}
-pm2_5_county_range_graph =   
+pm2_5_range_df = 
   pm2_5_county_df %>% 
+  mutate(
+    county = fct_reorder(county, pm2_5_all)
+  )
+
+pm2_5_county_range_graph =   
+  pm2_5_range_df %>% 
   group_by(county) %>% 
-  mutate(county = fct_reorder(county, pm2_5_all)) %>% 
   ggplot(aes(x = county, y = pm2_5_all)) +
   geom_point()+
   geom_errorbar(mapping = aes(ymin = min, ymax = max)) +
-  labs( x = "County",  y = "PM2.5", title = "PM2.5 range for each counties among 10 years") + 
+  labs( x = "County",  y = "PM2.5", title = "PM2.5 distribution by counties within 10 years") + 
   theme(plot.title = element_text(hjust = 0.5)) + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
 pm2_5_county_range_graph
 ```
 
+* According to the error bar graph, we can know that there isn't much difference for mean PM2.5 concentration among different counties in 10 years, but we can find that the ranges for PM2.5 concentration are different. `Queens` is the county with the highest PM2.5 observation.

@@ -25,9 +25,7 @@ set.seed(1)
 ```
 
 
-#### Load the data
-
-```{r}
+```{r, include=FALSE}
 air_daily_df = 
   read_csv("./data/air_daily.csv") %>% 
   separate(col = date, into = c('year','month','day'), sep = "-" , convert = TRUE) %>% 
@@ -35,9 +33,8 @@ air_daily_df =
   drop_na(county)
 ```
 
-#### Calculate the mean aqi for each county each year
 
-```{r}
+```{r, include=FALSE}
 aqi_year_df = 
   air_daily_df %>% 
   select(state_code, county_code, state, county, year, aqi) %>% 
@@ -96,7 +93,7 @@ aqi_county_graph =
 aqi_county_graph
 ```
 
-This graph is based on mean air quality among 10 years in different counties. According to this graph, we can directly find the top 5 counties with worst air quality(`Bronx`, `New York`, `Queens`, `Erie` and `Richmond`) and top 5 counties with best air quality(`Columbia`, `Franklin`, `St. Lawrence`, `Schenectady` and `Dutchess`)
+* This graph is based on mean air quality among 10 years in different counties. According to this graph, we can directly find the top 5 counties with worst air quality(`Bronx`, `New York`, `Queens`, `Erie` and `Richmond`) and top 5 counties with best air quality(`Columbia`, `Franklin`, `St. Lawrence`, `Schenectady` and `Dutchess`)
 
 #### Figure 3: AQI by counties in NY State on map
 
@@ -117,13 +114,16 @@ county_plot_map =
   plot_usmap(regions = "county", include = c("NY"), data = air_county_df, values = "aqi_all", labels = TRUE, label_color = "white") +
   scale_fill_continuous(
     low = "white", high = "Red", name = "Air Quality Index", label = scales::comma, limits = c(0,60)
-  ) + 
+  ) +   
+  labs(
+    title = "AQI by counties in NY State on mapp"
+  )+
   theme(legend.position = "right")
 
 county_plot_map
 ```
 
-Maps can help us directly view the air quality in counties. This map is based on mean air quality index among 10 years. 
+* Maps can help us directly view the air quality in counties. This map is based on mean air quality index among 10 years. 
 
 
 #### Figure 4: Unhealthy air quality days by counties in NY State, 2003-2012
@@ -161,4 +161,4 @@ Unhealthy_air_graph =
 Unhealthy_air_graph 
 ```
 
-According to the classification, the air is defined as unhealthy when air quality index is higher than 100. Based on the graph, we can know that top 5 counties with the most unhealthy air quality days are `Suffolk`, `Chautauqua`, `Richmond`, `Erie` and `Westchester`. 
+* According to the classification, the air is defined as unhealthy when air quality index is higher than 100. Based on the graph, we can know that top 5 counties with the most unhealthy air quality days are `Suffolk`, `Chautauqua`, `Richmond`, `Erie` and `Westchester`. 
