@@ -4,9 +4,10 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval = FALSE)
 ```
 
+<br>
 
 ## Motivation
 
@@ -14,6 +15,7 @@ With air quality becoming a great concern of modern era, especially as an import
 
 We are curious on investigating on the effects of several potential factors and their relationship to AQI(air quality index), an indicating value of air quality. We are interested in air quality problems within NY state and at each county level from year 2003 to 2012. We aim to figure out the main causes of poor air quality and help health organizations and the public better assess and deal with the problem.
 
+<br>
 
 ## Questions and Planned Analysis
 
@@ -30,10 +32,11 @@ We are curious on investigating on the effects of several potential factors and 
 2. Heart diseases and AQI
 3. Pollutants and AQI
 
+<br>
 
 ## Data Processing and Cleaning
 
-We referred to two data sources to construct our main dataset for further analysis. The air quality information (including daily aqi and six pollutant parameters) are from EPA database, and those health related data are from CDC Behavioral Risk Factor Surveillance System (BRFSS).
+We referred to two data sources to construct our main dataset for further analysis. The air quality information (including daily aqi and six pollutant parameters) is from EPA database, and those health related data are from CDC Behavioral Risk Factor Surveillance System (BRFSS).
 
 a. Daily aqi for each county in New York State from 2003 to 2012 [(dataset)](https://aqs.epa.gov/aqsweb/airdata/download_files.html#AQI)
 
@@ -181,10 +184,9 @@ air_daily =
   select(state_code, county_code, everything(), -site_num, -site_code)
 ```
 
+According to the National Weather Service, EPA calculates the AQI for five major air pollutants regulated by the Clean Air Act: ground-level ozone, particle pollution (also known as particulate matter), carbon monoxide, sulfur dioxide, and nitrogen dioxide. In the EPA database, each daily summary file contains data for every monitor (sampled parameter) for each day. These files are separated by parameter (or parameter group) to make the sizes more manageable. As a result, we collected 60 data files concerning daily values about six pollutants (carbon monoxide, sulfur dioxide, nitrogen dioxide, ozone, PM2.5, and PM10) in each county from 2003 to 2012 (one .csv file per year per parameter). Those data files are stored in the “daily_parameter” folder from the “data” subdirectory in our repository. What should be pointed out is that files from ozone, pm2.5, and so2 categories were pre-processed (filter by state name “New York”) in pre-processing.Rmd file, since the size of most of them exceeded the 100M git push limit. After the pre-processing, files in ozone, pm2.5, and so2 folder contain data for New York State, others contain data across the US.
 
-According to the National Weather Service, EPA calculates the AQI for five major air pollutants regulated by the Clean Air Act: ground-level ozone, particle pollution (also known as particulate matter), carbon monoxide, sulfur dioxide, and nitrogen dioxide. In the EPA database, each daily summary file contains data for every monitor (sampled parameter) for each day. These files are separated by parameter (or parameter group) to make the sizes more manageable. As a result, we collected 60 data files concerning daily values about six pollutants (carbon monoxide, sulfur dioxide, nitrogen dioxide, ozone, PM2.5, and PM10) in each county from 2003 to 2012 (one .csv file per year per parameter). Those data files are stored in the “daily_parameter” folder from the “data” subdirectory in our repository. What should be pointed out is that files from ozone, pm2.5, and so2 categories were pre-processed (filter by state name “New York”) in pre-processing.Rmd file, since the size of most of them exceeded the 100M git push limit. After the pre-processing, files in `ozone`, `pm2.5`, and `so2` folder contain data for New York State, others contain data across the US.
-
-During the process of data cleaning, we first combined 10-year datasets for each parameter using map function, then filtered by “New York'' state name, and selected the main variables that we were concerned about. Six data frames were created after these. Secondly, for each dataframe, we extracted daily parameter mean values from different sites for each county using “group_by” and “summarize” statements. Six summary tables were produced. 
+During the process of data cleaning, we first combined 10-year datasets for each parameter using map function, then filtered by "New York" state name, and selected the main variables that we were concerned about. Six data frames were created after these. Secondly, for each dataframe, we extracted daily parameter mean values from different sites for each county using “group_by” and “summarize” statements. Six summary tables were produced. 
 
 Main variables in the six daily parameter tables we focus on:
 
@@ -203,9 +205,9 @@ Main variables in the six daily parameter tables we focus on:
 * `mean_pm10`: the average pm10 value for the day within that county (unit of measure: Micrograms/cubic meter (25 C))
 * `max_pm10`: the highest pm10 value for the day within that county (unit of measure: Micrograms/cubic meter (25 C))
 
-The “full_aqi” table from part a and daily parameter tables were left-joined using columns “county” and “date” (full_aqi as left table). In addition, the “defining_site” variable was separated as state_code, county_code, and site_code. The state_code and county_code were kept in the resulting dataset “air_daily”. The air_daily dataset was also saved as air_daily.csv file in the “data” folder.
+The “full_aqi” table from part a and daily parameter tables were left-joined using columns “county” and “date” ("full_aqi" as left table). In addition, the “defining_site” variable was separated as state_code, county_code, and site_code. The state_code and county_code were kept in the resulting dataset “air_daily”. The air_daily dataset was also saved as air_daily.csv file in the “data” folder.
 
-c. Individual health survey data in New York State from 2003 to 2012
+c. Individual health survey data in New York State from 2003 to 2012 [(dataset)](https://www.cdc.gov/brfss/annual_data/annual_data.htm)
 
 ```{r}
 b2003 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/cdbrfs03.XPT") %>% 
@@ -372,7 +374,7 @@ brfss_with_air2 =
 write.csv(brfss_with_air2, file = ("./data/brfss_with_air2.csv"))
 ```
 
-A new variable named “date” which concatenated year, month, and day using was created in the “brfss_indi” dataframe. Then it was left-joined with “air_daily” using columns “county_code” and “date” (“brfss_indi” as the left table). The resulting dataset was saved as “brfss_with_air” data frame and was written as “brfss_with_air.csv” file in “data” folder.
+A new variable named “date” which concatenated year, month, and day was created in the “brfss_indi” dataframe. Then it was left-joined with “air_daily” using columns “county_code” and “date” (“brfss_indi” as the left table). The resulting dataset was saved as “brfss_with_air” data frame and was written as “brfss_with_air.csv” file in “data” folder.
 
 In addition, another air quality dataset “air_daily2” was created by grouping and summarizing “air_daily”:
 
@@ -388,21 +390,28 @@ In addition, another air quality dataset “air_daily2” was created by groupin
 
 Then “brfss_indi” and “air_daily2” were left-joined using columns “county_code”, “year”, and “month” (“brfss_indi” as the left table). The resulting dataset was saved as “brfss_with_air2” data frame and was written as “brfss_with_air2.csv” file in the “data” folder.
 
-
+<br>
 
 ## Exploratory Data Analysis
 
+<br>
 
 ## Statistical Analysis
 
+<br>
 
 ## Mapping and Spatial Analysis
 
+<br>
 
 ## Next Steps and Discussion
 
+<br>
 
 ## Findings and Summary
 
+<br>
 
 ## Limitations and Reflections
+
+<br>
