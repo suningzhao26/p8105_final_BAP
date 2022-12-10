@@ -13,7 +13,7 @@
 
 <title>Analysis_in_website</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,16 +193,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -341,12 +334,23 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">AQI Index Across Years in NY</li>
-    <li class="dropdown-header">Types of Pollutants in Counties</li>
-    <li class="dropdown-header">PM 2.5</li>
+    <li>
+      <a href="Exp-Air-Quality-Index-across-year-in-NY-state.html">AQI Index Across Years in NY</a>
+    </li>
+    <li>
+      <a href="Exp---Type-of-Pollutants-in-each-counties.html">Types of Pollutants in Counties</a>
+    </li>
+    <li>
+      <a href="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS.html">Asthma and Heart Disease in NY</a>
+    </li>
+    <li>
+      <a href="Exp---Asthma-and-air-quality.html">Asthma and air quality</a>
+    </li>
   </ul>
 </li>
-<li class="dropdown-header">Statistical Analyses</li>
+<li>
+  <a href="Analysis_in_website.html">Statistical Analyses</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Mapping
@@ -354,8 +358,12 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">AQI in NY</li>
-    <li class="dropdown-header">Ozone in NY</li>
+    <li>
+      <a href="Air-Quality.html">AQI in NY</a>
+    </li>
+    <li>
+      <a href="map---asthma.html">Current Asthma in NY</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown-header">Project Report</li>
@@ -389,6 +397,19 @@ div.tocify {
 </div>
 
 
+<div id="data-import-and-manipulation" class="section level1">
+<h1>Data Import and Manipulation</h1>
+<ul>
+<li><p>We first read in our cleaned data brfss_with_air2.csv and mutate
+the variable types as needed.</p></li>
+<li><p>We have asthma and asthma_now as the outcome variables,
+<code>mean_aqi_month</code>,<code>mean_so2_month</code>,
+<code>mean_no2_month</code>, <code>mean_co_month</code> and
+<code>mean_pm2_5_month</code> as predictors. <code>mental_health</code>,
+<code>physical_health</code>, <code>county</code>, <code>age</code>,
+<code>race</code>, <code>smoker</code> and <code>income</code> as the
+covariates.</p></li>
+</ul>
 <pre class="r"><code>asthma_df2 = 
   read_csv(&quot;./data/brfss_with_air2.csv&quot;) %&gt;%
   mutate(
@@ -405,73 +426,1246 @@ div.tocify {
     smoker = as.factor(smoker),
     income = as.factor(income)
     )</code></pre>
-<pre><code>## New names:
-## Rows: 65143 Columns: 39
-## ── Column specification
-## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
-## (2): county_code, county dbl (36): ...1, ...2, state_code, year, month, day,
-## asthma, asthma_now, ast... date (1): date
-## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-## Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## • `` -&gt; `...1`
-## • `...1` -&gt; `...2`</code></pre>
-<p>#linear regression with mean CO as exposure</p>
+</div>
+<div id="linear-regression-with-asthma-emergency-visits-time-as-outcome"
+class="section level1">
+<h1>Linear Regression with asthma emergency visits time as outcome</h1>
+<ul>
+<li>Based on our exploratory analysis, We first ran a linear regression
+model with <code>asthma_emergency</code> as the outcome variable and
+check the correlation with <code>mean_so2_month</code>,
+<code>mean_no2_month</code>, <code>mean_co_month</code> and
+<code>mean_pm2_5_month</code> adjusting for other predictors.</li>
+</ul>
+<div id="so2" class="section level3">
+<h3>SO2</h3>
+<pre class="r"><code>linear_fit_so2_emergency = 
+  asthma_df2 %&gt;%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_so2_month, data = .) %&gt;% 
+  broom::tidy() 
+
+linear_fit_so2_emergency %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">1.087</td>
+<td align="right">0.976</td>
+<td align="right">1.113</td>
+<td align="right">0.266</td>
+</tr>
+<tr class="even">
+<td align="left">mental_health</td>
+<td align="right">0.024</td>
+<td align="right">0.016</td>
+<td align="right">1.450</td>
+<td align="right">0.148</td>
+</tr>
+<tr class="odd">
+<td align="left">physical_health</td>
+<td align="right">0.013</td>
+<td align="right">0.015</td>
+<td align="right">0.890</td>
+<td align="right">0.374</td>
+</tr>
+<tr class="even">
+<td align="left">sex</td>
+<td align="right">-0.263</td>
+<td align="right">0.288</td>
+<td align="right">-0.913</td>
+<td align="right">0.362</td>
+</tr>
+<tr class="odd">
+<td align="left">smoker2</td>
+<td align="right">0.042</td>
+<td align="right">0.598</td>
+<td align="right">0.069</td>
+<td align="right">0.945</td>
+</tr>
+<tr class="even">
+<td align="left">smoker3</td>
+<td align="right">0.570</td>
+<td align="right">0.434</td>
+<td align="right">1.314</td>
+<td align="right">0.189</td>
+</tr>
+<tr class="odd">
+<td align="left">smoker4</td>
+<td align="right">0.093</td>
+<td align="right">0.399</td>
+<td align="right">0.232</td>
+<td align="right">0.816</td>
+</tr>
+<tr class="even">
+<td align="left">race2</td>
+<td align="right">0.982</td>
+<td align="right">0.514</td>
+<td align="right">1.911</td>
+<td align="right">0.057</td>
+</tr>
+<tr class="odd">
+<td align="left">race3</td>
+<td align="right">-0.638</td>
+<td align="right">0.885</td>
+<td align="right">-0.721</td>
+<td align="right">0.471</td>
+</tr>
+<tr class="even">
+<td align="left">race4</td>
+<td align="right">-1.336</td>
+<td align="right">2.889</td>
+<td align="right">-0.463</td>
+<td align="right">0.644</td>
+</tr>
+<tr class="odd">
+<td align="left">race5</td>
+<td align="right">-0.549</td>
+<td align="right">2.048</td>
+<td align="right">-0.268</td>
+<td align="right">0.789</td>
+</tr>
+<tr class="even">
+<td align="left">race6</td>
+<td align="right">0.397</td>
+<td align="right">1.449</td>
+<td align="right">0.274</td>
+<td align="right">0.784</td>
+</tr>
+<tr class="odd">
+<td align="left">race7</td>
+<td align="right">0.558</td>
+<td align="right">0.895</td>
+<td align="right">0.624</td>
+<td align="right">0.533</td>
+</tr>
+<tr class="even">
+<td align="left">race8</td>
+<td align="right">0.029</td>
+<td align="right">0.532</td>
+<td align="right">0.055</td>
+<td align="right">0.956</td>
+</tr>
+<tr class="odd">
+<td align="left">age2</td>
+<td align="right">-1.558</td>
+<td align="right">0.767</td>
+<td align="right">-2.031</td>
+<td align="right">0.043</td>
+</tr>
+<tr class="even">
+<td align="left">age3</td>
+<td align="right">-0.745</td>
+<td align="right">0.711</td>
+<td align="right">-1.049</td>
+<td align="right">0.295</td>
+</tr>
+<tr class="odd">
+<td align="left">age4</td>
+<td align="right">-0.514</td>
+<td align="right">0.734</td>
+<td align="right">-0.700</td>
+<td align="right">0.484</td>
+</tr>
+<tr class="even">
+<td align="left">age5</td>
+<td align="right">-0.512</td>
+<td align="right">0.671</td>
+<td align="right">-0.763</td>
+<td align="right">0.446</td>
+</tr>
+<tr class="odd">
+<td align="left">age6</td>
+<td align="right">-0.888</td>
+<td align="right">0.697</td>
+<td align="right">-1.274</td>
+<td align="right">0.203</td>
+</tr>
+<tr class="even">
+<td align="left">age7</td>
+<td align="right">-0.750</td>
+<td align="right">0.686</td>
+<td align="right">-1.094</td>
+<td align="right">0.275</td>
+</tr>
+<tr class="odd">
+<td align="left">age8</td>
+<td align="right">-0.232</td>
+<td align="right">0.714</td>
+<td align="right">-0.324</td>
+<td align="right">0.746</td>
+</tr>
+<tr class="even">
+<td align="left">age9</td>
+<td align="right">-1.767</td>
+<td align="right">0.766</td>
+<td align="right">-2.307</td>
+<td align="right">0.022</td>
+</tr>
+<tr class="odd">
+<td align="left">age10</td>
+<td align="right">-0.876</td>
+<td align="right">0.811</td>
+<td align="right">-1.080</td>
+<td align="right">0.281</td>
+</tr>
+<tr class="even">
+<td align="left">age11</td>
+<td align="right">-1.705</td>
+<td align="right">0.837</td>
+<td align="right">-2.038</td>
+<td align="right">0.042</td>
+</tr>
+<tr class="odd">
+<td align="left">age12</td>
+<td align="right">-0.848</td>
+<td align="right">0.910</td>
+<td align="right">-0.933</td>
+<td align="right">0.352</td>
+</tr>
+<tr class="even">
+<td align="left">age13</td>
+<td align="right">-1.621</td>
+<td align="right">1.132</td>
+<td align="right">-1.432</td>
+<td align="right">0.153</td>
+</tr>
+<tr class="odd">
+<td align="left">income2</td>
+<td align="right">-0.472</td>
+<td align="right">0.488</td>
+<td align="right">-0.967</td>
+<td align="right">0.334</td>
+</tr>
+<tr class="even">
+<td align="left">income3</td>
+<td align="right">-0.645</td>
+<td align="right">0.529</td>
+<td align="right">-1.219</td>
+<td align="right">0.224</td>
+</tr>
+<tr class="odd">
+<td align="left">income4</td>
+<td align="right">-1.132</td>
+<td align="right">0.533</td>
+<td align="right">-2.124</td>
+<td align="right">0.034</td>
+</tr>
+<tr class="even">
+<td align="left">income5</td>
+<td align="right">-1.509</td>
+<td align="right">0.445</td>
+<td align="right">-3.392</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="odd">
+<td align="left">countyBronx</td>
+<td align="right">-0.521</td>
+<td align="right">0.836</td>
+<td align="right">-0.623</td>
+<td align="right">0.533</td>
+</tr>
+<tr class="even">
+<td align="left">countyChautauqua</td>
+<td align="right">-0.418</td>
+<td align="right">1.006</td>
+<td align="right">-0.415</td>
+<td align="right">0.678</td>
+</tr>
+<tr class="odd">
+<td align="left">countyErie</td>
+<td align="right">0.360</td>
+<td align="right">0.686</td>
+<td align="right">0.524</td>
+<td align="right">0.601</td>
+</tr>
+<tr class="even">
+<td align="left">countyMonroe</td>
+<td align="right">0.010</td>
+<td align="right">0.700</td>
+<td align="right">0.014</td>
+<td align="right">0.989</td>
+</tr>
+<tr class="odd">
+<td align="left">countyNassau</td>
+<td align="right">0.476</td>
+<td align="right">0.713</td>
+<td align="right">0.667</td>
+<td align="right">0.505</td>
+</tr>
+<tr class="even">
+<td align="left">countyNew York</td>
+<td align="right">-0.185</td>
+<td align="right">0.763</td>
+<td align="right">-0.242</td>
+<td align="right">0.809</td>
+</tr>
+<tr class="odd">
+<td align="left">countyNiagara</td>
+<td align="right">0.183</td>
+<td align="right">0.896</td>
+<td align="right">0.204</td>
+<td align="right">0.839</td>
+</tr>
+<tr class="even">
+<td align="left">countyOnondaga</td>
+<td align="right">0.321</td>
+<td align="right">0.744</td>
+<td align="right">0.431</td>
+<td align="right">0.667</td>
+</tr>
+<tr class="odd">
+<td align="left">countyQueens</td>
+<td align="right">0.228</td>
+<td align="right">0.750</td>
+<td align="right">0.304</td>
+<td align="right">0.761</td>
+</tr>
+<tr class="even">
+<td align="left">countyRensselaer</td>
+<td align="right">0.864</td>
+<td align="right">0.969</td>
+<td align="right">0.891</td>
+<td align="right">0.373</td>
+</tr>
+<tr class="odd">
+<td align="left">countySchenectady</td>
+<td align="right">-0.375</td>
+<td align="right">1.058</td>
+<td align="right">-0.354</td>
+<td align="right">0.723</td>
+</tr>
+<tr class="even">
+<td align="left">countySuffolk</td>
+<td align="right">-0.087</td>
+<td align="right">0.698</td>
+<td align="right">-0.124</td>
+<td align="right">0.901</td>
+</tr>
+<tr class="odd">
+<td align="left">countyUlster</td>
+<td align="right">0.919</td>
+<td align="right">0.936</td>
+<td align="right">0.982</td>
+<td align="right">0.327</td>
+</tr>
+<tr class="even">
+<td align="left">mean_so2_month</td>
+<td align="right">0.166</td>
+<td align="right">0.047</td>
+<td align="right">3.564</td>
+<td align="right">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="no2" class="section level3">
+<h3>NO2</h3>
+<pre class="r"><code>linear_fit_no2_emergency = asthma_df2 %&gt;%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_no2_month, data = .) %&gt;% 
+  broom::tidy()
+
+linear_fit_no2_emergency %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-3.547</td>
+<td align="right">2.132</td>
+<td align="right">-1.664</td>
+<td align="right">0.097</td>
+</tr>
+<tr class="even">
+<td align="left">mental_health</td>
+<td align="right">0.029</td>
+<td align="right">0.027</td>
+<td align="right">1.098</td>
+<td align="right">0.273</td>
+</tr>
+<tr class="odd">
+<td align="left">physical_health</td>
+<td align="right">0.020</td>
+<td align="right">0.022</td>
+<td align="right">0.895</td>
+<td align="right">0.372</td>
+</tr>
+<tr class="even">
+<td align="left">sex</td>
+<td align="right">-0.303</td>
+<td align="right">0.436</td>
+<td align="right">-0.694</td>
+<td align="right">0.488</td>
+</tr>
+<tr class="odd">
+<td align="left">smoker2</td>
+<td align="right">0.800</td>
+<td align="right">0.900</td>
+<td align="right">0.890</td>
+<td align="right">0.375</td>
+</tr>
+<tr class="even">
+<td align="left">smoker3</td>
+<td align="right">1.067</td>
+<td align="right">0.688</td>
+<td align="right">1.551</td>
+<td align="right">0.122</td>
+</tr>
+<tr class="odd">
+<td align="left">smoker4</td>
+<td align="right">0.545</td>
+<td align="right">0.627</td>
+<td align="right">0.870</td>
+<td align="right">0.385</td>
+</tr>
+<tr class="even">
+<td align="left">race2</td>
+<td align="right">0.826</td>
+<td align="right">0.711</td>
+<td align="right">1.161</td>
+<td align="right">0.247</td>
+</tr>
+<tr class="odd">
+<td align="left">race3</td>
+<td align="right">-1.584</td>
+<td align="right">1.276</td>
+<td align="right">-1.242</td>
+<td align="right">0.215</td>
+</tr>
+<tr class="even">
+<td align="left">race4</td>
+<td align="right">-1.908</td>
+<td align="right">3.548</td>
+<td align="right">-0.538</td>
+<td align="right">0.591</td>
+</tr>
+<tr class="odd">
+<td align="left">race5</td>
+<td align="right">-0.545</td>
+<td align="right">2.495</td>
+<td align="right">-0.219</td>
+<td align="right">0.827</td>
+</tr>
+<tr class="even">
+<td align="left">race6</td>
+<td align="right">-0.137</td>
+<td align="right">2.506</td>
+<td align="right">-0.055</td>
+<td align="right">0.956</td>
+</tr>
+<tr class="odd">
+<td align="left">race7</td>
+<td align="right">-0.014</td>
+<td align="right">1.207</td>
+<td align="right">-0.012</td>
+<td align="right">0.991</td>
+</tr>
+<tr class="even">
+<td align="left">race8</td>
+<td align="right">0.207</td>
+<td align="right">0.727</td>
+<td align="right">0.285</td>
+<td align="right">0.776</td>
+</tr>
+<tr class="odd">
+<td align="left">age2</td>
+<td align="right">-1.927</td>
+<td align="right">1.114</td>
+<td align="right">-1.729</td>
+<td align="right">0.085</td>
+</tr>
+<tr class="even">
+<td align="left">age3</td>
+<td align="right">-0.981</td>
+<td align="right">1.095</td>
+<td align="right">-0.896</td>
+<td align="right">0.371</td>
+</tr>
+<tr class="odd">
+<td align="left">age4</td>
+<td align="right">-0.663</td>
+<td align="right">1.142</td>
+<td align="right">-0.580</td>
+<td align="right">0.562</td>
+</tr>
+<tr class="even">
+<td align="left">age5</td>
+<td align="right">-0.360</td>
+<td align="right">1.048</td>
+<td align="right">-0.344</td>
+<td align="right">0.731</td>
+</tr>
+<tr class="odd">
+<td align="left">age6</td>
+<td align="right">-1.344</td>
+<td align="right">1.099</td>
+<td align="right">-1.223</td>
+<td align="right">0.223</td>
+</tr>
+<tr class="even">
+<td align="left">age7</td>
+<td align="right">-0.844</td>
+<td align="right">1.025</td>
+<td align="right">-0.824</td>
+<td align="right">0.411</td>
+</tr>
+<tr class="odd">
+<td align="left">age8</td>
+<td align="right">0.332</td>
+<td align="right">1.065</td>
+<td align="right">0.312</td>
+<td align="right">0.756</td>
+</tr>
+<tr class="even">
+<td align="left">age9</td>
+<td align="right">-2.004</td>
+<td align="right">1.175</td>
+<td align="right">-1.705</td>
+<td align="right">0.089</td>
+</tr>
+<tr class="odd">
+<td align="left">age10</td>
+<td align="right">-0.398</td>
+<td align="right">1.336</td>
+<td align="right">-0.298</td>
+<td align="right">0.766</td>
+</tr>
+<tr class="even">
+<td align="left">age11</td>
+<td align="right">-2.031</td>
+<td align="right">1.364</td>
+<td align="right">-1.490</td>
+<td align="right">0.138</td>
+</tr>
+<tr class="odd">
+<td align="left">age12</td>
+<td align="right">-0.443</td>
+<td align="right">1.458</td>
+<td align="right">-0.304</td>
+<td align="right">0.762</td>
+</tr>
+<tr class="even">
+<td align="left">age13</td>
+<td align="right">-2.240</td>
+<td align="right">1.596</td>
+<td align="right">-1.404</td>
+<td align="right">0.162</td>
+</tr>
+<tr class="odd">
+<td align="left">income2</td>
+<td align="right">-0.187</td>
+<td align="right">0.772</td>
+<td align="right">-0.242</td>
+<td align="right">0.809</td>
+</tr>
+<tr class="even">
+<td align="left">income3</td>
+<td align="right">-0.512</td>
+<td align="right">0.800</td>
+<td align="right">-0.639</td>
+<td align="right">0.523</td>
+</tr>
+<tr class="odd">
+<td align="left">income4</td>
+<td align="right">-1.643</td>
+<td align="right">0.868</td>
+<td align="right">-1.892</td>
+<td align="right">0.060</td>
+</tr>
+<tr class="even">
+<td align="left">income5</td>
+<td align="right">-1.759</td>
+<td align="right">0.675</td>
+<td align="right">-2.605</td>
+<td align="right">0.010</td>
+</tr>
+<tr class="odd">
+<td align="left">countyErie</td>
+<td align="right">2.541</td>
+<td align="right">1.086</td>
+<td align="right">2.339</td>
+<td align="right">0.020</td>
+</tr>
+<tr class="even">
+<td align="left">countyNassau</td>
+<td align="right">1.697</td>
+<td align="right">1.059</td>
+<td align="right">1.601</td>
+<td align="right">0.111</td>
+</tr>
+<tr class="odd">
+<td align="left">countyNew York</td>
+<td align="right">-0.864</td>
+<td align="right">0.935</td>
+<td align="right">-0.924</td>
+<td align="right">0.357</td>
+</tr>
+<tr class="even">
+<td align="left">countyQueens</td>
+<td align="right">0.472</td>
+<td align="right">0.805</td>
+<td align="right">0.587</td>
+<td align="right">0.558</td>
+</tr>
+<tr class="odd">
+<td align="left">countySuffolk</td>
+<td align="right">2.961</td>
+<td align="right">1.240</td>
+<td align="right">2.388</td>
+<td align="right">0.018</td>
+</tr>
+<tr class="even">
+<td align="left">mean_no2_month</td>
+<td align="right">0.195</td>
+<td align="right">0.056</td>
+<td align="right">3.473</td>
+<td align="right">0.001</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="co" class="section level3">
+<h3>CO</h3>
 <pre class="r"><code>linear_fit_co_emergency = asthma_df2 %&gt;%
-  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_co_month, data = .)</code></pre>
-<pre class="r"><code>linear_fit_co_emergency =
-  linear_fit_co_emergency %&gt;% 
-  broom::tidy()</code></pre>
-<pre class="r"><code>print(linear_fit_co_emergency, n=60)</code></pre>
-<pre><code>## # A tibble: 41 × 5
-##    term              estimate std.error statistic p.value
-##    &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-##  1 (Intercept)        1.18       1.15      1.03   0.302  
-##  2 mental_health      0.00829    0.0168    0.492  0.623  
-##  3 physical_health    0.0232     0.0153    1.52   0.130  
-##  4 sex               -0.0327     0.304    -0.108  0.914  
-##  5 smoker2            0.0519     0.592     0.0877 0.930  
-##  6 smoker3            0.721      0.448     1.61   0.109  
-##  7 smoker4           -0.0844     0.407    -0.207  0.836  
-##  8 race2              0.648      0.473     1.37   0.172  
-##  9 race3             -0.627      0.875    -0.716  0.474  
-## 10 race4             -1.16       2.96     -0.391  0.696  
-## 11 race5             -1.47       2.90     -0.505  0.614  
-## 12 race6             -0.246      1.00     -0.245  0.807  
-## 13 race7              0.0705     0.866     0.0814 0.935  
-## 14 race8              0.388      0.484     0.801  0.423  
-## 15 age2              -1.26       0.700    -1.80   0.0733 
-## 16 age3              -0.617      0.682    -0.905  0.366  
-## 17 age4              -0.401      0.688    -0.583  0.560  
-## 18 age5              -0.111      0.655    -0.170  0.865  
-## 19 age6              -0.886      0.688    -1.29   0.199  
-## 20 age7              -0.721      0.657    -1.10   0.273  
-## 21 age8               0.0281     0.690     0.0408 0.967  
-## 22 age9              -1.30       0.791    -1.64   0.101  
-## 23 age10             -0.873      0.801    -1.09   0.276  
-## 24 age11             -1.36       0.885    -1.54   0.124  
-## 25 age12             -1.88       0.901    -2.08   0.0377 
-## 26 age13             -1.45       1.23     -1.18   0.237  
-## 27 income2           -0.0835     0.483    -0.173  0.863  
-## 28 income3           -0.562      0.539    -1.04   0.298  
-## 29 income4           -1.08       0.537    -2.02   0.0442 
-## 30 income5           -1.39       0.457    -3.05   0.00242
-## 31 countyBronx       -0.0495     0.946    -0.0524 0.958  
-## 32 countyErie         0.146      0.705     0.207  0.836  
-## 33 countyKings       -1.03       1.19     -0.870  0.385  
-## 34 countyMonroe      -0.370      0.727    -0.509  0.611  
-## 35 countyNew York     0.281      0.907     0.310  0.757  
-## 36 countyNiagara     -0.136      0.994    -0.137  0.891  
-## 37 countyOnondaga    -0.557      0.782    -0.712  0.477  
-## 38 countyQueens       0.0294     0.794     0.0371 0.970  
-## 39 countySchenectady -0.537      1.08     -0.495  0.621  
-## 40 countySuffolk      0.375      0.853     0.440  0.660  
-## 41 mean_co_month      1.64       1.76      0.927  0.354</code></pre>
-<p>#logistic regression ##logistic regression with asthma emergency as
-outcome</p>
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_co_month, data = .) %&gt;% 
+  broom::tidy()
+
+linear_fit_co_emergency %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">1.183</td>
+<td align="right">1.146</td>
+<td align="right">1.033</td>
+<td align="right">0.302</td>
+</tr>
+<tr class="even">
+<td align="left">mental_health</td>
+<td align="right">0.008</td>
+<td align="right">0.017</td>
+<td align="right">0.492</td>
+<td align="right">0.623</td>
+</tr>
+<tr class="odd">
+<td align="left">physical_health</td>
+<td align="right">0.023</td>
+<td align="right">0.015</td>
+<td align="right">1.516</td>
+<td align="right">0.130</td>
+</tr>
+<tr class="even">
+<td align="left">sex</td>
+<td align="right">-0.033</td>
+<td align="right">0.304</td>
+<td align="right">-0.108</td>
+<td align="right">0.914</td>
+</tr>
+<tr class="odd">
+<td align="left">smoker2</td>
+<td align="right">0.052</td>
+<td align="right">0.592</td>
+<td align="right">0.088</td>
+<td align="right">0.930</td>
+</tr>
+<tr class="even">
+<td align="left">smoker3</td>
+<td align="right">0.721</td>
+<td align="right">0.448</td>
+<td align="right">1.608</td>
+<td align="right">0.109</td>
+</tr>
+<tr class="odd">
+<td align="left">smoker4</td>
+<td align="right">-0.084</td>
+<td align="right">0.407</td>
+<td align="right">-0.207</td>
+<td align="right">0.836</td>
+</tr>
+<tr class="even">
+<td align="left">race2</td>
+<td align="right">0.648</td>
+<td align="right">0.473</td>
+<td align="right">1.369</td>
+<td align="right">0.172</td>
+</tr>
+<tr class="odd">
+<td align="left">race3</td>
+<td align="right">-0.627</td>
+<td align="right">0.875</td>
+<td align="right">-0.716</td>
+<td align="right">0.474</td>
+</tr>
+<tr class="even">
+<td align="left">race4</td>
+<td align="right">-1.157</td>
+<td align="right">2.957</td>
+<td align="right">-0.391</td>
+<td align="right">0.696</td>
+</tr>
+<tr class="odd">
+<td align="left">race5</td>
+<td align="right">-1.467</td>
+<td align="right">2.903</td>
+<td align="right">-0.505</td>
+<td align="right">0.614</td>
+</tr>
+<tr class="even">
+<td align="left">race6</td>
+<td align="right">-0.246</td>
+<td align="right">1.004</td>
+<td align="right">-0.245</td>
+<td align="right">0.807</td>
+</tr>
+<tr class="odd">
+<td align="left">race7</td>
+<td align="right">0.070</td>
+<td align="right">0.866</td>
+<td align="right">0.081</td>
+<td align="right">0.935</td>
+</tr>
+<tr class="even">
+<td align="left">race8</td>
+<td align="right">0.388</td>
+<td align="right">0.484</td>
+<td align="right">0.801</td>
+<td align="right">0.423</td>
+</tr>
+<tr class="odd">
+<td align="left">age2</td>
+<td align="right">-1.256</td>
+<td align="right">0.700</td>
+<td align="right">-1.795</td>
+<td align="right">0.073</td>
+</tr>
+<tr class="even">
+<td align="left">age3</td>
+<td align="right">-0.617</td>
+<td align="right">0.682</td>
+<td align="right">-0.905</td>
+<td align="right">0.366</td>
+</tr>
+<tr class="odd">
+<td align="left">age4</td>
+<td align="right">-0.401</td>
+<td align="right">0.688</td>
+<td align="right">-0.583</td>
+<td align="right">0.560</td>
+</tr>
+<tr class="even">
+<td align="left">age5</td>
+<td align="right">-0.111</td>
+<td align="right">0.655</td>
+<td align="right">-0.170</td>
+<td align="right">0.865</td>
+</tr>
+<tr class="odd">
+<td align="left">age6</td>
+<td align="right">-0.886</td>
+<td align="right">0.688</td>
+<td align="right">-1.287</td>
+<td align="right">0.199</td>
+</tr>
+<tr class="even">
+<td align="left">age7</td>
+<td align="right">-0.721</td>
+<td align="right">0.657</td>
+<td align="right">-1.097</td>
+<td align="right">0.273</td>
+</tr>
+<tr class="odd">
+<td align="left">age8</td>
+<td align="right">0.028</td>
+<td align="right">0.690</td>
+<td align="right">0.041</td>
+<td align="right">0.967</td>
+</tr>
+<tr class="even">
+<td align="left">age9</td>
+<td align="right">-1.300</td>
+<td align="right">0.791</td>
+<td align="right">-1.644</td>
+<td align="right">0.101</td>
+</tr>
+<tr class="odd">
+<td align="left">age10</td>
+<td align="right">-0.873</td>
+<td align="right">0.801</td>
+<td align="right">-1.090</td>
+<td align="right">0.276</td>
+</tr>
+<tr class="even">
+<td align="left">age11</td>
+<td align="right">-1.364</td>
+<td align="right">0.885</td>
+<td align="right">-1.541</td>
+<td align="right">0.124</td>
+</tr>
+<tr class="odd">
+<td align="left">age12</td>
+<td align="right">-1.878</td>
+<td align="right">0.901</td>
+<td align="right">-2.084</td>
+<td align="right">0.038</td>
+</tr>
+<tr class="even">
+<td align="left">age13</td>
+<td align="right">-1.454</td>
+<td align="right">1.228</td>
+<td align="right">-1.184</td>
+<td align="right">0.237</td>
+</tr>
+<tr class="odd">
+<td align="left">income2</td>
+<td align="right">-0.083</td>
+<td align="right">0.483</td>
+<td align="right">-0.173</td>
+<td align="right">0.863</td>
+</tr>
+<tr class="even">
+<td align="left">income3</td>
+<td align="right">-0.562</td>
+<td align="right">0.539</td>
+<td align="right">-1.043</td>
+<td align="right">0.298</td>
+</tr>
+<tr class="odd">
+<td align="left">income4</td>
+<td align="right">-1.084</td>
+<td align="right">0.537</td>
+<td align="right">-2.018</td>
+<td align="right">0.044</td>
+</tr>
+<tr class="even">
+<td align="left">income5</td>
+<td align="right">-1.394</td>
+<td align="right">0.457</td>
+<td align="right">-3.051</td>
+<td align="right">0.002</td>
+</tr>
+<tr class="odd">
+<td align="left">countyBronx</td>
+<td align="right">-0.050</td>
+<td align="right">0.946</td>
+<td align="right">-0.052</td>
+<td align="right">0.958</td>
+</tr>
+<tr class="even">
+<td align="left">countyErie</td>
+<td align="right">0.146</td>
+<td align="right">0.705</td>
+<td align="right">0.207</td>
+<td align="right">0.836</td>
+</tr>
+<tr class="odd">
+<td align="left">countyKings</td>
+<td align="right">-1.031</td>
+<td align="right">1.185</td>
+<td align="right">-0.870</td>
+<td align="right">0.385</td>
+</tr>
+<tr class="even">
+<td align="left">countyMonroe</td>
+<td align="right">-0.370</td>
+<td align="right">0.727</td>
+<td align="right">-0.509</td>
+<td align="right">0.611</td>
+</tr>
+<tr class="odd">
+<td align="left">countyNew York</td>
+<td align="right">0.281</td>
+<td align="right">0.907</td>
+<td align="right">0.310</td>
+<td align="right">0.757</td>
+</tr>
+<tr class="even">
+<td align="left">countyNiagara</td>
+<td align="right">-0.136</td>
+<td align="right">0.994</td>
+<td align="right">-0.137</td>
+<td align="right">0.891</td>
+</tr>
+<tr class="odd">
+<td align="left">countyOnondaga</td>
+<td align="right">-0.557</td>
+<td align="right">0.782</td>
+<td align="right">-0.712</td>
+<td align="right">0.477</td>
+</tr>
+<tr class="even">
+<td align="left">countyQueens</td>
+<td align="right">0.029</td>
+<td align="right">0.794</td>
+<td align="right">0.037</td>
+<td align="right">0.970</td>
+</tr>
+<tr class="odd">
+<td align="left">countySchenectady</td>
+<td align="right">-0.537</td>
+<td align="right">1.084</td>
+<td align="right">-0.495</td>
+<td align="right">0.621</td>
+</tr>
+<tr class="even">
+<td align="left">countySuffolk</td>
+<td align="right">0.375</td>
+<td align="right">0.853</td>
+<td align="right">0.440</td>
+<td align="right">0.660</td>
+</tr>
+<tr class="odd">
+<td align="left">mean_co_month</td>
+<td align="right">1.635</td>
+<td align="right">1.764</td>
+<td align="right">0.927</td>
+<td align="right">0.354</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="pm2.5" class="section level3">
+<h3>PM2.5</h3>
+<pre class="r"><code>linear_fit_pm2_5_emergency = asthma_df2 %&gt;%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_pm2_5_month, data = .)%&gt;% 
+  broom::tidy()
+
+linear_fit_pm2_5_emergency %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-5.497</td>
+<td align="right">4.343</td>
+<td align="right">-1.266</td>
+<td align="right">0.214</td>
+</tr>
+<tr class="even">
+<td align="left">mental_health</td>
+<td align="right">0.006</td>
+<td align="right">0.064</td>
+<td align="right">0.089</td>
+<td align="right">0.930</td>
+</tr>
+<tr class="odd">
+<td align="left">physical_health</td>
+<td align="right">-0.042</td>
+<td align="right">0.051</td>
+<td align="right">-0.812</td>
+<td align="right">0.422</td>
+</tr>
+<tr class="even">
+<td align="left">sex</td>
+<td align="right">-0.993</td>
+<td align="right">1.095</td>
+<td align="right">-0.907</td>
+<td align="right">0.371</td>
+</tr>
+<tr class="odd">
+<td align="left">smoker2</td>
+<td align="right">-0.303</td>
+<td align="right">2.813</td>
+<td align="right">-0.108</td>
+<td align="right">0.915</td>
+</tr>
+<tr class="even">
+<td align="left">smoker3</td>
+<td align="right">1.580</td>
+<td align="right">1.875</td>
+<td align="right">0.843</td>
+<td align="right">0.405</td>
+</tr>
+<tr class="odd">
+<td align="left">smoker4</td>
+<td align="right">-0.863</td>
+<td align="right">1.658</td>
+<td align="right">-0.521</td>
+<td align="right">0.606</td>
+</tr>
+<tr class="even">
+<td align="left">race2</td>
+<td align="right">3.309</td>
+<td align="right">1.842</td>
+<td align="right">1.796</td>
+<td align="right">0.081</td>
+</tr>
+<tr class="odd">
+<td align="left">race3</td>
+<td align="right">1.173</td>
+<td align="right">2.792</td>
+<td align="right">0.420</td>
+<td align="right">0.677</td>
+</tr>
+<tr class="even">
+<td align="left">race4</td>
+<td align="right">4.376</td>
+<td align="right">4.407</td>
+<td align="right">0.993</td>
+<td align="right">0.327</td>
+</tr>
+<tr class="odd">
+<td align="left">race5</td>
+<td align="right">-0.762</td>
+<td align="right">3.328</td>
+<td align="right">-0.229</td>
+<td align="right">0.820</td>
+</tr>
+<tr class="even">
+<td align="left">race6</td>
+<td align="right">2.920</td>
+<td align="right">5.575</td>
+<td align="right">0.524</td>
+<td align="right">0.604</td>
+</tr>
+<tr class="odd">
+<td align="left">race7</td>
+<td align="right">1.209</td>
+<td align="right">2.705</td>
+<td align="right">0.447</td>
+<td align="right">0.658</td>
+</tr>
+<tr class="even">
+<td align="left">race8</td>
+<td align="right">3.669</td>
+<td align="right">2.023</td>
+<td align="right">1.813</td>
+<td align="right">0.078</td>
+</tr>
+<tr class="odd">
+<td align="left">age2</td>
+<td align="right">3.177</td>
+<td align="right">2.442</td>
+<td align="right">1.301</td>
+<td align="right">0.202</td>
+</tr>
+<tr class="even">
+<td align="left">age3</td>
+<td align="right">1.018</td>
+<td align="right">2.591</td>
+<td align="right">0.393</td>
+<td align="right">0.697</td>
+</tr>
+<tr class="odd">
+<td align="left">age4</td>
+<td align="right">1.664</td>
+<td align="right">2.953</td>
+<td align="right">0.563</td>
+<td align="right">0.577</td>
+</tr>
+<tr class="even">
+<td align="left">age5</td>
+<td align="right">1.991</td>
+<td align="right">2.464</td>
+<td align="right">0.808</td>
+<td align="right">0.424</td>
+</tr>
+<tr class="odd">
+<td align="left">age6</td>
+<td align="right">-0.130</td>
+<td align="right">2.363</td>
+<td align="right">-0.055</td>
+<td align="right">0.956</td>
+</tr>
+<tr class="even">
+<td align="left">age7</td>
+<td align="right">1.610</td>
+<td align="right">2.473</td>
+<td align="right">0.651</td>
+<td align="right">0.519</td>
+</tr>
+<tr class="odd">
+<td align="left">age8</td>
+<td align="right">4.053</td>
+<td align="right">2.414</td>
+<td align="right">1.679</td>
+<td align="right">0.102</td>
+</tr>
+<tr class="even">
+<td align="left">age9</td>
+<td align="right">2.122</td>
+<td align="right">3.166</td>
+<td align="right">0.670</td>
+<td align="right">0.507</td>
+</tr>
+<tr class="odd">
+<td align="left">age10</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">age11</td>
+<td align="right">0.680</td>
+<td align="right">4.089</td>
+<td align="right">0.166</td>
+<td align="right">0.869</td>
+</tr>
+<tr class="odd">
+<td align="left">age12</td>
+<td align="right">-1.321</td>
+<td align="right">3.702</td>
+<td align="right">-0.357</td>
+<td align="right">0.723</td>
+</tr>
+<tr class="even">
+<td align="left">income2</td>
+<td align="right">0.165</td>
+<td align="right">1.982</td>
+<td align="right">0.083</td>
+<td align="right">0.934</td>
+</tr>
+<tr class="odd">
+<td align="left">income3</td>
+<td align="right">2.677</td>
+<td align="right">1.668</td>
+<td align="right">1.605</td>
+<td align="right">0.117</td>
+</tr>
+<tr class="even">
+<td align="left">income4</td>
+<td align="right">2.960</td>
+<td align="right">2.243</td>
+<td align="right">1.320</td>
+<td align="right">0.195</td>
+</tr>
+<tr class="odd">
+<td align="left">income5</td>
+<td align="right">1.100</td>
+<td align="right">1.659</td>
+<td align="right">0.663</td>
+<td align="right">0.511</td>
+</tr>
+<tr class="even">
+<td align="left">countyOrange</td>
+<td align="right">1.231</td>
+<td align="right">2.058</td>
+<td align="right">0.598</td>
+<td align="right">0.554</td>
+</tr>
+<tr class="odd">
+<td align="left">countyQueens</td>
+<td align="right">-0.083</td>
+<td align="right">1.820</td>
+<td align="right">-0.046</td>
+<td align="right">0.964</td>
+</tr>
+<tr class="even">
+<td align="left">countyRichmond</td>
+<td align="right">0.832</td>
+<td align="right">2.008</td>
+<td align="right">0.414</td>
+<td align="right">0.681</td>
+</tr>
+<tr class="odd">
+<td align="left">countySt. Lawrence</td>
+<td align="right">1.867</td>
+<td align="right">2.519</td>
+<td align="right">0.741</td>
+<td align="right">0.463</td>
+</tr>
+<tr class="even">
+<td align="left">countySteuben</td>
+<td align="right">3.112</td>
+<td align="right">5.689</td>
+<td align="right">0.547</td>
+<td align="right">0.588</td>
+</tr>
+<tr class="odd">
+<td align="left">mean_pm2_5_month</td>
+<td align="right">0.237</td>
+<td align="right">0.219</td>
+<td align="right">1.081</td>
+<td align="right">0.287</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation</strong></p>
+<ul>
+<li><p>The results show that mean_so2_month, the average SO2
+concentration has a positive coefficient of 0.166 with Asthma_emergency
+occurrence. This means that higher SO2 concentration contributes to
+Asthma emergency visit times with an 0.166 in cases per unit increase of
+average SO2 concentration in one month, adjusting for other covariate.
+The p-value is 0.000, which means that this is significant at a
+significance level of 0.05.</p></li>
+<li><p>The results show that mean_no2_month, the average NO2
+concentration has a positive coefficient of 0.195 with Asthma_emergency
+occurrence. This means that higher NO2 concentration contributes to
+Asthma emergency visit times with an 0.195 in cases per unit increase of
+average NO2 concentration in one month, adjusting for other covariate.
+The p-value is 0.001, which means that this is significant at a
+significance level of 0.05.</p></li>
+<li><p>The results show that mean_co_month, the average CO concentration
+has a positive coefficient of 1.64 with Asthma_emergency occurrence.
+This means that higher CO concentration contributes to Asthma emergency
+visit times with an 1.64 in cases per unit increase of average CO
+concentration in one month, adjusting for other covariate. The p-value
+is 0.354, which means that this is not significant at a significance
+level of 0.05.</p></li>
+<li><p>The results show that mean_pm2_5_month, the average PM2.5
+concentration has a positive coefficient of 0.237 with Asthma_emergency
+occurrence. This means that higher PM2.5 concentration contributes to
+Asthma emergency visit times with an 0.237 in cases per unit increase of
+average PM2.5 concentration in one month, adjusting for other covariate.
+The p-value is 0.287, which means that this is not significant at a
+significance level of 0.05.</p></li>
+</ul>
+</div>
+</div>
+<div id="logistic-regression-with-asthma-as-exposure"
+class="section level1">
+<h1>Logistic regression with asthma as exposure</h1>
+<ul>
+<li>We still want to see if there is any relationship between
+<code>asthma</code> and <code>mean_aqi_month</code>. We then conducted a
+Logistic regression with <code>asthma</code> as the main outcome
+varibale and check the relationship between <code>mean_aqi_month</code>
+with asthma status. A logistic regression model was used because of the
+binary outcome variable.</li>
+</ul>
 <pre class="r"><code>fit_logistic1b = 
   asthma_df2 %&gt;% 
-  glm(asthma ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_aqi_month, data = ., family = binomial()) </code></pre>
-<pre class="r"><code>fit_logistic1b %&gt;% 
+  glm(asthma ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_aqi_month, data = ., family = binomial()) 
+
+fit_logistic1b %&gt;% 
   broom::tidy() %&gt;% 
   mutate(OR = exp(estimate)) %&gt;%
   select(term, log_OR = estimate, OR, p.value) %&gt;% 
@@ -878,6 +2072,12 @@ outcome</p>
 </tr>
 </tbody>
 </table>
+<p><strong>Interpretation</strong></p>
+<p>The results show that mean_aqi_month, the average Air quality index
+value, has an odd ratio of 1 towards Asthma status. This implies that
+mean_aqi_month does not have any influence on Asthma occurrences within
+our investigation.</p>
+</div>
 
 
 

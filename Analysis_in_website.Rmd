@@ -29,16 +29,13 @@ scale_fill_discrete = scale_fill_viridis_d
 theme_set(theme_minimal() + theme(legend.position = "bottom"))
 ```
 
-
-
-
 # Data Import and Manipulation
 
 
+* We first read in our cleaned data brfss_with_air2.csv and mutate the variable types as needed.
 
-  We first read in our cleaned data brfss_with_air2.csv and mutate the variable types as needed.
+* We have asthma and asthma_now as the outcome variables, `mean_aqi_month`,`mean_so2_month`, `mean_no2_month`, `mean_co_month` and `mean_pm2_5_month` as predictors. `mental_health`, `physical_health`, `county`, `age`, `race`, `smoker` and `income` as the covariates.
 
-  We have asthma and asthma_now as the outcome variables, mean_co_month,mean_aqi_month, mental_health, physical_health, county, age, race, smoker and income as the predictors
 ```{r,message = FALSE}
 asthma_df2 = 
   read_csv("./data/brfss_with_air2.csv") %>%
@@ -59,55 +56,85 @@ asthma_df2 =
   
 ```
 
-# Linear Regression with Mean CO as Exposure
+# Linear Regression with asthma emergency visits time as outcome
 
+* Based on our exploratory analysis, We first ran a linear regression model with `asthma_emergency` as the outcome variable and check the correlation with `mean_so2_month`, `mean_no2_month`, `mean_co_month` and `mean_pm2_5_month` adjusting for other predictors.
 
-  
+### SO2
+
+```{r,message = FALSE}
+linear_fit_so2_emergency = 
+  asthma_df2 %>%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_so2_month, data = .) %>% 
+  broom::tidy() 
+
+linear_fit_so2_emergency %>% 
+  knitr::kable(digits = 3)
+```
+
+### NO2
+
+```{r,message = FALSE}
+linear_fit_no2_emergency = asthma_df2 %>%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_no2_month, data = .) %>% 
+  broom::tidy()
+
+linear_fit_no2_emergency %>% 
+  knitr::kable(digits = 3)
+```
+
+### CO
+
 ```{r,message = FALSE}
 linear_fit_co_emergency = asthma_df2 %>%
-  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_co_month, data = .)
-
-```
-
-```{r}
-linear_fit_co_emergency =
-  linear_fit_co_emergency %>% 
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_co_month, data = .) %>% 
   broom::tidy()
-  
+
+linear_fit_co_emergency %>% 
+  knitr::kable(digits = 3)
 ```
 
-  We first ran a linear regression model with asthma_emergency as the outcome variable and check the correlation of mean_co_month with Asthma adjusting for other predictors.
 
-```{r}
-print(linear_fit_co_emergency, n=60)
+### PM2.5
+
+```{r,message = FALSE}
+linear_fit_pm2_5_emergency = asthma_df2 %>%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_pm2_5_month, data = .)%>% 
+  broom::tidy()
+
+linear_fit_pm2_5_emergency %>% 
+  knitr::kable(digits = 3)
 ```
+
 
 **Interpretation**
 
-  The results show that mean_co_month, the average CO concentration has a positive coefficient of 1.64 with Asthma_emergency occurrence. This means that higher CO concentration contributes to Asthma_emergency emergency with an 1.64 in cases per unit increase of mean_co_concentration.
-  
-  
-  
+* The results show that mean_so2_month, the average SO2 concentration has a positive coefficient of 0.166 with Asthma_emergency occurrence. This means that higher SO2 concentration contributes to Asthma emergency visit times with an 0.166 in cases per unit increase of average SO2 concentration in one month, adjusting for other covariate. The p-value is 0.000, which means that this is significant at a significance level of 0.05.
 
+* The results show that mean_no2_month, the average NO2 concentration has a positive coefficient of 0.195 with Asthma_emergency occurrence. This means that higher NO2 concentration contributes to Asthma emergency visit times with an 0.195 in cases per unit increase of average NO2 concentration in one month, adjusting for other covariate. The p-value is 0.001, which means that this is significant at a significance level of 0.05.
+
+* The results show that mean_co_month, the average CO concentration has a positive coefficient of 1.64 with Asthma_emergency occurrence. This means that higher CO concentration contributes to Asthma emergency visit times with an 1.64 in cases per unit increase of average CO concentration in one month, adjusting for other covariate. The p-value is 0.354, which means that this is not significant at a significance level of 0.05.
+
+* The results show that mean_pm2_5_month, the average PM2.5 concentration has a positive coefficient of 0.237 with Asthma_emergency occurrence. This means that higher PM2.5 concentration contributes to Asthma emergency visit times with an 0.237 in cases per unit increase of average PM2.5 concentration in one month, adjusting for other covariate. The p-value is 0.287, which means that this is not significant at a significance level of 0.05.
   
-# Logistic regression AQI as exposure
+  
+  
+# Logistic regression with asthma as exposure
+
+* We still want to see if there is any relationship between `asthma` and `mean_aqi_month`. We then conducted a Logistic regression with `asthma` as the main outcome varibale and check the relationship between `mean_aqi_month` with asthma status. A logistic regression model was used because of the binary outcome variable.
 
 ```{r}
 fit_logistic1b = 
   asthma_df2 %>% 
   glm(asthma ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_aqi_month, data = ., family = binomial()) 
-```
-We then conducted a Logistic regression with asthma as the main outcome varibale and check the relationship between mean_aqi month with asthma status.
 
-
-A logistic regression model was used because of the binary outcome variable.
-```{r}
 fit_logistic1b %>% 
   broom::tidy() %>% 
   mutate(OR = exp(estimate)) %>%
   select(term, log_OR = estimate, OR, p.value) %>% 
   knitr::kable(digits = 3)
 ```
+
 
 **Interpretation**
 
