@@ -9,14 +9,35 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Final Report
 
-
 ## Motivation
+
+With air quality becoming a great concern of modern era, especially as an important public health topic. Environmental health is an important factor of our health as well. Air pollution has always been a big concern in public health topic. Since we believe it is a common cause such as Asthma, cardiovascular diseases, and many other health problems. So we decided to propose some analytical tests on correlation between these factors and air pollution. 
+
+We are curious on investigating on the effects of several potential factors and their relationship to AQI(air quality index), an indicating value of air quality. We are interested in air quality problems within NY state and at each county level from year 2003 to 2012. We aim to figure out the main causes of poor air quality and help health organizations and the public better assess and deal with the problem.
 
 
 ## Questions and Planned Analysis
 
+**Questions:**
+
+1. What are rates of Asthma in each county in NY state across years?
+2. What are rates of heart diseases in each county in NY state across years?
+3. What pollutants distributions in each county in NY state across years?
+4. What are the AQI conditions in each county in NY state aross years?
+
+**Planned Analysis**
+
+1. Asthma and AQI
+2. Heart diseases and AQI
+3. Pollutants and AQI
+
 
 ## Data Processing and Cleaning
+
+We referred to two data sources to construct our main dataset for further analysis. The air quality information (including daily aqi and six pollutant parameters) are from EPA database, and those health related data are from CDC Behavioral Risk Factor Surveillance System (BRFSS).
+
+a. Daily aqi for each county in New York State from 2003 to 2012 [(dataset)](https://aqs.epa.gov/aqsweb/airdata/download_files.html#AQI)
+
 
 
 ## Exploratory Data Analysis
