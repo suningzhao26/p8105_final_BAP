@@ -1,0 +1,90 @@
+---
+title: "Tests_in_website"
+output: github_document
+---
+```{r setup, include=FALSE}
+library(plyr)
+library(tidyverse)
+library(patchwork)
+library(viridis)
+library(haven)
+
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+```
+
+```{r}
+asthma_df1 = 
+  read_csv("./data/brfss_with_air.csv") %>%
+  mutate(
+    #outcome
+    asthma = as.numeric(asthma),
+    asthma_now = as.numeric(asthma_now),
+    #predictors below
+    aqi = as.numeric(aqi),
+    mental_health = as.numeric(mental_health),
+    physical_health = as.numeric(physical_health),
+    county = as.factor(county),
+    age = as.factor(age),
+    race = as.factor(race),
+    smoker = as.factor(smoker),
+    income = as.factor(income)
+    )
+  
+```
+
+```{r}
+asthma_df1 = asthma_df1 %>%
+  mutate(county_code = as.factor(county_code)) 
+
+fit_model_month = lm(aqi ~ county_code, data = asthma_df1)
+anova(fit_model_month) %>% knitr::kable(caption = "One way ANOVA of monthly aqi mean and County")
+```
+
+
+```{r}
+asthma_df2 = 
+  read_csv("./data/brfss_with_air2.csv") %>%
+  mutate(
+    #outcome
+    asthma = as.numeric(asthma),
+    asthma_now = as.numeric(asthma_now),
+    #predictors below
+    mean_aqi_month = as.numeric(mean_aqi_month),
+    mental_health = as.numeric(mental_health),
+    physical_health = as.numeric(physical_health),
+    county = as.factor(county),
+    age = as.factor(age),
+    race = as.factor(race),
+    smoker = as.factor(smoker),
+    income = as.factor(income)
+    )
+  
+```
+
+```{r}
+asthma_df2 = asthma_df2 %>%
+  mutate(county_code = as.factor(county_code)) 
+
+fit_model_month = lm(mean_aqi_month ~ county_code, data = asthma_df2)
+anova(fit_model_month) %>% knitr::kable(caption = "One way ANOVA of monthly aqi mean and County")
+```
+#We reject the null hypothesis that the mean number of monthly aqi are consistent across the different conties. There is evidence that indicates that the the mean number of aqi monthly varies across different counties.
+
+
