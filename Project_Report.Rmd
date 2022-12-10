@@ -1,0 +1,37 @@
+---
+title: "Project Report"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Final Report
+
+
+## Motivation
+
+
+## Questions and Planned Analysis
+
+
+## Data Processing and Cleaning
+
+
+## Exploratory Data Analysis
+
+
+## Statistical Analysis
+
+
+## Mapping and Spatial Analysis
+
+
+## Next Steps and Discussion
+
+
+## Findings and Summary
+
+
+## Limitations and Reflections
