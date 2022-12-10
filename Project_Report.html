@@ -13,7 +13,7 @@
 
 <title>Project Report</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,9 +193,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -383,7 +390,7 @@ div.tocify {
 </li>
 <li class="dropdown-header">Screencast</li>
 <li>
-  <a href="reference.html">References</a>
+  <a href="reference.html">Reference</a>
 </li>
 <li>
   <a href="https://github.com/suningzhao26/p8105_final_BAP.git">
@@ -417,14 +424,14 @@ div.tocify {
 <div id="motivation" class="section level1">
 <h1>Motivation</h1>
 <p>With air quality becoming a great concern of modern era, especially
-as an important public health topic. Environmental health is an
+as an important public health topic, environmental health is an
 important factor of our health as well. Air pollution has always been a
 big concern in public health topic. Since we believe it is a common
-cause such as Asthma, cardiovascular diseases, and many other health
-problems. So we decided to propose some analytical tests on correlation
+cause of asthma, cardiovascular diseases, and many other health
+problems, we decided to propose some analytical tests on correlation
 between these factors and air pollution.</p>
 <p>We are curious on investigating on the effects of several potential
-factors and their relationship to AQI(air quality index), an indicating
+factors and their relationship to AQI (air quality index), an indicating
 value of air quality. We are interested in air quality problems within
 NY state and at each county level from year 2003 to 2012. We aim to
 figure out the main causes of poor air quality and help health
@@ -498,8 +505,8 @@ that day</li>
 on that day (consists of state code, county code, and site code,
 separated by “-”)</li>
 </ul>
-<p>The resulting dataset was saved as an object named “full_aqi” in
-data_import_cleaning.Rmd file.</p>
+<p>The resulting dataset was saved as an object named
+<code>full_aqi</code> in data_import_cleaning.Rmd file.</p>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Six main parameter values <a
 href="https://aqs.epa.gov/aqsweb/airdata/download_files.html#Daily">(dataset)</a></li>
@@ -615,18 +622,20 @@ collected 60 data files concerning daily values about six pollutants
 PM10) in each county from 2003 to 2012 (one .csv file per year per
 parameter). Those data files are stored in the “daily_parameter” folder
 from the “data” subdirectory in our repository. What should be pointed
-out is that files from ozone, pm2.5, and so2 categories were
-pre-processed (filter by state name “New York”) in pre-processing.Rmd
-file, since the size of most of them exceeded the 100M git push limit.
-After the pre-processing, files in ozone, pm2.5, and so2 folder contain
-data for New York State, others contain data across the US.</p>
+out is that files from <code>ozone</code>, <code>pm2.5</code>, and
+<code>so2</code> categories were pre-processed (filter by state name
+“New York”) in pre-processing.Rmd file, since the size of most of them
+exceeded the 100M git push limit. After the pre-processing, files in
+<code>ozone</code>, <code>pm2.5</code>, and <code>so2</code> folder
+contain data for New York State, others contain data across the US.</p>
 <p>During the process of data cleaning, we first combined 10-year
-datasets for each parameter using map function, then filtered by “New
-York” state name, and selected the main variables that we were concerned
-about. Six data frames were created after these. Secondly, for each
-dataframe, we extracted daily parameter mean values from different sites
-for each county using “group_by” and “summarize” statements. Six summary
-tables were produced.</p>
+datasets for each parameter using map function, then filtered by
+<code>New York</code> state name, and selected the main variables that
+we were concerned about. Six data frames were created after these.
+Secondly, for each dataframe, we extracted daily parameter mean values
+from different sites for each county using
+<code>group_by`` and</code>summarize` statements. Six summary tables
+were produced.</p>
 <p>Main variables in the six daily parameter tables we focus on:</p>
 <ul>
 <li><code>county</code>: county names in New York State</li>
@@ -656,12 +665,14 @@ that county (unit of measure: Micrograms/cubic meter (25 C))</li>
 <li><code>max_pm10</code>: the highest pm10 value for the day within
 that county (unit of measure: Micrograms/cubic meter (25 C))</li>
 </ul>
-<p>The “full_aqi” table from part a and daily parameter tables were
-left-joined using columns “county” and “date” (“full_aqi” as left
-table). In addition, the “defining_site” variable was separated as
-state_code, county_code, and site_code. The state_code and county_code
-were kept in the resulting dataset “air_daily”. The air_daily dataset
-was also saved as air_daily.csv file in the “data” folder.</p>
+<p>The <code>full_aqi</code> table from part a and daily parameter
+tables were left-joined using columns <code>county</code> and
+<code>date</code> (<code>full_aqi</code> as left table). In addition,
+the <code>defining_site</code> variable was separated as state_code,
+county_code, and site_code. The <code>state_code</code> and
+<code>county_code</code> were kept in the resulting dataset
+<code>air_daily.</code> The <code>air_daily</code> dataset was also
+saved as air_daily.csv file in the “data” folder.</p>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Individual health survey data in New York State from 2003 to 2012 <a
 href="https://www.cdc.gov/brfss/annual_data/annual_data.htm">(dataset)</a></li>
@@ -797,8 +808,8 @@ for $15000 to less than $25000, 3 for $25000 to less than $35000, 4 for
 $35000 to less than $50000, 5 for $50000 or more</li>
 </ul>
 <p>The combined 10-year brfss files was saved as a dataframe named
-“brfss_indi”, and it was also written as “brfss_indi.csv” file, stored
-in the “data” folder.</p>
+<code>brfss_indi</code>, and it was also written as brfss_indi.csv file,
+stored in the “data” folder.</p>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>Final resulting data files</li>
 </ol>
@@ -830,13 +841,15 @@ air_daily2 =
 brfss_with_air2 = 
   left_join(brfs_for_merge, air_daily2, by = c(&quot;county_code&quot;, &quot;year&quot;,&quot;month&quot;))
 write.csv(brfss_with_air2, file = (&quot;./data/brfss_with_air2.csv&quot;))</code></pre>
-<p>A new variable named “date” which concatenated year, month, and day
-was created in the “brfss_indi” dataframe. Then it was left-joined with
-“air_daily” using columns “county_code” and “date” (“brfss_indi” as the
-left table). The resulting dataset was saved as “brfss_with_air” data
-frame and was written as “brfss_with_air.csv” file in “data” folder.</p>
-<p>In addition, another air quality dataset “air_daily2” was created by
-grouping and summarizing “air_daily”:</p>
+<p>A new variable named <code>date</code> which concatenated year,
+month, and day was created in the <code>brfss_indi</code> dataframe.
+Then it was left-joined with <code>air_daily</code> using columns
+<code>county_code</code> and <code>date</code> (<code>brfss_indi</code>
+as the left table). The resulting dataset was saved as
+<code>brfss_with_air</code> and was written as brfss_with_air.csv file
+in “data” folder.</p>
+<p>In addition, another air quality dataset <code>air_daily2</code> was
+created by grouping and summarizing <code>air_daily</code>:</p>
 <ul>
 <li><code>mean_aqi_month</code>: mean daily aqi value in that month</li>
 <li><code>max_aqi_month</code>: max daily aqi value in that month</li>
@@ -859,9 +872,10 @@ month (unit of measure: parts per million)<br />
 (unit of measure: parts per million)</li>
 </ul>
 <p>Then “brfss_indi” and “air_daily2” were left-joined using columns
-“county_code”, “year”, and “month” (“brfss_indi” as the left table). The
-resulting dataset was saved as “brfss_with_air2” data frame and was
-written as “brfss_with_air2.csv” file in the “data” folder.</p>
+<code>county_code</code>, <code>year</code>, and <code>month</code>
+(“brfss_indi” as the left table). The resulting dataset was saved as
+<code>brfss_with_air2</code> and was written as brfss_with_air2.csv file
+in the “data” folder.</p>
 <p><br></p>
 </div>
 <div id="exploratory-data-analysis" class="section level1">
