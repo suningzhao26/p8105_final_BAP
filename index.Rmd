@@ -8,12 +8,51 @@ output:
 
 ![](https://www.health.com/thmb/I76TMoL0RimMAQtT5tPcXpwZetc=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Does-Asthma-Go-Away-GettyImages-472092909-2000-b2c0295d9f1742a2a44696512bac931e.jpg)
 
-# Introduction
+### Introduction
 
-# Screencast
+Environmental health is an important part of public health and social justice. Air pollution has always been a big concern in public health topic. We believe it is a common cause such as Asthma, cardiovascular diseases, and many other health problems. So we decided to propose an analytical topic on air pollution to help health organizations and the public better assess and deal with the problem.
 
-# Website Overview
+### Screencast
 
-# Collaborators
+
+
+### Website Overview
+
+In the "Exploratory Analyses" section, you will be able to find:
+
+* AQI Index across years (2003-2012) in NY 
+
+* Types of Pollutants in Counties of NY
+
+* Asthma and Heart Diseases in NY
+
+* Asthma and Air Quality in NY
+
+In the "Statistical Analyses" section, you will be able to find:
+
+* Linear Regression - asthma emergency visit time as outcome
+
+* Logistic Regression - asthma as exposure
+
+In the "Mapping" section, you will be able to find:
+
+* AQI index across years in NY
+
+* Current asthma and heart disease in NY
+
+Check out our [Project Report](Project_Report.html) for detailed conclusion.
+
+### Collaborators
+
+* Suning Zhao(sz2957)
+
+* Xingyu Dai (xd2268)
+
+* Eric Luo(jl6047)
+
+* Matthew Ma (hm2947)
+
+* Hongji Jiang (hj2596)
+
 
 

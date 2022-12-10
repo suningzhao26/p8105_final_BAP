@@ -29,6 +29,7 @@ navbar:
       href: Project_Report.html
     - text: "Screencast"
     - text: "References"
+      href: reference.html
     - icon: fa-github fa-lg
       href: https://github.com/suningzhao26/p8105_final_BAP.git
 output:
