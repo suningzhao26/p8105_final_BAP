@@ -12,6 +12,8 @@ output:
 
 Environmental health is an important part of public health and social justice. Air pollution has always been a big concern in public health topic. We believe it is a common cause such as Asthma, cardiovascular diseases, and many other health problems. So we decided to propose an analytical topic on air pollution to help health organizations and the public better assess and deal with the problem.
 
+
+
 ### Screencast
 
 
@@ -41,6 +43,8 @@ In the "Mapping" section, you will be able to find:
 * Current asthma and heart disease in NY
 
 Check out our [Project Report](Project_Report.html) for detailed conclusion.
+
+
 
 ### Collaborators
 
