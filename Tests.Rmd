@@ -55,8 +55,8 @@ asthma_df2 =
 *Create two categories of qqi values
 *Those aqi values < 50 are categorized as good
 *Those aqi values >= 50 are categorized as not good
-*H0:The proportion of the individuals who experienced asthma now is the same across two aqi categories.
 
+*H0:The proportion of the individuals who experienced asthma now is the same across two aqi categories.
 *H1:The proportion of the individuals who experienced asthma now is not the same across two aqi categories.
 ```{r}
 asthma_df2 = asthma_df2 %>%
@@ -70,11 +70,17 @@ asthma_df2 = asthma_df2 %>%
 chisq.test(asthma_df2$aqi_cat, asthma_df2$asthma_now, correct=FALSE)
 ```
 
+<<<<<<< HEAD
+=======
 * data:  `asthma_df2$aqi_cat` and `asthma_df2$asthma_now`
+>>>>>>> 1dadb2b4157bb90749206caa685b96b4be1bb10d
 * X-squared = 2.0033, df = 1, p-value = 0.157
 
 
 ##	Welch Two Sample t-test
+*H0:The average number of the visits to asthma emergency is the same for aqi good category and aqi not good category.
+*H1:The average number of the visits to asthma emergency is not the same for aqi good category and aqi not good category.
+```{r}
 ```{r}
 asthma_df2_ttest = asthma_df2 %>%
   mutate(
@@ -92,7 +98,10 @@ asthma_df2_ttest = asthma_df2 %>%
 t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)
 ```
 
+<<<<<<< HEAD
+=======
 * data:  `asthma_df2_ttest$Good` and `asthma_df2_ttest$Not_Good`
+>>>>>>> 1dadb2b4157bb90749206caa685b96b4be1bb10d
 * t = -2.5689, df = 421.41, p-value = 0.01055
 * alternative hypothesis: true difference in means is not equal to 0
 * 95 percent confidence interval:
@@ -101,6 +110,7 @@ t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)
 * mean of x mean of y 
 * 0.718845  1.495868 
 
+*The p-value is less than 0.01 so we can conclude that the average number of the visits to asthma emergency is not the same for aqi good category and aqi not good category.
 
 ## Chi-squared test on asthma_now & heart disease
 * H0: The proportion of the individuals who experienced heart diseases is the same across those who had asthma now and those who did not have asthma now .
@@ -113,7 +123,10 @@ asthma_df2_chi = asthma_df2 %>%
 chisq.test(asthma_df2_chi$heart_disease, asthma_df2_chi$asthma_now, correct=FALSE)
 ```
 
+<<<<<<< HEAD
+=======
 * data:  `asthma_df2_chi$heart_disease` and `asthma_df2_chi$asthma_now`
+>>>>>>> 1dadb2b4157bb90749206caa685b96b4be1bb10d
 * X-squared = 54.976, df = 1, p-value = 1.22e-13
 * The p-value is less than 0.05. So we can conclude that the proportion of the individuals who experienced heart disease is not the same in those who had asthma now and those who did not have asthma now.
 
@@ -122,6 +135,8 @@ chisq.test(asthma_df2_chi$heart_disease, asthma_df2_chi$asthma_now, correct=FALS
 
 * Now we want to see whether having asthma now is am equally common occurrence within the residents of each county. To fufil this goal, we would conduct a proportion test.
 
+*H0:The proportion of the individuals who experienced asthma now is the same across all counties.
+*H1:The proportion of the individuals who experienced asthma now is not the same across all counties.
 ```{r}
 asthma_now_1 =
   asthma_df2 %>%
@@ -142,8 +157,11 @@ data_for_proptest =
 prop.test(data_for_proptest$n.x, data_for_proptest$n.y)
 ```
 
+<<<<<<< HEAD
+=======
 
 * data:  `data_for_proptest$n.x` out of `data_for_proptest$n.y`
+>>>>>>> 1dadb2b4157bb90749206caa685b96b4be1bb10d
 * X-squared = 83.022, df = 35, p-value = 8.893e-06
 * alternative hypothesis: two.sided
 * sample estimates:
@@ -153,3 +171,5 @@ prop.test(data_for_proptest$n.x, data_for_proptest$n.y)
 * 0.6976744 0.6505747 0.6563758 0.7680000 0.7785714 0.7564576 0.6782178 0.8059701 0.7222222 0.6617916 0.7383178 0.6770186 0.6571429 
 *  prop 27   prop 28   prop 29   prop 30   prop 31   prop 32   prop 33   prop 34   prop 35   prop 36 
 * 0.7482014 0.7415730 0.7462687 0.8333333 0.6954813 0.7000000 0.6967213 0.8620690 0.6851312 0.7271330 
+
+* From the above results, p-values are small and so we we can say that the proportions of people getting asthma now are different across boroughs.

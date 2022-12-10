@@ -13,7 +13,7 @@
 
 <title>Tests_in_website</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,9 +193,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -402,11 +409,12 @@ div.tocify {
 <div id="pearsons-chi-squared-test" class="section level2">
 <h2>Pearson’s Chi-squared test</h2>
 <p><em>Create two categories of qqi values </em>Those aqi values &lt; 50
-are categorized as good <em>Those aqi values &gt;= 50 are categorized as
-not good </em>H0:The proportion of the individuals who experienced
-asthma now is the same across two aqi categories.</p>
-<p>*H1:The proportion of the individuals who experienced asthma now is
-not the same across two aqi categories.</p>
+are categorized as good *Those aqi values &gt;= 50 are categorized as
+not good</p>
+<p><em>H0:The proportion of the individuals who experienced asthma now
+is the same across two aqi categories. </em>H1:The proportion of the
+individuals who experienced asthma now is not the same across two aqi
+categories.</p>
 <pre class="r"><code>asthma_df2 = asthma_df2 %&gt;%
   mutate(
     aqi_cat = 
@@ -422,13 +430,15 @@ chisq.test(asthma_df2$aqi_cat, asthma_df2$asthma_now, correct=FALSE)</code></pre
 ## data:  asthma_df2$aqi_cat and asthma_df2$asthma_now
 ## X-squared = 2.0033, df = 1, p-value = 0.157</code></pre>
 <ul>
-<li>data: <code>asthma_df2$aqi_cat</code> and
-<code>asthma_df2$asthma_now</code></li>
 <li>X-squared = 2.0033, df = 1, p-value = 0.157</li>
 </ul>
 </div>
 <div id="welch-two-sample-t-test" class="section level2">
 <h2>Welch Two Sample t-test</h2>
+<p><em>H0:The average number of the visits to asthma emergency is the
+same for aqi good category and aqi not good category. </em>H1:The
+average number of the visits to asthma emergency is not the same for aqi
+good category and aqi not good category.</p>
 <pre class="r"><code>asthma_df2_ttest = asthma_df2 %&gt;%
   mutate(
     aqi_cat = 
@@ -455,8 +465,6 @@ t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)</code></pre>
 ## mean of x mean of y 
 ##  0.718845  1.495868</code></pre>
 <ul>
-<li>data: <code>asthma_df2_ttest$Good</code> and
-<code>asthma_df2_ttest$Not_Good</code></li>
 <li>t = -2.5689, df = 421.41, p-value = 0.01055</li>
 <li>alternative hypothesis: true difference in means is not equal to
 0</li>
@@ -466,6 +474,9 @@ t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)</code></pre>
 <li>mean of x mean of y</li>
 <li>0.718845 1.495868</li>
 </ul>
+<p>*The p-value is less than 0.01 so we can conclude that the average
+number of the visits to asthma emergency is not the same for aqi good
+category and aqi not good category.</p>
 </div>
 <div id="chi-squared-test-on-asthma_now-heart-disease"
 class="section level2">
@@ -489,8 +500,6 @@ chisq.test(asthma_df2_chi$heart_disease, asthma_df2_chi$asthma_now, correct=FALS
 ## data:  asthma_df2_chi$heart_disease and asthma_df2_chi$asthma_now
 ## X-squared = 54.976, df = 1, p-value = 1.22e-13</code></pre>
 <ul>
-<li>data: <code>asthma_df2_chi$heart_disease</code> and
-<code>asthma_df2_chi$asthma_now</code></li>
 <li>X-squared = 54.976, df = 1, p-value = 1.22e-13</li>
 <li>The p-value is less than 0.05. So we can conclude that the
 proportion of the individuals who experienced heart disease is not the
@@ -505,6 +514,10 @@ now.</li>
 occurrence within the residents of each county. To fufil this goal, we
 would conduct a proportion test.</li>
 </ul>
+<p><em>H0:The proportion of the individuals who experienced asthma now
+is the same across all counties. </em>H1:The proportion of the
+individuals who experienced asthma now is not the same across all
+counties.</p>
 <pre class="r"><code>asthma_now_1 =
   asthma_df2 %&gt;%
   drop_na(asthma_now) %&gt;%
@@ -541,25 +554,26 @@ prop.test(data_for_proptest$n.x, data_for_proptest$n.y)</code></pre>
 ##   prop 33   prop 34   prop 35   prop 36 
 ## 0.6967213 0.8620690 0.6851312 0.7271330</code></pre>
 <ul>
-<li>data: <code>data_for_proptest$n.x</code> out of
-<code>data_for_proptest$n.y</code></li>
-<li>X-squared = 83.022, df = 35, p-value = 8.893e-06</li>
-<li>alternative hypothesis: two.sided</li>
-<li>sample estimates:</li>
-<li>prop 1 prop 2 prop 3 prop 4 prop 5 prop 6 prop 7 prop 8 prop 9 prop
-10 prop 11 prop 12 prop 13</li>
-<li>0.6945813 0.7164179 0.6666667 0.8073394 0.7368421 0.6266667
+<li><p>X-squared = 83.022, df = 35, p-value = 8.893e-06</p></li>
+<li><p>alternative hypothesis: two.sided</p></li>
+<li><p>sample estimates:</p></li>
+<li><p>prop 1 prop 2 prop 3 prop 4 prop 5 prop 6 prop 7 prop 8 prop 9
+prop 10 prop 11 prop 12 prop 13</p></li>
+<li><p>0.6945813 0.7164179 0.6666667 0.8073394 0.7368421 0.6266667
 0.7641326 0.7272727 0.7575758 0.8666667 0.8082192 0.7090164
-0.4827586</li>
-<li>prop 14 prop 15 prop 16 prop 17 prop 18 prop 19 prop 20 prop 21 prop
-22 prop 23 prop 24 prop 25 prop 26</li>
-<li>0.6976744 0.6505747 0.6563758 0.7680000 0.7785714 0.7564576
+0.4827586</p></li>
+<li><p>prop 14 prop 15 prop 16 prop 17 prop 18 prop 19 prop 20 prop 21
+prop 22 prop 23 prop 24 prop 25 prop 26</p></li>
+<li><p>0.6976744 0.6505747 0.6563758 0.7680000 0.7785714 0.7564576
 0.6782178 0.8059701 0.7222222 0.6617916 0.7383178 0.6770186
-0.6571429</li>
-<li>prop 27 prop 28 prop 29 prop 30 prop 31 prop 32 prop 33 prop 34 prop
-35 prop 36</li>
-<li>0.7482014 0.7415730 0.7462687 0.8333333 0.6954813 0.7000000
-0.6967213 0.8620690 0.6851312 0.7271330</li>
+0.6571429</p></li>
+<li><p>prop 27 prop 28 prop 29 prop 30 prop 31 prop 32 prop 33 prop 34
+prop 35 prop 36</p></li>
+<li><p>0.7482014 0.7415730 0.7462687 0.8333333 0.6954813 0.7000000
+0.6967213 0.8620690 0.6851312 0.7271330</p></li>
+<li><p>From the above results, p-values are small and so we we can say
+that the proportions of people getting asthma now are different across
+boroughs.</p></li>
 </ul>
 </div>
 </div>
