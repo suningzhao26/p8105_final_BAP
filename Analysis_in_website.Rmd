@@ -1,5 +1,5 @@
 ---
-title: "Analysis_in_website"
+title: "Statistical Modeling"
 output: github_document
 ---
 ```{r setup, include=FALSE}

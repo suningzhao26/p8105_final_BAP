@@ -14,13 +14,17 @@ navbar:
       - text: 'Asthma and air quality'
         href: Exp---Asthma-and-air-quality.html
     - text: "Statistical Analyses"
-      href: Analysis_in_website.html
+      menu:
+      - text: "Statistical Tests"
+        href: Tests.html
+      - text: "Statistical Modeling"
+        href: Analysis_in_website.html
     - text: "Mapping"
       menu:
-      - text: 'AQI in NY'
-        href: Air-Quality.html
       - text: 'Current Asthma in NY'
         href: map---asthma.html
+      - text: 'Air Quality Index in NY'
+        href: Air-Quality.html
     - text: "Project Report"
     - text: "Screencast"
     - text: "References"
