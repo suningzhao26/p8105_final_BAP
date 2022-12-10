@@ -6,13 +6,20 @@ navbar:
     - text: "Exploratory Analyses"
       menu:
       - text: 'AQI Index Across Years in NY'
+        href: Exp-Air-Quality-Index-across-year-in-NY-state.html
       - text: 'Types of Pollutants in Counties'
-      - text: 'PM 2.5'
+        href: Exp---Type-of-Pollutants-in-each-counties.html
+      - text: 'Asthma and Heart Disease in NY'
+        href: Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS.html
+      - text: 'Asthma and air quality'
+        href: Exp---Asthma-and-air-quality.html
     - text: "Statistical Analyses"
     - text: "Mapping"
       menu:
       - text: 'AQI in NY'
-      - text: 'Ozone in NY'
+        href: Air-Quality.html
+      - text: 'Current Asthma in NY'
+        href: map---asthma.html
     - text: "Project Report"
     - text: "Screencast"
     - text: "References"
