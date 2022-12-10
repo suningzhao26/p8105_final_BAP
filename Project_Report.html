@@ -1,0 +1,2545 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Project Report</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Exploratory Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Exp-Air-Quality-Index-across-year-in-NY-state.html">AQI Index Across Years in NY</a>
+    </li>
+    <li>
+      <a href="Exp---Type-of-Pollutants-in-each-counties.html">Types of Pollutants in Counties</a>
+    </li>
+    <li>
+      <a href="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS.html">Asthma and Heart Disease in NY</a>
+    </li>
+    <li>
+      <a href="Exp---Asthma-and-air-quality.html">Asthma and air quality</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Statistical Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Tests.html">Statistical Tests</a>
+    </li>
+    <li>
+      <a href="Analysis_in_website.html">Statistical Modeling</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Mapping
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="map---asthma.html">Current Asthma in NY</a>
+    </li>
+    <li>
+      <a href="Air-Quality.html">Air Quality Index in NY</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown-header">Project Report</li>
+<li class="dropdown-header">Screencast</li>
+<li class="dropdown-header">References</li>
+<li>
+  <a href="https://github.com/suningzhao26/p8105_final_BAP.git">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Project Report</h1>
+
+</div>
+
+
+<p><br></p>
+<div id="motivation" class="section level1">
+<h1>Motivation</h1>
+<p>With air quality becoming a great concern of modern era, especially
+as an important public health topic. Environmental health is an
+important factor of our health as well. Air pollution has always been a
+big concern in public health topic. Since we believe it is a common
+cause such as Asthma, cardiovascular diseases, and many other health
+problems. So we decided to propose some analytical tests on correlation
+between these factors and air pollution.</p>
+<p>We are curious on investigating on the effects of several potential
+factors and their relationship to AQI(air quality index), an indicating
+value of air quality. We are interested in air quality problems within
+NY state and at each county level from year 2003 to 2012. We aim to
+figure out the main causes of poor air quality and help health
+organizations and the public better assess and deal with the
+problem.</p>
+<p><br></p>
+</div>
+<div id="questions-and-planned-analysis" class="section level1">
+<h1>Questions and Planned Analysis</h1>
+<p><strong>Questions:</strong></p>
+<ol style="list-style-type: decimal">
+<li>What are rates of Asthma in each county in NY state across
+years?</li>
+<li>What are rates of heart diseases in each county in NY state across
+years?</li>
+<li>What pollutants distributions in each county in NY state across
+years?</li>
+<li>What are the AQI conditions in each county in NY state aross
+years?</li>
+</ol>
+<p><strong>Planned Analysis</strong></p>
+<ol style="list-style-type: decimal">
+<li>Asthma and AQI</li>
+<li>Heart diseases and AQI</li>
+<li>Pollutants and AQI</li>
+</ol>
+<p><br></p>
+</div>
+<div id="data-processing-and-cleaning" class="section level1">
+<h1>Data Processing and Cleaning</h1>
+<p>We referred to two data sources to construct our main dataset for
+further analysis. The air quality information (including daily aqi and
+six pollutant parameters) is from EPA database, and those health related
+data are from CDC Behavioral Risk Factor Surveillance System
+(BRFSS).</p>
+<ol style="list-style-type: lower-alpha">
+<li>Daily aqi for each county in New York State from 2003 to 2012 <a
+href="https://aqs.epa.gov/aqsweb/airdata/download_files.html#AQI">(dataset)</a></li>
+</ol>
+<pre class="r"><code>full_aqi = 
+  tibble(
+    files = list.files(&quot;data/daily_aqi/&quot;),
+    path = str_c(&quot;data/daily_aqi/&quot;, files)
+  ) %&gt;% 
+  mutate(data = map(path, read_csv)) %&gt;% 
+  unnest(data) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  filter(state_name == &quot;New York&quot;) %&gt;% 
+  select(-files, -path) %&gt;% 
+  select(state = state_name, county = county_name, date, aqi, category, defining_parameter, defining_site, site_num = number_of_sites_reporting)</code></pre>
+<p>We downloaded daily aqi files from “Daily AQI by County” Section
+ranged from 2003 to 2012 (one .csv file per year). Each dataset contains
+daily air quality index and other relative information for each county
+in the United States over a whole year. Those raw data files are stored
+in the “daily_aqi” folder from the “data” subdirectory in our
+repository.</p>
+<p>For the process of data cleaning, firstly we used map function to
+combine those 10 datasets in order by year. Then we filtered by state
+name to keep counties that belong to New York State. Finally, we kept
+these variables that we will focus on:</p>
+<ul>
+<li><code>state</code>: state name, New York State specifically</li>
+<li><code>county</code>: county names in New York State</li>
+<li><code>date</code>: date on which the air quality was monitored</li>
+<li><code>aqi</code>: air quality index value</li>
+<li><code>category</code>: levels of health concern according to
+aqi</li>
+<li><code>defining_parameter</code>: pollutants that define the aqi on
+that day</li>
+<li><code>defining_site</code>: the site code that define the daily aqi
+on that day (consists of state code, county code, and site code,
+separated by “-”)</li>
+</ul>
+<p>The resulting dataset was saved as an object named “full_aqi” in
+data_import_cleaning.Rmd file.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Six main parameter values <a
+href="https://aqs.epa.gov/aqsweb/airdata/download_files.html#Daily">(dataset)</a></li>
+</ol>
+<pre class="r"><code>full_ozone = 
+  tibble(
+    files = list.files(&quot;data/daily_parameter/ozone/&quot;),
+    path = str_c(&quot;data/daily_parameter/ozone/&quot;, files)
+  ) %&gt;% 
+  mutate(data = map(path, read_csv)) %&gt;% 
+  unnest(data) %&gt;% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+full_co = 
+  tibble(
+    files = list.files(&quot;data/daily_parameter/co/&quot;),
+    path = str_c(&quot;data/daily_parameter/co/&quot;, files)
+  ) %&gt;% 
+  mutate(data = map(path, read_csv)) %&gt;% 
+  unnest(data) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  filter(state_name == &quot;New York&quot;) %&gt;% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+full_no2 = 
+  tibble(
+    files = list.files(&quot;data/daily_parameter/no2/&quot;),
+    path = str_c(&quot;data/daily_parameter/no2/&quot;, files)
+  ) %&gt;% 
+  mutate(data = map(path, read_csv)) %&gt;% 
+  unnest(data) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  filter(state_name == &quot;New York&quot;) %&gt;% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+full_so2 = 
+  tibble(
+    files = list.files(&quot;data/daily_parameter/so2/&quot;),
+    path = str_c(&quot;data/daily_parameter/so2/&quot;, files)
+  ) %&gt;% 
+  mutate(data = map(path, read_csv)) %&gt;% 
+  unnest(data) %&gt;% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+full_pm2_5 = 
+  tibble(
+    files = list.files(&quot;data/daily_parameter/pm2.5/&quot;),
+    path = str_c(&quot;data/daily_parameter/pm2.5/&quot;, files)
+  ) %&gt;% 
+  mutate(data = map(path, read_csv)) %&gt;% 
+  unnest(data) %&gt;% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+full_pm10 = 
+  tibble(
+    files = list.files(&quot;data/daily_parameter/pm10/&quot;),
+    path = str_c(&quot;data/daily_parameter/pm10/&quot;, files)
+  ) %&gt;% 
+  mutate(data = map(path, read_csv)) %&gt;% 
+  unnest(data) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  filter(state_name == &quot;New York&quot;) %&gt;% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+ozone = full_ozone %&gt;% 
+  group_by(county, date) %&gt;% 
+  summarize(
+    mean_ozone = mean(mean),
+    max_ozone = mean(max)
+  )
+co = full_co %&gt;% 
+  group_by(county, date) %&gt;% 
+  summarize(
+    mean_co = mean(mean),
+    max_co = mean(max)
+  )
+no2 = full_no2 %&gt;% 
+  group_by(county, date) %&gt;% 
+  summarize(
+    mean_no2 = mean(mean),
+    max_no2 = mean(max)
+  )
+so2 = full_so2 %&gt;% 
+  group_by(county, date) %&gt;% 
+  summarize(
+    mean_so2 = mean(mean),
+    max_so2 = mean(max)
+  )
+pm2_5 = full_pm2_5 %&gt;% 
+  group_by(county, date) %&gt;% 
+  summarize(
+    mean_pm2_5 = mean(mean),
+    max_pm2_5 = mean(max)
+  )
+pm10 = full_pm10 %&gt;% 
+  group_by(county, date) %&gt;% 
+  summarize(
+    mean_pm10 = mean(mean),
+    max_pm10 = mean(max)
+  )
+air_daily = 
+  left_join(full_aqi, ozone, by = c(&quot;county&quot;, &quot;date&quot;)) %&gt;% 
+  left_join(co, by = c(&quot;county&quot;, &quot;date&quot;)) %&gt;% 
+  left_join(no2, by = c(&quot;county&quot;, &quot;date&quot;)) %&gt;%
+  left_join(so2, by = c(&quot;county&quot;, &quot;date&quot;)) %&gt;%
+  left_join(pm2_5, by = c(&quot;county&quot;, &quot;date&quot;)) %&gt;%
+  left_join(pm10, by = c(&quot;county&quot;, &quot;date&quot;)) %&gt;% 
+  separate(defining_site, into = c(&quot;state_code&quot;, &quot;county_code&quot;, &quot;site_code&quot;), sep = &quot;-&quot;) %&gt;% 
+  select(state_code, county_code, everything(), -site_num, -site_code)</code></pre>
+<p>According to the National Weather Service, EPA calculates the AQI for
+five major air pollutants regulated by the Clean Air Act: ground-level
+ozone, particle pollution (also known as particulate matter), carbon
+monoxide, sulfur dioxide, and nitrogen dioxide. In the EPA database,
+each daily summary file contains data for every monitor (sampled
+parameter) for each day. These files are separated by parameter (or
+parameter group) to make the sizes more manageable. As a result, we
+collected 60 data files concerning daily values about six pollutants
+(carbon monoxide, sulfur dioxide, nitrogen dioxide, ozone, PM2.5, and
+PM10) in each county from 2003 to 2012 (one .csv file per year per
+parameter). Those data files are stored in the “daily_parameter” folder
+from the “data” subdirectory in our repository. What should be pointed
+out is that files from ozone, pm2.5, and so2 categories were
+pre-processed (filter by state name “New York”) in pre-processing.Rmd
+file, since the size of most of them exceeded the 100M git push limit.
+After the pre-processing, files in ozone, pm2.5, and so2 folder contain
+data for New York State, others contain data across the US.</p>
+<p>During the process of data cleaning, we first combined 10-year
+datasets for each parameter using map function, then filtered by “New
+York” state name, and selected the main variables that we were concerned
+about. Six data frames were created after these. Secondly, for each
+dataframe, we extracted daily parameter mean values from different sites
+for each county using “group_by” and “summarize” statements. Six summary
+tables were produced.</p>
+<p>Main variables in the six daily parameter tables we focus on:</p>
+<ul>
+<li><code>county</code>: county names in New York State</li>
+<li><code>date</code>: date on which the air quality was monitored</li>
+<li><code>mean_ozone</code>: the average ozone value for the day within
+that county (unit of measure: parts per million)</li>
+<li><code>max_ozone</code>: the highest ozone value for the day within
+that county (unit of measure: parts per million)</li>
+<li><code>mean_co</code>: the average carbon monoxide value for the day
+within that county (unit of measure: parts per million)</li>
+<li><code>max_co</code>: the highest carbon monoxide value for the day
+within that county (unit of measure: parts per million)</li>
+<li><code>mean_no2</code>: the average nitrogen dioxide value for the
+day within that county (unit of measure: parts per million)</li>
+<li><code>max_no2</code>: the highest nitrogen dioxide value for the day
+within that county (unit of measure: parts per million)</li>
+<li><code>mean_so2</code>: the average sulfur dioxide value for the day
+within that county (unit of measure: parts per million)</li>
+<li><code>max_so2</code>: the highest sulfur dioxide value for the day
+within that county (unit of measure: parts per million)</li>
+<li><code>mean_pm2_5</code>: the average pm2.5 value for the day within
+that county (unit of measure: Micrograms/cubic meter (LC))</li>
+<li><code>max_pm2_5</code>: the highest pm2.5 value for the day within
+that county (unit of measure: Micrograms/cubic meter (LC))</li>
+<li><code>mean_pm10</code>: the average pm10 value for the day within
+that county (unit of measure: Micrograms/cubic meter (25 C))</li>
+<li><code>max_pm10</code>: the highest pm10 value for the day within
+that county (unit of measure: Micrograms/cubic meter (25 C))</li>
+</ul>
+<p>The “full_aqi” table from part a and daily parameter tables were
+left-joined using columns “county” and “date” (“full_aqi” as left
+table). In addition, the “defining_site” variable was separated as
+state_code, county_code, and site_code. The state_code and county_code
+were kept in the resulting dataset “air_daily”. The air_daily dataset
+was also saved as air_daily.csv file in the “data” folder.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Individual health survey data in New York State from 2003 to 2012 <a
+href="https://www.cdc.gov/brfss/annual_data/annual_data.htm">(dataset)</a></li>
+</ol>
+<pre class="r"><code>b2003 = read_xpt(&quot;C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/cdbrfs03.XPT&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  filter(state == 36) %&gt;% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack, aservist, asdrvist, asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd2, cvdinfr2, cvdstrk2, educag,sex, smoker2, race2, ageg5yr, incomg) %&gt;% 
+  drop_na(county_code) 
+b2003$physhlth[b2003$physhlth == &quot;88&quot;] &lt;- 0
+b2003$physhlth[b2003$physhlth == &quot;77&quot;] &lt;- NA
+b2003$physhlth[b2003$physhlth == &quot;99&quot;] &lt;- NA
+b2003$menthlth[b2003$menthlth == &quot;88&quot;] &lt;- 0
+b2003$menthlth[b2003$menthlth == &quot;77&quot;] &lt;- NA
+b2003$menthlth[b2003$menthlth == &quot;99&quot;] &lt;- NA
+b2003$cvdcrhd2[b2003$cvdcrhd2 == &quot;2&quot;] &lt;- 0
+b2003$cvdcrhd2[b2003$cvdcrhd2 == &quot;7&quot;] &lt;- NA
+b2003$cvdcrhd2[b2003$cvdcrhd2 == &quot;9&quot;] &lt;- NA
+b2003$cvdinfr2[b2003$cvdinfr2 == &quot;2&quot;] &lt;- 0
+b2003$cvdinfr2[b2003$cvdinfr2 == &quot;7&quot;] &lt;- NA
+b2003$cvdinfr2[b2003$cvdinfr2 == &quot;9&quot;] &lt;- NA
+b2003$cvdstrk2[b2003$cvdstrk2 == &quot;2&quot;] &lt;- 0
+b2003$cvdstrk2[b2003$cvdstrk2 == &quot;7&quot;] &lt;- NA
+b2003$cvdstrk2[b2003$cvdstrk2 == &quot;9&quot;] &lt;- NA
+b2003$asthma2[b2003$asthma2 == &quot;2&quot;] &lt;- 0
+b2003$asthma2[b2003$asthma2 == &quot;7&quot;] &lt;- NA
+b2003$asthma2[b2003$asthma2 == &quot;9&quot;] &lt;- NA
+b2003$asthnow[b2003$asthnow == &quot;2&quot;] &lt;- 0
+b2003$asthnow[b2003$asthnow == &quot;7&quot;] &lt;- NA
+b2003$asthnow[b2003$asthnow == &quot;9&quot;] &lt;- NA
+b2003$educag[b2003$educag == &quot;9&quot;] &lt;- NA
+b2003$sex[b2003$sex == &quot;2&quot;] &lt;- 0
+b2003$smoker2[b2003$smoker2 == &quot;9&quot;] &lt;- NA
+b2003$asthmage[b2003$asthmage == &quot;99&quot;] &lt;- NA
+b2003$asthmage[b2003$asthmage == &quot;98&quot;] &lt;- NA
+b2003$asthmage[b2003$asthmage == &quot;97&quot;] &lt;- 10
+b2003$asattack[b2003$asattack == &quot;2&quot;] &lt;- 0
+b2003$asattack[b2003$asattack == &quot;7&quot;] &lt;- NA
+b2003$asattack[b2003$asattack == &quot;9&quot;] &lt;- NA
+b2003$aservist[b2003$aservist == &quot;88&quot;] &lt;- 0
+b2003$aservist[b2003$aservist == &quot;98&quot;] &lt;- NA
+b2003$aservist[b2003$aservist == &quot;99&quot;] &lt;- NA
+b2003$asdrvist[b2003$asdrvist == &quot;88&quot;] &lt;- 0
+b2003$asdrvist[b2003$asdrvist == &quot;98&quot;] &lt;- NA
+b2003$asdrvist[b2003$asdrvist == &quot;99&quot;] &lt;- NA
+b2003$asymptom[b2003$asymptom == &quot;8&quot;] &lt;- 0
+b2003$asymptom[b2003$asymptom == &quot;7&quot;] &lt;- NA
+b2003$asymptom[b2003$asymptom == &quot;9&quot;] &lt;- NA
+b2003$asthmst[b2003$asthmst == &quot;9&quot;] &lt;- NA
+b2003$ltasthm[b2003$ltasthm == &quot;9&quot;] &lt;- NA
+b2003$casthma[b2003$casthma == &quot;9&quot;] &lt;- NA
+b2003$race2[b2003$race2 == &quot;9&quot;] &lt;- NA
+b2003$ageg5yr[b2003$ageg5yr == &quot;14&quot;] &lt;- NA
+b2003$incomg[b2003$incomg == &quot;9&quot;] &lt;- NA
+b2003 = 
+  b2003 %&gt;% 
+  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd2, heart_attack = cvdinfr2, stroke = cvdstrk2, education = educag,sex, smoker = smoker2, race = race2, age = ageg5yr, income = incomg)
+b2003 %&gt;% 
+  write.csv(file = (&quot;./data/brfss/brfss_ny_2003.csv&quot;))
+brfss_indi =  
+  bind_rows(b2003, b2004, b2005, b2006, b2007, b2008, b2009, b2010, b2011, b2012) %&gt;%  
+  mutate(
+    year = as.numeric(year),
+    month = as.numeric(month),
+    day = as.numeric(day)
+  )
+write.csv(brfss_indi, file = (&quot;./data/brfss_indi.csv&quot;))</code></pre>
+<p>The annual survey data from CDC Behavioral Risk Factor Surveillance
+System provides information on the background, design, data collection
+and processing, statistical, and analytical issues. It also provides
+health related information of each interviewee. We gathered 10 raw data
+files (1 file per year) for processing.</p>
+<p>Firstly, we filtered by state code 36, then selected variables we
+were interested in. Finally, we filtered out rows in which county code
+was missing.</p>
+<p>Main variables:</p>
+<ul>
+<li><code>state_code</code>: state FIPS Codes, New York State code 36
+specifically</li>
+<li><code>county_code</code>: county FIPS Codes in New York State</li>
+<li><code>year</code>: interview year</li>
+<li><code>month</code>: interview month</li>
+<li><code>day</code>: interview day</li>
+<li><code>asthma</code>: ever told had asthma; 1 for yes, 0 for no</li>
+<li><code>asthma_now</code>: still have asthma; 1 for yes, 0 for no</li>
+<li><code>asthma_age</code>: age at asthma diagnosis</li>
+<li><code>asthma_attack</code>: asthma during past 12 months; 1 for yes,
+0 for no</li>
+<li><code>asthma_emergency</code>: how many times of visiting an
+emergency room or urgent care center because of asthma during past 12
+months</li>
+<li><code>asthma_visit</code>: how many times of urgent asthma treatment
+during past 12 months</li>
+<li><code>asthma_symptom</code>: frequencies of asthma symptoms during
+past 30 days; 0 for none, 1 for less than once a week, 2 for once or
+twice a week, 3 for more than 2 times a week but not every day, 4 for
+every day but not all the time, 5 for every day all the time</li>
+<li><code>asthma_status</code>: computed asthma status, 1 for current, 2
+for former, 3 for never</li>
+<li><code>asthma_history</code>: risk factor for lifetime asthma
+prevalence, 1 for not at risk, 2 for at risk</li>
+<li><code>asthma_current</code>: risk factor for current asthma
+prevalence, 1 for not at risk, 2 for at risk</li>
+<li><code>physical_health</code>: number of days physical health not
+good during the past 30 days</li>
+<li><code>mental_health</code>: number of days mental health not good
+during the past 30 days</li>
+<li><code>coronary_heart_disease</code>: angina or coronary heart
+disease, 1 for yes, 0 for no</li>
+<li><code>heart_attack</code>: ever diagnosed with heart attack, 1 for
+yes, 0 for no</li>
+<li><code>stroke</code>: ever diagnosed with stroke, 1 for yes, 0 for
+no</li>
+<li><code>education</code>: level of education completed, 1 for did not
+graduate high school, 2 for graduated high school, 3 for attended
+college or technical school, 4 for graduated from college or technical
+school</li>
+<li><code>sex</code>: respondents sex, 1 for male, 2 for female</li>
+<li><code>smoker</code>: computed smoking status, 1 for current smoker -
+now smokes every day, 2 for current smoker - now smokes some days, 3 for
+former smoker, 4 for never smoked</li>
+<li><code>race</code>: race categories, 1 for White only, non-hispanic,
+2 for Black only, non-hidpanic, 3 for Asian only, non-hispanic, 4 for
+Native Hawaiian or other Pacific Islander only, non-hispanic, 5 for
+American Indian or Alaskan Native only, non-hispanic, 6 for other race
+only, non-hispanic, 7 for multiracial, non-hispanic, 8 for hispanic</li>
+<li><code>age</code>: reported age in five-year age categories, 1 for
+age 18-24, 2 for 25-29, 3 for 30-34, 4 for 35-39, 5 for 40-44, 6 for
+45-49, 7 for 50-54, 8 for 55-59, 9 for 60-64, 10 for 65-69, 11 for
+70-74, 12 for 75-79, 13 for 80 or older</li>
+<li><code>income</code>: income categories, 1 for less than $15000, 2
+for $15000 to less than $25000, 3 for $25000 to less than $35000, 4 for
+$35000 to less than $50000, 5 for $50000 or more</li>
+</ul>
+<p>The combined 10-year brfss files was saved as a dataframe named
+“brfss_indi”, and it was also written as “brfss_indi.csv” file, stored
+in the “data” folder.</p>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Final resulting data files</li>
+</ol>
+<pre class="r"><code>brfs_for_merge = read_csv(&quot;./data/brfss_indi.csv&quot;) %&gt;% 
+  mutate(
+    date = as.Date(paste(year,month,day,sep=&quot;-&quot;),&quot;%Y-%m-%d&quot;)
+  ) 
+air_daily1 = 
+  read_csv(&quot;./data/air_daily.csv&quot;) %&gt;%
+  mutate(county_code = as.numeric(county_code))
+brfss_with_air = 
+  left_join(brfs_for_merge, air_daily1, by = c(&quot;county_code&quot;, &quot;date&quot;))
+write.csv(brfss_with_air, file = (&quot;./data/brfss_with_air.csv&quot;))
+air_daily2 = 
+  air_daily1 %&gt;% 
+  separate(col = date, into = c(&#39;year&#39;,&#39;month&#39;,&#39;day&#39;), sep = &quot;-&quot; , convert = TRUE) %&gt;%
+  group_by(county_code, county, year, month) %&gt;% 
+  summarize(
+    mean_aqi_month = mean(aqi),
+    max_aqi_month = max(aqi),
+    min_aqi_month = min(aqi),
+    mean_ozone_month = mean(mean_ozone),
+    mean_pm2_5_month = mean(mean_pm2_5),
+    mean_pm10_month = mean(mean_pm10),
+    mean_co_month = mean(mean_co),
+    mean_no2_month = mean(mean_no2),
+    mean_so2_month = mean(mean_so2)
+  ) 
+brfss_with_air2 = 
+  left_join(brfs_for_merge, air_daily2, by = c(&quot;county_code&quot;, &quot;year&quot;,&quot;month&quot;))
+write.csv(brfss_with_air2, file = (&quot;./data/brfss_with_air2.csv&quot;))</code></pre>
+<p>A new variable named “date” which concatenated year, month, and day
+was created in the “brfss_indi” dataframe. Then it was left-joined with
+“air_daily” using columns “county_code” and “date” (“brfss_indi” as the
+left table). The resulting dataset was saved as “brfss_with_air” data
+frame and was written as “brfss_with_air.csv” file in “data” folder.</p>
+<p>In addition, another air quality dataset “air_daily2” was created by
+grouping and summarizing “air_daily”:</p>
+<ul>
+<li><code>mean_aqi_month</code>: mean daily aqi value in that month</li>
+<li><code>max_aqi_month</code>: max daily aqi value in that month</li>
+<li><code>min_aqi_month</code>: min daily aqi value in that month</li>
+<li><code>mean_ozone_month</code>: mean ozone value in that month (unit
+of measure: parts per million)</li>
+<li><code>mean_pm2_5_month</code>: mean pm2.5 value in that month (unit
+of measure: Micrograms/cubic meter (LC))<br />
+</li>
+<li><code>mean_pm10_month</code>: mean pm10 value in that month (unit of
+measure: Micrograms/cubic meter (25 C))<br />
+</li>
+<li><code>mean_co_month</code>: mean carbon monoxide value in that month
+(unit of measure: parts per million)<br />
+</li>
+<li><code>mean_no2_month</code>: mean nitrogen dioxide value in that
+month (unit of measure: parts per million)<br />
+</li>
+<li><code>mean_so2_month</code>: mean sulfur dioxide value in that month
+(unit of measure: parts per million)</li>
+</ul>
+<p>Then “brfss_indi” and “air_daily2” were left-joined using columns
+“county_code”, “year”, and “month” (“brfss_indi” as the left table). The
+resulting dataset was saved as “brfss_with_air2” data frame and was
+written as “brfss_with_air2.csv” file in the “data” folder.</p>
+<p><br></p>
+</div>
+<div id="exploratory-data-analysis" class="section level1">
+<h1>Exploratory Data Analysis</h1>
+<div id="air-quality-index-across-year-in-ny-state"
+class="section level2">
+<h2>Air Quality Index across year in NY state</h2>
+<div id="figure-1-air-quality-index-by-counties-in-ny-state-2003-2012"
+class="section level3">
+<h3>Figure 1: Air Quality Index by counties in NY State, 2003-2012</h3>
+<pre class="r"><code>aqi_state_graph =
+  aqi_year_df %&gt;% 
+  group_by(county) %&gt;% 
+  ggplot(aes(x = year, y = aqi_mean, color = county)) +
+  geom_point(alpha=.3) +
+  geom_line() +
+  labs(
+    title = &quot;Air Quality Index by county in NY state, 2003-2012&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Air Quality Index&quot;
+  )+
+  scale_x_continuous(breaks = 2003:2012 )+
+  scale_color_viridis(
+    name = &quot;County&quot;, 
+    discrete = TRUE
+  )
+aqi_state_graph</code></pre>
+<ul>
+<li>According to the graph, we can find that some counties are with a
+high air quality among 10 years, reaching 50-60(Moderate), for example,
+<code>New York</code>, <code>Bronx</code>, <code>Erie</code> and
+<code>Queens</code>. However, some counties are with lower air quality
+index, as lower as 10-30, for example, <code>Franklin</code>,
+<code>Columbia</code>,<code>St. Lawrence</code> and
+<code>Kings</code>.</li>
+<li>It can be seen that air quality in most of counties are decreasing
+among 10 years, which means that air quality in NY state is getting
+better.</li>
+</ul>
+</div>
+<div id="figure-2-mean-aqi-for-different-counties-in-ny-state-2003-2012"
+class="section level3">
+<h3>Figure 2: Mean AQI for different counties in NY State,
+2003-2012</h3>
+<pre class="r"><code>aqi_county_graph = 
+  aqi_year_df %&gt;% 
+  group_by(county) %&gt;% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %&gt;% 
+  mutate(county = fct_reorder(county, aqi_all)) %&gt;% 
+  ggplot(aes(x = county, y = aqi_all)) +
+  geom_point()+
+  geom_errorbar(mapping = aes(ymin = min, ymax = max)) +
+  labs( x = &quot;County&quot;,  y = &quot;Air Quality Index&quot;, title = &quot;Mean AQI for different counties in NY State, 2003-2012&quot;) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+aqi_county_graph</code></pre>
+<ul>
+<li>This graph is based on mean air quality among 10 years in different
+counties. According to this graph, we can directly find the top 5
+counties with worst air quality(<code>Bronx</code>,
+<code>New York</code>, <code>Queens</code>, <code>Erie</code> and
+<code>Richmond</code>) and top 5 counties with best air
+quality(<code>Columbia</code>, <code>Franklin</code>,
+<code>St. Lawrence</code>, <code>Schenectady</code> and
+<code>Dutchess</code>)</li>
+</ul>
+</div>
+<div id="figure-3-aqi-by-counties-in-ny-state-on-map"
+class="section level3">
+<h3>Figure 3: AQI by counties in NY State on map</h3>
+<pre class="r"><code>air_county_df = 
+  aqi_year_df %&gt;% 
+  group_by(state_code, county_code,county) %&gt;% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %&gt;% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;white&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
+  ) +   
+  labs(
+    title = &quot;AQI by counties in NY State on mapp&quot;
+  )+
+  theme(legend.position = &quot;right&quot;)
+county_plot_map</code></pre>
+<ul>
+<li>Maps can help us directly view the air quality in counties. This map
+is based on mean air quality index among 10 years.</li>
+</ul>
+</div>
+<div
+id="figure-4-unhealthy-air-quality-days-by-counties-in-ny-state-2003-2012"
+class="section level3">
+<h3>Figure 4: Unhealthy air quality days by counties in NY State,
+2003-2012</h3>
+<pre class="r"><code>air_quality_day_df = 
+  air_daily_df %&gt;% 
+  group_by(state_code, county_code,county) %&gt;% 
+  mutate(
+    aqi_status = case_when(
+      category %in% c(&quot;Good&quot;, &quot;Moderate&quot;) ~ &quot;Healthy&quot;,
+      category %in% c(&quot;Unhealthy for Sensitive Groups&quot;, &quot;Unhealthy&quot;, &quot;Very Unhealthy&quot;) ~ &quot;Unhealthy&quot;
+    )
+  ) 
+Unhealthy_air_graph = 
+  air_quality_day_df %&gt;% 
+  filter(aqi_status == &quot;Unhealthy&quot;) %&gt;% 
+  group_by(county) %&gt;% 
+  summarize(
+    unhealthy_days = n()
+  ) %&gt;% 
+  mutate(
+    county = fct_reorder(county, unhealthy_days)
+    ) %&gt;% 
+  ggplot(aes(y = county, x = unhealthy_days, fill = unhealthy_days)) +
+  geom_col() +
+  labs(
+    title = &quot;Unhealthy air quality days by counties in NY State, 2003-2012&quot;,
+    x = &quot;Unhealthy air quality days&quot;,
+    y = &quot;County&quot;
+  ) +
+  scale_fill_viridis(option = &quot;turbo&quot;)
+Unhealthy_air_graph </code></pre>
+<ul>
+<li>According to the classification, the air is defined as unhealthy
+when air quality index is higher than 100. Based on the graph, we can
+know that top 5 counties with the most unhealthy air quality days are
+<code>Suffolk</code>, <code>Chautauqua</code>, <code>Richmond</code>,
+<code>Erie</code> and <code>Westchester</code>.</li>
+</ul>
+</div>
+</div>
+<div id="type-of-pollutants-in-each-counties" class="section level2">
+<h2>Type of Pollutants in each counties</h2>
+<div id="defining-pollutants" class="section level3">
+<h3>Defining pollutants</h3>
+<div
+id="figure-5-defining-pollutants-distribution-among-10-years-in-ny-state"
+class="section level4">
+<h4>Figure 5: Defining pollutants distribution among 10 years in NY
+State</h4>
+<pre class="r"><code>pollutants_graph = 
+  air_quality_day_df %&gt;% 
+  group_by(defining_parameter) %&gt;% 
+  summarize(
+    pollutants = n()
+  ) %&gt;%
+  mutate(
+    defining_parameter = fct_reorder(defining_parameter, pollutants)
+    ) %&gt;% 
+  ggplot(aes(x = defining_parameter, y = pollutants, fill = pollutants)) +
+  geom_col() +
+  labs(
+    title = &quot;Defining pollutants distribution among 10 years in NY State&quot;,
+    x = &quot;Defining pollutants&quot;,
+    y = &quot;days&quot;
+  ) +
+  scale_fill_viridis(option = &quot;turbo&quot;)
+pollutants_graph</code></pre>
+<ul>
+<li>Defining pollutants is the most important pollutants in one day in a
+place. If there is no other pollutants that exceeds the control line,
+the defining pollutants is <code>Ozone</code>. Based on the graph, we
+can know that except for <code>Ozone</code>, <code>PM2.5</code> and
+<code>NO2</code> are pollutants that affect NY state in past 10
+years.</li>
+</ul>
+</div>
+<div
+id="figure-6-defining-pollutants-distribution-in-unhealthy-air-quality-days-among-10-years-in-ny-state"
+class="section level4">
+<h4>Figure 6: Defining pollutants distribution in unhealthy air quality
+days among 10 years in NY State</h4>
+<pre class="r"><code>Unhealthy_pollutants_graph = 
+  air_quality_day_df %&gt;% 
+  filter(aqi_status == &quot;Unhealthy&quot;) %&gt;% 
+  group_by(defining_parameter) %&gt;% 
+  summarize(
+    pollutants = n()
+  ) %&gt;%
+  mutate(
+    defining_parameter = fct_reorder(defining_parameter, pollutants)
+    ) %&gt;% 
+  ggplot(aes(x = defining_parameter, y = pollutants, fill = pollutants)) +
+  geom_col() +
+  labs(
+    title = &quot;Defining pollutants distribution in unhealthy air quality days among 10 years in NY State&quot;,
+    x = &quot;Defining pollutants&quot;,
+    y = &quot;Unhealthy air quality days&quot;
+  ) +
+  scale_fill_viridis(option = &quot;turbo&quot;)
+Unhealthy_pollutants_graph</code></pre>
+<ul>
+<li>There are nearly 3000 unhealthy days in total for counties in past
+10 years.</li>
+<li>Based on the graph, we can know that <code>Ozone</code>and
+<code>PM2.5</code> are main defining pollutants during unhealthy air
+days.</li>
+</ul>
+</div>
+</div>
+<div id="ozone" class="section level3">
+<h3>Ozone</h3>
+<div
+id="figure-7-mean-ozone-by-county-in-ny-state-2003-2012-by-counties"
+class="section level4">
+<h4>Figure 7: Mean Ozone by county in NY state, 2003-2012, by
+counties</h4>
+<pre class="r"><code>ozone_year_df = 
+  air_daily_df %&gt;% 
+  select(state_code, county_code, state, county, year, mean_ozone) %&gt;% 
+  group_by(state_code, county_code,county,year) %&gt;% 
+  summarize(
+    ozone_mean = mean(mean_ozone)
+  ) %&gt;% 
+  drop_na(ozone_mean)
+ozone_graph =
+  ozone_year_df %&gt;% 
+  group_by(county) %&gt;% 
+  ggplot(aes(x = year, y = ozone_mean, color = county)) +
+  geom_point(alpha=.3) +
+  geom_line() +
+  labs(
+    title = &quot;Mean Ozone by county in NY state, 2003-2012, by counties&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Mean Ozone&quot;
+  )+
+  scale_x_continuous(breaks = 2003:2012 )+
+  scale_color_viridis(
+    name = &quot;County&quot;, 
+    discrete = TRUE
+  )
+ozone_graph</code></pre>
+<ul>
+<li>The United States Environmental Protection Agency test ground-level
+ozone. Thus, when <code>ozone</code> is increasing, air quality is
+worse. Based on the graph, it can be sen that <code>ozone</code>
+Concentration is increasing among 10 years.</li>
+<li>We can also find that some counties are with a lower
+<code>ozone</code> concentration among 10 years, such as
+<code>New York</code>, <code>Bronx</code> and <code>Queens</code>.
+However, some counties are with higher <code>ozone</code> concentration,
+for example, <code>Tompkins</code>, <code>Rensselaer</code> and
+<code>Chautauqua</code>.</li>
+</ul>
+</div>
+<div id="figure-8-ozone-by-counties-on-map" class="section level4">
+<h4>Figure 8: Ozone by counties on map</h4>
+<pre class="r"><code>ozone_county_df = 
+  ozone_year_df %&gt;% 
+  group_by(state_code, county_code,county) %&gt;% 
+  summarize(
+    ozone_all = mean(ozone_mean),
+    max = max(ozone_mean),
+    min = min(ozone_mean)
+  ) %&gt;% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  ) 
+ozone_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = ozone_county_df, values = &quot;ozone_all&quot;, labels = TRUE, label_color = &quot;white&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,0.04)
+  ) +   
+  labs(
+    title = &quot;Ozone by counties on map&quot;
+  )+
+  theme(legend.position = &quot;right&quot;)
+ozone_county_plot_map</code></pre>
+<ul>
+<li>Maps can help us directly view the <code>ozone</code> concentration
+in counties. This map is based on mean ozone concentration among 10
+years. According to the map, we can see that <code>Essex</code>,
+<code>Ulster</code> and <code>Chautauqua</code> are with the highest
+ozone concentration among 10 years.</li>
+</ul>
+</div>
+</div>
+<div id="pm2.5" class="section level3">
+<h3>PM2.5</h3>
+<div id="figure-9-days-for-pm2.5-presence-by-counties-within-10-years"
+class="section level4">
+<h4>Figure 9: Days for PM2.5 presence by counties within 10 years</h4>
+<pre class="r"><code>pm2_5_county_df = 
+  air_daily_df %&gt;% 
+  select(state_code, county_code, state, county, year, mean_pm2_5) %&gt;% 
+  drop_na(mean_pm2_5) %&gt;% 
+  group_by(state_code, county_code,county) %&gt;% 
+  summarize(
+    pm2_5 = n(),
+    pm2_5_all = mean(mean_pm2_5),
+    max = max(mean_pm2_5),
+    min = min(mean_pm2_5)
+  ) %&gt;% 
+  ungroup() %&gt;% 
+  arrange(pm2_5) %&gt;% 
+  mutate(
+    county = fct_reorder(county, pm2_5)
+  )
+  
+pm2_5_county_graph = 
+  ggplot(pm2_5_county_df, aes(y = county, x = pm2_5, fill = pm2_5)) +
+  geom_col() +
+  labs(
+    title = &quot;Days for PM2.5 presence by counties within 10 years&quot;,
+    x = &quot;Days when PM2.5 can be detected&quot;,
+    y = &quot;County&quot;
+  ) +
+  scale_fill_viridis(option = &quot;turbo&quot;)
+  
+pm2_5_county_graph</code></pre>
+<ul>
+<li><code>PM2.5</code> is a harmful pollutant that will affect human
+health. According to the result, <code>Queens</code>,
+<code>Bronx</code>, <code>Steuben</code>, <code>Albany</code> and
+<code>Erie</code> are counties with most PM2.5, while
+<code>St. Lawrence</code>, <code>Oneida</code>,
+<code>Schenectady</code>, <code>Dutchess</code> and <code>Broome</code>
+are hard to detect PM2.5.</li>
+</ul>
+</div>
+<div id="figure-10-pm2.5-distribution-by-counties-within-10-years"
+class="section level4">
+<h4>Figure 10: PM2.5 distribution by counties within 10 years</h4>
+<pre class="r"><code>pm2_5_range_df = 
+  pm2_5_county_df %&gt;% 
+  mutate(
+    county = fct_reorder(county, pm2_5_all)
+  )
+pm2_5_county_range_graph =   
+  pm2_5_range_df %&gt;% 
+  group_by(county) %&gt;% 
+  ggplot(aes(x = county, y = pm2_5_all)) +
+  geom_point()+
+  geom_errorbar(mapping = aes(ymin = min, ymax = max)) +
+  labs( x = &quot;County&quot;,  y = &quot;PM2.5&quot;, title = &quot;PM2.5 distribution by counties within 10 years&quot;) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+pm2_5_county_range_graph</code></pre>
+<ul>
+<li>According to the error bar graph, we can know that there isn’t much
+difference for mean PM2.5 concentration among different counties in 10
+years, but we can find that the ranges for PM2.5 concentration are
+different. <code>Queens</code> is the county with the highest PM2.5
+observation.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="asthma-and-heart-disease-in-ny-state" class="section level2">
+<h2>Asthma and heart disease in NY state</h2>
+<div id="asthma" class="section level3">
+<h3>Asthma</h3>
+<div
+id="figure-11-trend-of-the-rate-for-people-who-have-asthma-history-in-ny-state-among-10-years"
+class="section level4">
+<h4>Figure 11: Trend of the rate for people who have asthma history in
+NY state among 10 years</h4>
+<pre class="r"><code>asthma_history_df = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(year) %&gt;% 
+  count(
+    year, asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n),
+    asthma_status = as.factor(asthma_status)
+  ) %&gt;% 
+  drop_na(asthma_status)
+
+asthma_history_graph = 
+  asthma_history_df %&gt;% 
+  filter(asthma_status != &quot;3&quot;) %&gt;% 
+  group_by(asthma_status) %&gt;%
+  ggplot(aes(x = year, y = percent, group = asthma_status, color = asthma_status)) +
+  geom_smooth()+
+  geom_point()+
+  scale_fill_viridis(option = &quot;viridis&quot;)+
+  labs(
+    title = &quot;Trend of the rate for people who have asthma history in NY state among 10 years&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Percent of people who have asthma&quot;,
+    color = &quot;Asthma Status&quot;
+  ) +
+  scale_x_continuous(breaks = 2003:2012 )
+
+asthma_history_graph</code></pre>
+<ul>
+<li>In the graph, it can be seen that we have two Asthma Status.
+<code>Asthma 1</code> stands for
+<code>People who currently have asthma</code> while
+<code>Asthma 2</code> stands for
+<code>People who formerly have asthma</code>.</li>
+<li>According to the graph, we can know that the percentage of people
+who currently have asthma is higher than the percentage of people who
+formerly have asthma.</li>
+<li>While the percentage of people who formerly have asthma is
+decreasing, the percentage of people who currently have asthma is
+increasing among 10 years.</li>
+</ul>
+</div>
+<div
+id="figure-12-map-of-the-percentage-of-people-who-currently-have-asthma-among-10-years"
+class="section level4">
+<h4>Figure 12: Map of the percentage of people who currently have asthma
+among 10 years</h4>
+<pre class="r"><code>asthma_now_county_df = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips) %&gt;% 
+  count(
+    county,asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n)
+  ) %&gt;% 
+  filter(asthma_status == &quot;1&quot;) %&gt;% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df, values = &quot;1&quot;, labels = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
+  ) +   
+  labs(
+    title = &quot;Map of the percentage of people who currently have asthma among 10 years&quot;
+  ) +
+  theme(legend.position = &quot;right&quot;)
+
+asthma_now_county_plot_map</code></pre>
+<ul>
+<li>To directly view the percentage of people who currently have asthma,
+we create a map. According to the map, we can see that
+<code>Franklin</code>, <code>Jefferson</code>, <code>Steuben</code> and
+<code>Bronx</code> are with highest percentage of people who currently
+have asthma.</li>
+</ul>
+</div>
+<div
+id="figure-13-trend-of-average-doctor-visits-for-urgent-treatment-of-worsening-asthma-symptoms-in-counties-among-10-years"
+class="section level4">
+<h4>Figure 13: Trend of average doctor visits for urgent treatment of
+worsening asthma symptoms in counties among 10 years</h4>
+<pre class="r"><code>asthma_visit_df = 
+  brfss_air_df %&gt;% 
+  drop_na(asthma_visit) %&gt;% 
+  filter(asthma_visit != 0) %&gt;% 
+  group_by(state_code.x, county_code,county) %&gt;% 
+  summarize(
+    mean_asthma_visit = mean(asthma_visit),
+    max_asthma_visit = max(asthma_visit),
+    min_asthma_visit = min(asthma_visit)
+  ) %&gt;% 
+  ungroup() %&gt;% 
+  arrange(mean_asthma_visit) %&gt;% 
+  mutate(
+    county = fct_reorder(county, mean_asthma_visit)
+  )
+
+asthma_visit_graph = 
+  asthma_visit_df %&gt;% 
+  ggplot(aes(x = county, y = mean_asthma_visit)) +
+  geom_point()+
+  geom_errorbar(mapping = aes(ymin = min_asthma_visit, ymax = max_asthma_visit )) +
+  labs( x = &quot;County&quot;,  y = &quot;Average Doctor Visits for Asthma&quot;, title = &quot;Average doctor visits for urgent treatment of worsening asthma symptoms among 10 years&quot;) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+asthma_visit_graph</code></pre>
+<ul>
+<li>According to the graph, we can know that people in
+<code>Richmond</code>, <code>Oneida</code> and <code>Kings</code> are
+with more than 5 average doctor visits for asthma.</li>
+<li>It seems that average doctor visits doesn’t have relationship with
+the percentage of people who currently have asthma. Counties which have
+the highest percentage of patients don’t have the highest average doctor
+visits for asthma.</li>
+</ul>
+</div>
+</div>
+<div id="heart-disease" class="section level3">
+<h3>Heart disease</h3>
+<div
+id="figure-14-trend-of-the-percentage-of-people-who-have-any-heart-disease-in-ny-state-among-10-years"
+class="section level4">
+<h4>Figure 14: Trend of the percentage of people who have any heart
+disease in NY state among 10 years</h4>
+<pre class="r"><code>hd_history_df = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code),
+    heart_disease = ifelse(coronary_heart_disease == &quot;1&quot; | heart_attack == &quot;1&quot; | stroke == &quot;1&quot;, &quot;1&quot;, &quot;0&quot;)
+  ) %&gt;% 
+  group_by(year) %&gt;% 
+  count(
+    year, heart_disease
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n),
+    heart_disease = as.factor(heart_disease)
+  ) %&gt;% 
+  drop_na(heart_disease)
+
+hd_history_graph = 
+ hd_history_df %&gt;% 
+  filter(heart_disease == &quot;1&quot;) %&gt;% 
+  ggplot(aes(x = year, y = percent)) +
+  geom_smooth()+
+  geom_point()+
+  scale_fill_viridis(option = &quot;viridis&quot;)+
+  labs(
+    title = &quot;Trend of the percentage of people who have any heart disease in NY state among 10 years&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Percent of people who have heart disease&quot;
+  ) +
+  scale_x_continuous(breaks = 2003:2012 )
+
+hd_history_graph</code></pre>
+<ul>
+<li>BRFSS also includes heart disease variables. Previous research
+suggests that asthma might be associated with heart disease. Thus, we
+try to find some relationships using our dataset.</li>
+<li>According to this graph, we can know that the percentage of people
+who have heart disease(including stroke, coronary heart disease and
+heart attack) is increasing among 10 years.</li>
+</ul>
+</div>
+<div
+id="figure-15-map-of-the-percentage-for-people-who-have-heart-disease-among-10-years"
+class="section level4">
+<h4>Figure 15: Map of the percentage for people who have heart disease
+among 10 years</h4>
+<pre class="r"><code>hd_county_df = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code),
+    heart_disease = ifelse(coronary_heart_disease == &quot;1&quot; | heart_attack == &quot;1&quot; | stroke == &quot;1&quot;, &quot;1&quot;, &quot;0&quot;)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips) %&gt;% 
+  count(
+    year, heart_disease
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n),
+    heart_disease = as.factor(heart_disease)
+  ) %&gt;% 
+  drop_na(heart_disease)
+
+hd_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = hd_county_df, values = &quot;percent&quot;, labels = TRUE, label_color = &quot;white&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Purple&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0,0.8)
+  ) +   
+  labs(
+    title = &quot;Map of the percentage for people who have heart disease among 10 years&quot;
+  ) +
+  theme(legend.position = &quot;right&quot;)
+
+hd_county_plot_map </code></pre>
+<ul>
+<li>To directly view the percentage of people who have heart disease
+among 10 years, we create a map. According to the map, we can see that
+<code>Broome</code> are with highest percentage of people who have heart
+disease among 10 years.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="asthma-and-air-quality" class="section level2">
+<h2>Asthma and air quality</h2>
+<div
+id="figure-17-association-between-air-quality-and-asthma-emergency-visit"
+class="section level3 tabset">
+<h3 class="tabset">Figure 17: Association between air quality and Asthma
+emergency visit</h3>
+<ul>
+<li>In order to find the association between air quality and asthma
+emergency visit times, we use several different predictors and plot
+graphs.</li>
+<li>Based on the graphs, we can find that <code>air quality index</code>
+and <code>ozone</code> are with no relationships with asthma emergency
+visit times; <code>CO</code>, <code>NO</code>, <code>SO2</code> and
+<code>PM2.5</code> are with positive relationships with asthma emergency
+visit times. Thus, we can use those predictors for our modeling.</li>
+</ul>
+<div id="air-quality-index" class="section level4">
+<h4>air quality index</h4>
+<pre class="r"><code>asthma_air_graph1 = 
+  brfss_air2_df %&gt;%
+  ggplot(aes(x = mean_aqi_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph1</code></pre>
+</div>
+<div id="ozone-1" class="section level4">
+<h4>Ozone</h4>
+<pre class="r"><code>asthma_air_graph2 = 
+  brfss_air2_df %&gt;%
+  ggplot(aes(x = mean_ozone_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph2</code></pre>
+</div>
+<div id="co" class="section level4">
+<h4>CO</h4>
+<pre class="r"><code>asthma_air_graph3 = 
+  brfss_air2_df %&gt;%
+  ggplot(aes(x = mean_co_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph3</code></pre>
+</div>
+<div id="no2" class="section level4">
+<h4>NO2</h4>
+<pre class="r"><code>asthma_air_graph4 = 
+  brfss_air2_df %&gt;% 
+  ggplot(aes(x = mean_no2_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph4</code></pre>
+</div>
+<div id="so2" class="section level4">
+<h4>SO2</h4>
+<pre class="r"><code>asthma_air_graph5 = 
+  brfss_air2_df %&gt;% 
+  ggplot(aes(x = mean_so2_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph5</code></pre>
+</div>
+<div id="pm2.5-1" class="section level4">
+<h4>PM2.5</h4>
+<pre class="r"><code>asthma_air_graph6 = 
+  brfss_air2_df %&gt;% 
+  ggplot(aes(x = mean_pm2_5_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph6</code></pre>
+</div>
+</div>
+<div
+id="figure-18-association-between-air-quality-and-asthma-doctor-visit"
+class="section level3 tabset">
+<h3 class="tabset">Figure 18: Association between air quality and Asthma
+doctor visit</h3>
+<ul>
+<li>In order to find the association between air quality and asthma
+doctor visit times, we use several different predictors and plot
+graphs.</li>
+<li>Based on the graphs, we can find that all predictors are with no
+relationships with asthma doctor visit times.</li>
+</ul>
+<div id="air-quality-index-1" class="section level4">
+<h4>air quality index</h4>
+<pre class="r"><code>asthma_air_graph1 = 
+  brfss_air2_df %&gt;%
+  ggplot(aes(x = mean_aqi_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph1</code></pre>
+</div>
+<div id="ozone-2" class="section level4">
+<h4>Ozone</h4>
+<pre class="r"><code>asthma_air_graph2 = 
+  brfss_air2_df %&gt;%
+  ggplot(aes(x = mean_ozone_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph2</code></pre>
+</div>
+<div id="co-1" class="section level4">
+<h4>CO</h4>
+<pre class="r"><code>asthma_air_graph3 = 
+  brfss_air2_df %&gt;%
+  ggplot(aes(x = mean_co_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph3</code></pre>
+</div>
+<div id="no2-1" class="section level4">
+<h4>NO2</h4>
+<pre class="r"><code>asthma_air_graph4 = 
+  brfss_air2_df %&gt;% 
+  ggplot(aes(x = mean_no2_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph4</code></pre>
+</div>
+<div id="so2-1" class="section level4">
+<h4>SO2</h4>
+<pre class="r"><code>asthma_air_graph5 = 
+  brfss_air2_df %&gt;% 
+  ggplot(aes(x = mean_so2_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph5</code></pre>
+</div>
+<div id="pm2.5-2" class="section level4">
+<h4>PM2.5</h4>
+<pre class="r"><code>asthma_air_graph6 = 
+  brfss_air2_df %&gt;% 
+  ggplot(aes(x = mean_pm2_5_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph6</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="statistical-analysis" class="section level1">
+<h1>Statistical Analysis</h1>
+<div id="tests-of-statistical-analysis" class="section level2">
+<h2>Tests of Statistical Analysis</h2>
+<div id="pearsons-chi-squared-test" class="section level3">
+<h3>Pearson’s Chi-squared test</h3>
+<p><em>Create two categories of qqi values </em>Those aqi values &lt; 50
+are categorized as good *Those aqi values &gt;= 50 are categorized as
+not good</p>
+<p><em>H0:The proportion of the individuals who experienced asthma now
+is the same across two aqi categories. </em>H1:The proportion of the
+individuals who experienced asthma now is not the same across two aqi
+categories.</p>
+<pre class="r"><code>asthma_df2 = asthma_df2 %&gt;%
+  mutate(
+    aqi_cat = 
+         case_when(
+           mean_aqi_month &lt;= 50 ~ &quot;Good&quot;,
+           mean_aqi_month &gt; 50  ~ &quot;Not Good&quot;,
+           )
+      ) 
+chisq.test(asthma_df2$aqi_cat, asthma_df2$asthma_now, correct=FALSE)</code></pre>
+<ul>
+<li>X-squared = 2.0033, df = 1, p-value = 0.157</li>
+</ul>
+</div>
+<div id="welch-two-sample-t-test" class="section level3">
+<h3>Welch Two Sample t-test</h3>
+<p><em>H0:The average number of the visits to asthma emergency is the
+same for aqi good category and aqi not good category. </em>H1:The
+average number of the visits to asthma emergency is not the same for aqi
+good category and aqi not good category.</p>
+<pre class="r"><code>asthma_df2_ttest = asthma_df2 %&gt;%
+  mutate(
+    aqi_cat = 
+         case_when(
+           mean_aqi_month &lt;= 50 ~ &quot;Good&quot;,
+           mean_aqi_month &gt; 50  ~ &quot;Not_Good&quot;,
+           )
+      ) %&gt;%
+  pivot_wider(
+    names_from = &quot;aqi_cat&quot;,
+    values_from = &quot;asthma_emergency&quot;
+  )
+
+t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)</code></pre>
+<ul>
+<li>t = -2.5689, df = 421.41, p-value = 0.01055</li>
+<li>alternative hypothesis: true difference in means is not equal to
+0</li>
+<li>95 percent confidence interval:</li>
+<li>-1.3715692 -0.1824764</li>
+<li>sample estimates:</li>
+<li>mean of x mean of y</li>
+<li>0.718845 1.495868</li>
+</ul>
+<p>*The p-value is less than 0.01 so we can conclude that the average
+number of the visits to asthma emergency is not the same for aqi good
+category and aqi not good category.</p>
+</div>
+<div id="chi-squared-test-on-asthma_now-heart-disease"
+class="section level3">
+<h3>Chi-squared test on asthma_now &amp; heart disease</h3>
+<ul>
+<li>H0: The proportion of the individuals who experienced heart diseases
+is the same across those who had asthma now and those who did not have
+asthma now .</li>
+<li>H1: The proportion of the individuals who experienced heart diseases
+is not the same across those who had asthma now and those who did not
+have asthma now .</li>
+</ul>
+<pre class="r"><code>asthma_df2_chi = asthma_df2 %&gt;%
+  mutate(
+    heart_disease = ifelse(coronary_heart_disease == &quot;1&quot; | heart_attack == &quot;1&quot; | stroke == &quot;1&quot;, &quot;1&quot;, &quot;0&quot;)
+  ) 
+chisq.test(asthma_df2_chi$heart_disease, asthma_df2_chi$asthma_now, correct=FALSE)</code></pre>
+<ul>
+<li>X-squared = 54.976, df = 1, p-value = 1.22e-13</li>
+<li>The p-value is less than 0.05. So we can conclude that the
+proportion of the individuals who experienced heart disease is not the
+same in those who had asthma now and those who did not have asthma
+now.</li>
+</ul>
+</div>
+<div id="proportion-test" class="section level3">
+<h3>Proportion Test</h3>
+<ul>
+<li>Now we want to see whether having asthma now is am equally common
+occurrence within the residents of each county. To fufil this goal, we
+would conduct a proportion test.</li>
+</ul>
+<p><em>H0:The proportion of the individuals who experienced asthma now
+is the same across all counties. </em>H1:The proportion of the
+individuals who experienced asthma now is not the same across all
+counties.</p>
+<pre class="r"><code>asthma_now_1 =
+  asthma_df2 %&gt;%
+  drop_na(asthma_now) %&gt;%
+  group_by(county) %&gt;%
+  filter(asthma_now==1) %&gt;%
+  count(asthma_now==1) 
+
+asthma_now_all =
+  asthma_df2 %&gt;%
+  drop_na(asthma_now) %&gt;%
+  group_by(county) %&gt;%
+  count() 
+
+data_for_proptest = 
+  left_join(asthma_now_1, asthma_now_all, by = &quot;county&quot;)
+
+prop.test(data_for_proptest$n.x, data_for_proptest$n.y)</code></pre>
+<ul>
+<li><p>X-squared = 83.022, df = 35, p-value = 8.893e-06</p></li>
+<li><p>alternative hypothesis: two.sided</p></li>
+<li><p>sample estimates:</p></li>
+<li><p>prop 1 prop 2 prop 3 prop 4 prop 5 prop 6 prop 7 prop 8 prop 9
+prop 10 prop 11 prop 12 prop 13</p></li>
+<li><p>0.6945813 0.7164179 0.6666667 0.8073394 0.7368421 0.6266667
+0.7641326 0.7272727 0.7575758 0.8666667 0.8082192 0.7090164
+0.4827586</p></li>
+<li><p>prop 14 prop 15 prop 16 prop 17 prop 18 prop 19 prop 20 prop 21
+prop 22 prop 23 prop 24 prop 25 prop 26</p></li>
+<li><p>0.6976744 0.6505747 0.6563758 0.7680000 0.7785714 0.7564576
+0.6782178 0.8059701 0.7222222 0.6617916 0.7383178 0.6770186
+0.6571429</p></li>
+<li><p>prop 27 prop 28 prop 29 prop 30 prop 31 prop 32 prop 33 prop 34
+prop 35 prop 36</p></li>
+<li><p>0.7482014 0.7415730 0.7462687 0.8333333 0.6954813 0.7000000
+0.6967213 0.8620690 0.6851312 0.7271330</p></li>
+<li><p>From the above results, p-values are small and so we we can say
+that the proportions of people getting asthma now are different across
+boroughs.</p></li>
+</ul>
+</div>
+</div>
+<div id="statistical-modeling" class="section level2">
+<h2>Statistical Modeling</h2>
+<div id="linear-regression-model-on-asthma-emergency-visits"
+class="section level3 tabset">
+<h3 class="tabset">Linear Regression model on Asthma Emergency
+Visits</h3>
+<pre class="r"><code>asthma_df2 = 
+  read_csv(&quot;./data/brfss_with_air2.csv&quot;) %&gt;%
+  mutate(
+    #outcome
+    asthma = as.numeric(asthma),
+    asthma_now = as.numeric(asthma_now),
+    #predictors below
+    mean_aqi_month = as.numeric(mean_aqi_month),
+    mental_health = as.numeric(mental_health),
+    physical_health = as.numeric(physical_health),
+    county = as.factor(county),
+    age = as.factor(age),
+    race = as.factor(race),
+    smoker = as.factor(smoker),
+    income = as.factor(income)
+    )</code></pre>
+<ul>
+<li>Based on our exploratory analysis, We first ran a linear regression
+model with <code>asthma_emergency</code> as the outcome variable and
+check the correlation with <code>mean_so2_month</code>,
+<code>mean_no2_month</code>, <code>mean_co_month</code> and
+<code>mean_pm2_5_month</code> adjusting for other predictors.</li>
+</ul>
+<div id="so2-2" class="section level4">
+<h4>SO2</h4>
+<pre class="r"><code>linear_fit_so2_emergency = 
+  asthma_df2 %&gt;%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_so2_month, data = .) %&gt;% 
+  broom::tidy() 
+
+linear_fit_so2_emergency %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+</div>
+<div id="no2-2" class="section level4">
+<h4>NO2</h4>
+<pre class="r"><code>linear_fit_no2_emergency = asthma_df2 %&gt;%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_no2_month, data = .) %&gt;% 
+  broom::tidy()
+
+linear_fit_no2_emergency %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+</div>
+<div id="co-2" class="section level4">
+<h4>CO</h4>
+<pre class="r"><code>linear_fit_co_emergency = asthma_df2 %&gt;%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_co_month, data = .) %&gt;% 
+  broom::tidy()
+
+linear_fit_co_emergency %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+</div>
+<div id="pm2.5-3" class="section level4">
+<h4>PM2.5</h4>
+<pre class="r"><code>linear_fit_pm2_5_emergency = asthma_df2 %&gt;%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_pm2_5_month, data = .)%&gt;% 
+  broom::tidy()
+
+linear_fit_pm2_5_emergency %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<ul>
+<li><p>The results show that mean_so2_month, the average SO2
+concentration has a positive coefficient of 0.166 with Asthma_emergency
+occurrence. This means that higher SO2 concentration contributes to
+Asthma emergency visit times with an 0.166 in cases per unit increase of
+average SO2 concentration in one month, adjusting for other covariate.
+The p-value is 0.000, which means that this is significant at a
+significance level of 0.05.</p></li>
+<li><p>The results show that mean_no2_month, the average NO2
+concentration has a positive coefficient of 0.195 with Asthma_emergency
+occurrence. This means that higher NO2 concentration contributes to
+Asthma emergency visit times with an 0.195 in cases per unit increase of
+average NO2 concentration in one month, adjusting for other covariate.
+The p-value is 0.001, which means that this is significant at a
+significance level of 0.05.</p></li>
+<li><p>The results show that mean_co_month, the average CO concentration
+has a positive coefficient of 1.64 with Asthma_emergency occurrence.
+This means that higher CO concentration contributes to Asthma emergency
+visit times with an 1.64 in cases per unit increase of average CO
+concentration in one month, adjusting for other covariate. The p-value
+is 0.354, which means that this is not significant at a significance
+level of 0.05.</p></li>
+<li><p>The results show that mean_pm2_5_month, the average PM2.5
+concentration has a positive coefficient of 0.237 with Asthma_emergency
+occurrence. This means that higher PM2.5 concentration contributes to
+Asthma emergency visit times with an 0.237 in cases per unit increase of
+average PM2.5 concentration in one month, adjusting for other covariate.
+The p-value is 0.287, which means that this is not significant at a
+significance level of 0.05.</p></li>
+</ul>
+</div>
+</div>
+<div id="logistic-regression-model-on-asthma-status"
+class="section level3">
+<h3>Logistic Regression Model on Asthma Status</h3>
+<ul>
+<li>We still want to see if there is any relationship between
+<code>asthma</code> and <code>mean_aqi_month</code>. We then conducted a
+Logistic regression with <code>asthma</code> as the main outcome
+varibale and check the relationship between <code>mean_aqi_month</code>
+with asthma status. A logistic regression model was used because of the
+binary outcome variable.</li>
+</ul>
+<pre class="r"><code>fit_logistic1b = 
+  asthma_df2 %&gt;% 
+  glm(asthma ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_aqi_month, data = ., family = binomial()) 
+
+fit_logistic1b %&gt;% 
+  broom::tidy() %&gt;% 
+  mutate(OR = exp(estimate)) %&gt;%
+  select(term, log_OR = estimate, OR, p.value) %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<p>The results show that mean_aqi_month, the average Air quality index
+value, has an odd ratio of 1 towards Asthma status. This implies that
+mean_aqi_month does not have any influence on Asthma occurrences within
+our investigation.</p>
+</div>
+</div>
+</div>
+<div id="mapping-and-spatial-analysis" class="section level1">
+<h1>Mapping and Spatial Analysis</h1>
+<ul>
+<li>Considering geological factor as an important predictor, we
+calculated percentage of asthma cases based on their locations with
+respect to counties in NY state and created maps with their asthma rate
+based on colors among counties in NY state.If the color is grey, that
+means there was no respondents in those counties at that year.</li>
+</ul>
+<div id="asthma-map" class="section level2 tabset">
+<h2 class="tabset">Asthma Map</h2>
+<p>According to the graphs, we can know that: * In 2003,
+<code>Chautauqua</code> county is with the most asthma patients. After
+that, the percentage decreased until 2009. * After 2008, asthma patients
+in <code>Steuben</code> and <code>Chemung</code> were increasing. *
+Counties in north of New York, including <code>Jefferson</code>,
+<code>St. Lawrence</code>, <code>Franklin</code> and <code>Essex</code>
+are also with higher percentage of asthma patients. * Urban counties,
+including <code>Bronx</code>, <code>Queens</code> and <code>Erie</code>,
+are also with a higher percentage of asthma patients.</p>
+<div id="section" class="section level3">
+<h3>2003</h3>
+<pre class="r"><code>asthma_now_county_df1 = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips, year) %&gt;% 
+  filter(year == 2003) %&gt;% 
+  count(
+    county,asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n)
+  ) %&gt;% 
+  filter(asthma_status == &quot;1&quot;) %&gt;% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df1, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+asthma_now_county_plot_map</code></pre>
+</div>
+<div id="section-1" class="section level3">
+<h3>2004</h3>
+<pre class="r"><code>asthma_now_county_df2 = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips, year) %&gt;% 
+  filter(year == 2004) %&gt;% 
+  count(
+    county,asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n)
+  ) %&gt;% 
+  filter(asthma_status == &quot;1&quot;) %&gt;% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df2, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+asthma_now_county_plot_map</code></pre>
+</div>
+<div id="section-2" class="section level3">
+<h3>2005</h3>
+<pre class="r"><code>asthma_now_county_df3 = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips, year) %&gt;% 
+  filter(year == 2005) %&gt;% 
+  count(
+    county,asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n)
+  ) %&gt;% 
+  filter(asthma_status == &quot;1&quot;) %&gt;% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df3, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+asthma_now_county_plot_map</code></pre>
+</div>
+<div id="section-3" class="section level3">
+<h3>2006</h3>
+<pre class="r"><code>asthma_now_county_df4 = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips, year) %&gt;% 
+  filter(year == 2006) %&gt;% 
+  count(
+    county,asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n)
+  ) %&gt;% 
+  filter(asthma_status == &quot;1&quot;) %&gt;% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df4, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+asthma_now_county_plot_map</code></pre>
+</div>
+<div id="section-4" class="section level3">
+<h3>2007</h3>
+<pre class="r"><code>asthma_now_county_df5 = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips, year) %&gt;% 
+  filter(year == 2007) %&gt;% 
+  count(
+    county,asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n)
+  ) %&gt;% 
+  filter(asthma_status == &quot;1&quot;) %&gt;% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df5, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+asthma_now_county_plot_map</code></pre>
+</div>
+<div id="section-5" class="section level3">
+<h3>2008</h3>
+<pre class="r"><code>asthma_now_county_df6 = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips, year) %&gt;% 
+  filter(year == 2008) %&gt;% 
+  count(
+    county,asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n)
+  ) %&gt;% 
+  filter(asthma_status == &quot;1&quot;) %&gt;% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df6, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+asthma_now_county_plot_map</code></pre>
+</div>
+<div id="section-6" class="section level3">
+<h3>2009</h3>
+<pre class="r"><code>asthma_now_county_df7 = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips, year) %&gt;% 
+  filter(year == 2009) %&gt;% 
+  count(
+    county,asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n)
+  ) %&gt;% 
+  filter(asthma_status == &quot;1&quot;) %&gt;% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df7, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+asthma_now_county_plot_map</code></pre>
+</div>
+<div id="section-7" class="section level3">
+<h3>2010</h3>
+<pre class="r"><code>asthma_now_county_df8 = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips, year) %&gt;% 
+  filter(year == 2010) %&gt;% 
+  count(
+    county,asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n)
+  ) %&gt;% 
+  filter(asthma_status == &quot;1&quot;) %&gt;% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df8, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+asthma_now_county_plot_map</code></pre>
+</div>
+<div id="section-8" class="section level3">
+<h3>2011</h3>
+<pre class="r"><code>asthma_now_county_df9 = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips, year) %&gt;% 
+  filter(year == 2011) %&gt;% 
+  count(
+    county,asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n)
+  ) %&gt;% 
+  filter(asthma_status == &quot;1&quot;) %&gt;% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df9, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+asthma_now_county_plot_map</code></pre>
+</div>
+<div id="section-9" class="section level3">
+<h3>2012</h3>
+<pre class="r"><code>asthma_now_county_df10 = 
+  brfss_air_df %&gt;% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %&gt;% 
+  group_by(state_code.x, county_code,county,fips, year) %&gt;% 
+  filter(year == 2012) %&gt;% 
+  count(
+    county,asthma_status
+  ) %&gt;% 
+  mutate(
+    percent = n/sum(n)
+  ) %&gt;% 
+  filter(asthma_status == &quot;1&quot;) %&gt;% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df10, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+asthma_now_county_plot_map</code></pre>
+<ul>
+<li>Air quality index is different among counties in 10years. We created
+maps with their air quality index on colors among counties in NY
+state.If the color is grey, that means there was no respondents in those
+counties at that year.</li>
+</ul>
+</div>
+</div>
+<div id="air-quality-index-2" class="section level2 tabset">
+<h2 class="tabset">Air quality index</h2>
+<p>According to the graphs, we can know that: * Overall, the air quality
+index is decreasing in 10 years in all counties, which means that the
+air quality is becoming better. * Urban counties, including
+<code>Bronx</code>, <code>Queens</code> , <code>New York</code> and
+<code>Erie</code>, are with a higher air quality index, which means they
+have worse air quality. * Based on the map, we can know that air quality
+index might with no relationship with asthma because in northern
+counties in NY state, where the asthma percentage are higher, the air
+quality are pretty good.</p>
+<div id="section-10" class="section level3">
+<h3>2003</h3>
+<pre class="r"><code>air_county_df1 = 
+  aqi_year_df %&gt;% 
+  group_by(state_code, county_code,county, year) %&gt;% 
+  filter(year == 2003) %&gt;% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %&gt;% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map1 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df1, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+county_plot_map1</code></pre>
+</div>
+<div id="section-11" class="section level3">
+<h3>2004</h3>
+<pre class="r"><code>air_county_df2 = 
+  aqi_year_df %&gt;% 
+  group_by(state_code, county_code,county, year) %&gt;% 
+  filter(year == 2004) %&gt;% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %&gt;% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map2 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df2, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+county_plot_map2</code></pre>
+</div>
+<div id="section-12" class="section level3">
+<h3>2005</h3>
+<pre class="r"><code>air_county_df3 = 
+  aqi_year_df %&gt;% 
+  group_by(state_code, county_code,county, year) %&gt;% 
+  filter(year == 2005) %&gt;% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %&gt;% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map3 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df3, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+county_plot_map3</code></pre>
+</div>
+<div id="section-13" class="section level3">
+<h3>2006</h3>
+<pre class="r"><code>air_county_df4 = 
+  aqi_year_df %&gt;% 
+  group_by(state_code, county_code,county, year) %&gt;% 
+  filter(year == 2006) %&gt;% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %&gt;% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map4 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df4, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+county_plot_map4</code></pre>
+</div>
+<div id="section-14" class="section level3">
+<h3>2007</h3>
+<pre class="r"><code>air_county_df5 = 
+  aqi_year_df %&gt;% 
+  group_by(state_code, county_code,county, year) %&gt;% 
+  filter(year == 2007) %&gt;% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %&gt;% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map5 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df5, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+county_plot_map5</code></pre>
+</div>
+<div id="section-15" class="section level3">
+<h3>2008</h3>
+<pre class="r"><code>air_county_df6 = 
+  aqi_year_df %&gt;% 
+  group_by(state_code, county_code,county, year) %&gt;% 
+  filter(year == 2008) %&gt;% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %&gt;% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map6 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df6, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+county_plot_map6</code></pre>
+</div>
+<div id="section-16" class="section level3">
+<h3>2009</h3>
+<pre class="r"><code>air_county_df7 = 
+  aqi_year_df %&gt;% 
+  group_by(state_code, county_code,county, year) %&gt;% 
+  filter(year == 2009) %&gt;% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %&gt;% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map7 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df7, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+county_plot_map7</code></pre>
+</div>
+<div id="section-17" class="section level3">
+<h3>2010</h3>
+<pre class="r"><code>air_county_df8 = 
+  aqi_year_df %&gt;% 
+  group_by(state_code, county_code,county, year) %&gt;% 
+  filter(year == 2010) %&gt;% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %&gt;% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map8 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df8, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+county_plot_map8</code></pre>
+</div>
+<div id="section-18" class="section level3">
+<h3>2011</h3>
+<pre class="r"><code>air_county_df9 = 
+  aqi_year_df %&gt;% 
+  group_by(state_code, county_code,county, year) %&gt;% 
+  filter(year == 2011) %&gt;% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %&gt;% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map9 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df9, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+county_plot_map9</code></pre>
+</div>
+<div id="section-19" class="section level3">
+<h3>2012</h3>
+<pre class="r"><code>air_county_df10 = 
+  aqi_year_df %&gt;% 
+  group_by(state_code, county_code,county, year) %&gt;% 
+  filter(year == 2012) %&gt;% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %&gt;% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map10 = 
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df10, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = &quot;right&quot;)
+
+county_plot_map10</code></pre>
+</div>
+</div>
+</div>
+<div id="next-steps-and-discussion" class="section level1">
+<h1>Next Steps and Discussion</h1>
+<p><br></p>
+</div>
+<div id="findings-and-summary" class="section level1">
+<h1>Findings and Summary</h1>
+<ul>
+<li>Franklin county has the lowest AQI of about 18 throughout years
+2003-2012.</li>
+<li>The AQI’s generally remain at similar levels acorss years</li>
+<li>The western and eastern regions generally have higher AQI values
+which indicate higher pollution and more health concerns compared to
+central areas of NY State. Some possible explanations include more
+transits and more factories.</li>
+<li>Asthma is most prevalent in Franklin county at a rate of
+approximately 0.17</li>
+<li>Heart Disease is most prevalent in Broome county at a rate of
+approximately 0.8</li>
+<li>PM2.5 particles are present at an average about 10μg/cm³ in counties
+across NY state</li>
+<li>Queens and Bronx counties have the most presence of PM2.5 particles,
+over 3000 days within the 10 year range(that means almost every
+day!)</li>
+<li>Suffolk County ranks #1 with more than 200 unhealthy days across the
+years</li>
+</ul>
+<div id="statistical-analysis-findings" class="section level2">
+<h2>Statistical Analysis findings:</h2>
+<div id="linear-regression-model" class="section level3">
+<h3>Linear Regression model</h3>
+<ul>
+<li>NO2 and SO2 contributes the most to Asthma</li>
+<li>CO and PM2.5 have insignificant results based on the test</li>
+</ul>
+</div>
+<div id="logistic-regression-model" class="section level3">
+<h3>Logistic Regression model</h3>
+<ul>
+<li>AQI has perfect 1 OR with Asthma which implies no correlation</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="limitations-and-reflections" class="section level1">
+<h1>Limitations and Reflections</h1>
+<ul>
+<li>One way our project can be helpful to the community is that our
+findings can help the environmental and health department better assess
+the weight of each of the factors we investigated on and decide how to
+spend their budget on regulating pollutes and manage AQI qualities to a
+higher extent. With better AQI, we are able to reduce occurrences of
+many health problems including, but not limited to, Asthma and heart
+diseases.</li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

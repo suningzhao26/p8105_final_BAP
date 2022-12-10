@@ -9,7 +9,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 <br>
 
-## Motivation
+# Motivation
 
 With air quality becoming a great concern of modern era, especially as an important public health topic. Environmental health is an important factor of our health as well. Air pollution has always been a big concern in public health topic. Since we believe it is a common cause such as Asthma, cardiovascular diseases, and many other health problems. So we decided to propose some analytical tests on correlation between these factors and air pollution. 
 
@@ -17,7 +17,7 @@ We are curious on investigating on the effects of several potential factors and 
 
 <br>
 
-## Questions and Planned Analysis
+# Questions and Planned Analysis
 
 **Questions:**
 
@@ -34,7 +34,7 @@ We are curious on investigating on the effects of several potential factors and 
 
 <br>
 
-## Data Processing and Cleaning
+# Data Processing and Cleaning
 
 We referred to two data sources to construct our main dataset for further analysis. The air quality information (including daily aqi and six pollutant parameters) is from EPA database, and those health related data are from CDC Behavioral Risk Factor Surveillance System (BRFSS).
 
@@ -79,7 +79,6 @@ full_ozone =
   mutate(data = map(path, read_csv)) %>% 
   unnest(data) %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
-
 full_co = 
   tibble(
     files = list.files("data/daily_parameter/co/"),
@@ -90,7 +89,6 @@ full_co =
   janitor::clean_names() %>% 
   filter(state_name == "New York") %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
-
 full_no2 = 
   tibble(
     files = list.files("data/daily_parameter/no2/"),
@@ -101,7 +99,6 @@ full_no2 =
   janitor::clean_names() %>% 
   filter(state_name == "New York") %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
-
 full_so2 = 
   tibble(
     files = list.files("data/daily_parameter/so2/"),
@@ -110,7 +107,6 @@ full_so2 =
   mutate(data = map(path, read_csv)) %>% 
   unnest(data) %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
-
 full_pm2_5 = 
   tibble(
     files = list.files("data/daily_parameter/pm2.5/"),
@@ -119,7 +115,6 @@ full_pm2_5 =
   mutate(data = map(path, read_csv)) %>% 
   unnest(data) %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
-
 full_pm10 = 
   tibble(
     files = list.files("data/daily_parameter/pm10/"),
@@ -130,49 +125,42 @@ full_pm10 =
   janitor::clean_names() %>% 
   filter(state_name == "New York") %>% 
   select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
-
 ozone = full_ozone %>% 
   group_by(county, date) %>% 
   summarize(
     mean_ozone = mean(mean),
     max_ozone = mean(max)
   )
-
 co = full_co %>% 
   group_by(county, date) %>% 
   summarize(
     mean_co = mean(mean),
     max_co = mean(max)
   )
-
 no2 = full_no2 %>% 
   group_by(county, date) %>% 
   summarize(
     mean_no2 = mean(mean),
     max_no2 = mean(max)
   )
-
 so2 = full_so2 %>% 
   group_by(county, date) %>% 
   summarize(
     mean_so2 = mean(mean),
     max_so2 = mean(max)
   )
-
 pm2_5 = full_pm2_5 %>% 
   group_by(county, date) %>% 
   summarize(
     mean_pm2_5 = mean(mean),
     max_pm2_5 = mean(max)
   )
-
 pm10 = full_pm10 %>% 
   group_by(county, date) %>% 
   summarize(
     mean_pm10 = mean(mean),
     max_pm10 = mean(max)
   )
-
 air_daily = 
   left_join(full_aqi, ozone, by = c("county", "date")) %>% 
   left_join(co, by = c("county", "date")) %>% 
@@ -215,80 +203,56 @@ b2003 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final P
   filter(state == 36) %>% 
   select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack, aservist, asdrvist, asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd2, cvdinfr2, cvdstrk2, educag,sex, smoker2, race2, ageg5yr, incomg) %>% 
   drop_na(county_code) 
-
 b2003$physhlth[b2003$physhlth == "88"] <- 0
 b2003$physhlth[b2003$physhlth == "77"] <- NA
 b2003$physhlth[b2003$physhlth == "99"] <- NA
-
 b2003$menthlth[b2003$menthlth == "88"] <- 0
 b2003$menthlth[b2003$menthlth == "77"] <- NA
 b2003$menthlth[b2003$menthlth == "99"] <- NA
-
 b2003$cvdcrhd2[b2003$cvdcrhd2 == "2"] <- 0
 b2003$cvdcrhd2[b2003$cvdcrhd2 == "7"] <- NA
 b2003$cvdcrhd2[b2003$cvdcrhd2 == "9"] <- NA
-
 b2003$cvdinfr2[b2003$cvdinfr2 == "2"] <- 0
 b2003$cvdinfr2[b2003$cvdinfr2 == "7"] <- NA
 b2003$cvdinfr2[b2003$cvdinfr2 == "9"] <- NA
-
 b2003$cvdstrk2[b2003$cvdstrk2 == "2"] <- 0
 b2003$cvdstrk2[b2003$cvdstrk2 == "7"] <- NA
 b2003$cvdstrk2[b2003$cvdstrk2 == "9"] <- NA
-
 b2003$asthma2[b2003$asthma2 == "2"] <- 0
 b2003$asthma2[b2003$asthma2 == "7"] <- NA
 b2003$asthma2[b2003$asthma2 == "9"] <- NA
-
 b2003$asthnow[b2003$asthnow == "2"] <- 0
 b2003$asthnow[b2003$asthnow == "7"] <- NA
 b2003$asthnow[b2003$asthnow == "9"] <- NA
-
 b2003$educag[b2003$educag == "9"] <- NA
-
 b2003$sex[b2003$sex == "2"] <- 0
-
 b2003$smoker2[b2003$smoker2 == "9"] <- NA
-
 b2003$asthmage[b2003$asthmage == "99"] <- NA
 b2003$asthmage[b2003$asthmage == "98"] <- NA
 b2003$asthmage[b2003$asthmage == "97"] <- 10
-
 b2003$asattack[b2003$asattack == "2"] <- 0
 b2003$asattack[b2003$asattack == "7"] <- NA
 b2003$asattack[b2003$asattack == "9"] <- NA
-
 b2003$aservist[b2003$aservist == "88"] <- 0
 b2003$aservist[b2003$aservist == "98"] <- NA
 b2003$aservist[b2003$aservist == "99"] <- NA
-
 b2003$asdrvist[b2003$asdrvist == "88"] <- 0
 b2003$asdrvist[b2003$asdrvist == "98"] <- NA
 b2003$asdrvist[b2003$asdrvist == "99"] <- NA
-
 b2003$asymptom[b2003$asymptom == "8"] <- 0
 b2003$asymptom[b2003$asymptom == "7"] <- NA
 b2003$asymptom[b2003$asymptom == "9"] <- NA
-
 b2003$asthmst[b2003$asthmst == "9"] <- NA
-
 b2003$ltasthm[b2003$ltasthm == "9"] <- NA
-
 b2003$casthma[b2003$casthma == "9"] <- NA
-
 b2003$race2[b2003$race2 == "9"] <- NA
-
 b2003$ageg5yr[b2003$ageg5yr == "14"] <- NA
-
 b2003$incomg[b2003$incomg == "9"] <- NA
-
 b2003 = 
   b2003 %>% 
   select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd2, heart_attack = cvdinfr2, stroke = cvdstrk2, education = educag,sex, smoker = smoker2, race = race2, age = ageg5yr, income = incomg)
-
 b2003 %>% 
   write.csv(file = ("./data/brfss/brfss_ny_2003.csv"))
-
 brfss_indi =  
   bind_rows(b2003, b2004, b2005, b2006, b2007, b2008, b2009, b2010, b2011, b2012) %>%  
   mutate(
@@ -296,7 +260,6 @@ brfss_indi =
     month = as.numeric(month),
     day = as.numeric(day)
   )
-
 write.csv(brfss_indi, file = ("./data/brfss_indi.csv"))
 ```
 
@@ -342,16 +305,12 @@ brfs_for_merge = read_csv("./data/brfss_indi.csv") %>%
   mutate(
     date = as.Date(paste(year,month,day,sep="-"),"%Y-%m-%d")
   ) 
-
 air_daily1 = 
   read_csv("./data/air_daily.csv") %>%
   mutate(county_code = as.numeric(county_code))
-
 brfss_with_air = 
   left_join(brfs_for_merge, air_daily1, by = c("county_code", "date"))
-
 write.csv(brfss_with_air, file = ("./data/brfss_with_air.csv"))
-
 air_daily2 = 
   air_daily1 %>% 
   separate(col = date, into = c('year','month','day'), sep = "-" , convert = TRUE) %>%
@@ -367,10 +326,8 @@ air_daily2 =
     mean_no2_month = mean(mean_no2),
     mean_so2_month = mean(mean_so2)
   ) 
-
 brfss_with_air2 = 
   left_join(brfs_for_merge, air_daily2, by = c("county_code", "year","month"))
-
 write.csv(brfss_with_air2, file = ("./data/brfss_with_air2.csv"))
 ```
 
@@ -392,11 +349,27 @@ Then “brfss_indi” and “air_daily2” were left-joined using columns “cou
 
 <br>
 
-## Exploratory Data Analysis
+# Exploratory Data Analysis
 
-### Air Quality Index across year in NY state
+## Air Quality Index across year in NY state
 
-#### Figure 1: Air Quality Index by counties in NY State, 2003-2012
+```{r, include=FALSE}
+air_daily_df = 
+  read_csv("./data/air_daily.csv") %>% 
+  separate(col = date, into = c('year','month','day'), sep = "-" , convert = TRUE) %>% 
+  drop_na(aqi) %>% 
+  drop_na(county)
+
+aqi_year_df = 
+  air_daily_df %>% 
+  select(state_code, county_code, state, county, year, aqi) %>% 
+  group_by(state_code, county_code,county,year) %>% 
+  summarize(
+    aqi_mean = mean(aqi)
+  )
+```
+
+### Figure 1: Air Quality Index by counties in NY State, 2003-2012
 
 ```{r}
 aqi_state_graph =
@@ -415,14 +388,13 @@ aqi_state_graph =
     name = "County", 
     discrete = TRUE
   )
-
 aqi_state_graph
 ```
 
 * According to the graph, we can find that some counties are with a high air quality among 10 years, reaching 50-60(Moderate), for example, `New York`, `Bronx`, `Erie` and `Queens`. However, some counties are with lower air quality index, as lower as 10-30, for example, `Franklin`, `Columbia`,`St. Lawrence` and `Kings`. 
 * It can be seen that air quality in most of counties are decreasing among 10 years, which means that air quality in NY state is getting better. 
 
-#### Figure 2: Mean AQI for different counties in NY State, 2003-2012
+### Figure 2: Mean AQI for different counties in NY State, 2003-2012
 
 ```{r}
 aqi_county_graph = 
@@ -440,13 +412,12 @@ aqi_county_graph =
   labs( x = "County",  y = "Air Quality Index", title = "Mean AQI for different counties in NY State, 2003-2012") + 
   theme(plot.title = element_text(hjust = 0.5)) + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-
 aqi_county_graph
 ```
 
 * This graph is based on mean air quality among 10 years in different counties. According to this graph, we can directly find the top 5 counties with worst air quality(`Bronx`, `New York`, `Queens`, `Erie` and `Richmond`) and top 5 counties with best air quality(`Columbia`, `Franklin`, `St. Lawrence`, `Schenectady` and `Dutchess`)
 
-#### Figure 3: AQI by counties in NY State on map
+### Figure 3: AQI by counties in NY State on map
 
 ```{r}
 air_county_df = 
@@ -460,7 +431,6 @@ air_county_df =
   mutate(
     fips = str_c(state_code,county_code)
   )
-
 county_plot_map = 
   plot_usmap(regions = "county", include = c("NY"), data = air_county_df, values = "aqi_all", labels = TRUE, label_color = "white") +
   scale_fill_continuous(
@@ -470,14 +440,13 @@ county_plot_map =
     title = "AQI by counties in NY State on mapp"
   )+
   theme(legend.position = "right")
-
 county_plot_map
 ```
 
 * Maps can help us directly view the air quality in counties. This map is based on mean air quality index among 10 years. 
 
 
-#### Figure 4: Unhealthy air quality days by counties in NY State, 2003-2012
+### Figure 4: Unhealthy air quality days by counties in NY State, 2003-2012
 
 ```{r}
 air_quality_day_df = 
@@ -489,7 +458,6 @@ air_quality_day_df =
       category %in% c("Unhealthy for Sensitive Groups", "Unhealthy", "Very Unhealthy") ~ "Unhealthy"
     )
   ) 
-
 Unhealthy_air_graph = 
   air_quality_day_df %>% 
   filter(aqi_status == "Unhealthy") %>% 
@@ -508,11 +476,52 @@ Unhealthy_air_graph =
     y = "County"
   ) +
   scale_fill_viridis(option = "turbo")
-
 Unhealthy_air_graph 
 ```
 
 * According to the classification, the air is defined as unhealthy when air quality index is higher than 100. Based on the graph, we can know that top 5 counties with the most unhealthy air quality days are `Suffolk`, `Chautauqua`, `Richmond`, `Erie` and `Westchester`. 
+
+## Type of Pollutants in each counties
+
+```{r, include=FALSE}
+air_daily_df = 
+  read_csv("./data/air_daily.csv") %>% 
+  separate(col = date, into = c('year','month','day'), sep = "-" , convert = TRUE) %>% 
+  drop_na(aqi) %>% 
+  drop_na(county)
+
+aqi_year_df = 
+  air_daily_df %>% 
+  select(state_code, county_code, state, county, year, aqi) %>% 
+  group_by(state_code, county_code,county,year) %>% 
+  summarize(
+    aqi_mean = mean(aqi)
+  )
+
+air_county_df = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+air_quality_day_df = 
+  air_daily_df %>% 
+  group_by(state_code, county_code,county) %>% 
+  mutate(
+    aqi_status = case_when(
+      category %in% c("Good", "Moderate") ~ "Healthy",
+      category %in% c("Unhealthy for Sensitive Groups", "Unhealthy", "Very Unhealthy") ~ "Unhealthy"
+    )
+  )
+```
+
+### Defining pollutants
 
 #### Figure 5: Defining pollutants distribution among 10 years in NY State
 
@@ -534,7 +543,6 @@ pollutants_graph =
     y = "days"
   ) +
   scale_fill_viridis(option = "turbo")
-
 pollutants_graph
 ```
 
@@ -561,16 +569,15 @@ Unhealthy_pollutants_graph =
     y = "Unhealthy air quality days"
   ) +
   scale_fill_viridis(option = "turbo")
-
 Unhealthy_pollutants_graph
 ```
 
 * There are nearly 3000 unhealthy days in total for counties in past 10 years.
 * Based on the graph, we can know that `Ozone`and `PM2.5` are main defining pollutants during unhealthy air days. 
 
-#### Ozone
+### Ozone
 
-##### Figure 7: Mean Ozone by county in NY state, 2003-2012, by counties
+#### Figure 7: Mean Ozone by county in NY state, 2003-2012, by counties
 
 ```{r}
 ozone_year_df = 
@@ -581,7 +588,6 @@ ozone_year_df =
     ozone_mean = mean(mean_ozone)
   ) %>% 
   drop_na(ozone_mean)
-
 ozone_graph =
   ozone_year_df %>% 
   group_by(county) %>% 
@@ -598,7 +604,6 @@ ozone_graph =
     name = "County", 
     discrete = TRUE
   )
-
 ozone_graph
 ```
 
@@ -619,7 +624,6 @@ ozone_county_df =
   mutate(
     fips = str_c(state_code,county_code)
   ) 
-
 ozone_county_plot_map = 
   plot_usmap(regions = "county", include = c("NY"), data = ozone_county_df, values = "ozone_all", labels = TRUE, label_color = "white") +
   scale_fill_continuous(
@@ -629,15 +633,14 @@ ozone_county_plot_map =
     title = "Ozone by counties on map"
   )+
   theme(legend.position = "right")
-
 ozone_county_plot_map
 ```
 
 * Maps can help us directly view the `ozone` concentration in counties. This map is based on mean ozone concentration among 10 years. According to the map, we can see that `Essex`, `Ulster` and `Chautauqua` are with the highest ozone concentration among 10 years. 
 
-#### PM2.5
+### PM2.5
 
-##### Figure 9: Days for PM2.5 presence by counties within 10 years
+#### Figure 9: Days for PM2.5 presence by counties within 10 years
 
 ```{r}
 pm2_5_county_df = 
@@ -672,7 +675,7 @@ pm2_5_county_graph
 
 * `PM2.5` is a harmful pollutant that will affect human health. According to the result, `Queens`, `Bronx`, `Steuben`, `Albany` and `Erie` are counties with most PM2.5, while `St. Lawrence`, `Oneida`, `Schenectady`, `Dutchess` and `Broome` are hard to detect PM2.5.
 
-##### Figure 10: PM2.5 distribution by counties within 10 years
+#### Figure 10: PM2.5 distribution by counties within 10 years
 
 ```{r}
 pm2_5_range_df = 
@@ -680,7 +683,6 @@ pm2_5_range_df =
   mutate(
     county = fct_reorder(county, pm2_5_all)
   )
-
 pm2_5_county_range_graph =   
   pm2_5_range_df %>% 
   group_by(county) %>% 
@@ -690,28 +692,1233 @@ pm2_5_county_range_graph =
   labs( x = "County",  y = "PM2.5", title = "PM2.5 distribution by counties within 10 years") + 
   theme(plot.title = element_text(hjust = 0.5)) + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-
 pm2_5_county_range_graph
 ```
 
 * According to the error bar graph, we can know that there isn't much difference for mean PM2.5 concentration among different counties in 10 years, but we can find that the ranges for PM2.5 concentration are different. `Queens` is the county with the highest PM2.5 observation.
 
-## Statistical Analysis
+## Asthma and heart disease in NY state
+
+```{r, include=FALSE}
+brfss_air_df = 
+  read_csv("./data/brfss_with_air.csv") %>% 
+  drop_na(county) %>% 
+  mutate(
+    county_code = as.character(county_code)
+  )
+```
+
+### Asthma
+
+#### Figure 11: Trend of the rate for people who have asthma history in NY state among 10 years
+
+```{r}
+asthma_history_df = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(year) %>% 
+  count(
+    year, asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n),
+    asthma_status = as.factor(asthma_status)
+  ) %>% 
+  drop_na(asthma_status)
+
+asthma_history_graph = 
+  asthma_history_df %>% 
+  filter(asthma_status != "3") %>% 
+  group_by(asthma_status) %>%
+  ggplot(aes(x = year, y = percent, group = asthma_status, color = asthma_status)) +
+  geom_smooth()+
+  geom_point()+
+  scale_fill_viridis(option = "viridis")+
+  labs(
+    title = "Trend of the rate for people who have asthma history in NY state among 10 years",
+    x = "Year",
+    y = "Percent of people who have asthma",
+    color = "Asthma Status"
+  ) +
+  scale_x_continuous(breaks = 2003:2012 )
+
+asthma_history_graph
+```
+
+* In the graph, it can be seen that we have two Asthma Status. `Asthma 1` stands for `People who currently have asthma` while `Asthma 2` stands for `People who formerly have asthma`.
+* According to the graph, we can know that the percentage of people who currently have asthma is higher than the percentage of people who formerly have asthma. 
+* While the percentage of people who formerly have asthma is decreasing, the percentage of people who currently have asthma is increasing among 10 years.
+
+#### Figure 12: Map of the percentage of people who currently have asthma among 10 years
+
+```{r}
+asthma_now_county_df = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df, values = "1", labels = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Orange", name = "Percentage", label = scales::comma, limits = c(0.05,0.17)
+  ) +   
+  labs(
+    title = "Map of the percentage of people who currently have asthma among 10 years"
+  ) +
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+* To directly view the percentage of people who currently have asthma, we create a map. According to the map, we can see that `Franklin`, `Jefferson`, `Steuben` and `Bronx` are with highest percentage of people who currently have asthma.
+
+#### Figure 13: Trend of average doctor visits for urgent treatment of worsening asthma symptoms in counties among 10 years
+
+```{r}
+asthma_visit_df = 
+  brfss_air_df %>% 
+  drop_na(asthma_visit) %>% 
+  filter(asthma_visit != 0) %>% 
+  group_by(state_code.x, county_code,county) %>% 
+  summarize(
+    mean_asthma_visit = mean(asthma_visit),
+    max_asthma_visit = max(asthma_visit),
+    min_asthma_visit = min(asthma_visit)
+  ) %>% 
+  ungroup() %>% 
+  arrange(mean_asthma_visit) %>% 
+  mutate(
+    county = fct_reorder(county, mean_asthma_visit)
+  )
+
+asthma_visit_graph = 
+  asthma_visit_df %>% 
+  ggplot(aes(x = county, y = mean_asthma_visit)) +
+  geom_point()+
+  geom_errorbar(mapping = aes(ymin = min_asthma_visit, ymax = max_asthma_visit )) +
+  labs( x = "County",  y = "Average Doctor Visits for Asthma", title = "Average doctor visits for urgent treatment of worsening asthma symptoms among 10 years") + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+asthma_visit_graph
+```
+
+* According to the graph, we can know that people in `Richmond`, `Oneida` and `Kings` are with more than 5 average doctor visits for asthma. 
+* It seems that average doctor visits doesn't have relationship with the percentage of people who currently have asthma. Counties which have the highest percentage of patients don't have the highest average doctor visits for asthma. 
+
+### Heart disease
+
+#### Figure 14: Trend of the percentage of people who have any heart disease in NY state among 10 years
+
+```{r}
+hd_history_df = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code),
+    heart_disease = ifelse(coronary_heart_disease == "1" | heart_attack == "1" | stroke == "1", "1", "0")
+  ) %>% 
+  group_by(year) %>% 
+  count(
+    year, heart_disease
+  ) %>% 
+  mutate(
+    percent = n/sum(n),
+    heart_disease = as.factor(heart_disease)
+  ) %>% 
+  drop_na(heart_disease)
+
+hd_history_graph = 
+ hd_history_df %>% 
+  filter(heart_disease == "1") %>% 
+  ggplot(aes(x = year, y = percent)) +
+  geom_smooth()+
+  geom_point()+
+  scale_fill_viridis(option = "viridis")+
+  labs(
+    title = "Trend of the percentage of people who have any heart disease in NY state among 10 years",
+    x = "Year",
+    y = "Percent of people who have heart disease"
+  ) +
+  scale_x_continuous(breaks = 2003:2012 )
+
+hd_history_graph
+```
+
+* BRFSS also includes heart disease variables. Previous research suggests that asthma might be associated with heart disease. Thus, we try to find some relationships using our dataset. 
+* According to this graph, we can know that the percentage of people who have heart disease(including stroke, coronary heart disease and heart attack) is increasing among 10 years.
+
+#### Figure 15: Map of the percentage for people who have heart disease among 10 years
+
+```{r}
+hd_county_df = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code),
+    heart_disease = ifelse(coronary_heart_disease == "1" | heart_attack == "1" | stroke == "1", "1", "0")
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips) %>% 
+  count(
+    year, heart_disease
+  ) %>% 
+  mutate(
+    percent = n/sum(n),
+    heart_disease = as.factor(heart_disease)
+  ) %>% 
+  drop_na(heart_disease)
+
+hd_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = hd_county_df, values = "percent", labels = TRUE, label_color = "white") +
+  scale_fill_continuous(
+    low = "white", high = "Purple", name = "Percentage", label = scales::comma, limits = c(0,0.8)
+  ) +   
+  labs(
+    title = "Map of the percentage for people who have heart disease among 10 years"
+  ) +
+  theme(legend.position = "right")
+
+hd_county_plot_map 
+```
+
+* To directly view the percentage of people who have heart disease among 10 years, we create a map. According to the map, we can see that `Broome` are with highest percentage of people who have heart disease among 10 years.
+
+## Asthma and air quality
+
+```{r, include=FALSE}
+brfss_air_df = 
+  read_csv("./data/brfss_with_air.csv") %>% 
+  drop_na(county) %>% 
+  mutate(
+    county_code = as.character(county_code)
+  )
+
+brfss_air2_df = 
+  read_csv("./data/brfss_with_air2.csv") %>% 
+  drop_na(county) %>% 
+  mutate(
+    county_code = as.character(county_code)
+  )
+```
+
+### Figure 17: Association between air quality and Asthma emergency visit{.tabset}
+
+* In order to find the association between air quality and asthma emergency visit times, we use several different predictors and plot graphs.
+* Based on the graphs, we can find that `air quality index` and `ozone` are with no relationships with asthma emergency visit times; `CO`, `NO`, `SO2` and `PM2.5` are with positive relationships with asthma emergency visit times. Thus, we can use those predictors for our modeling.
+
+#### air quality index 
+
+```{r}
+asthma_air_graph1 = 
+  brfss_air2_df %>%
+  ggplot(aes(x = mean_aqi_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph1
+```
+
+#### Ozone
+
+```{r}
+asthma_air_graph2 = 
+  brfss_air2_df %>%
+  ggplot(aes(x = mean_ozone_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph2
+```
+
+#### CO
+
+```{r}
+asthma_air_graph3 = 
+  brfss_air2_df %>%
+  ggplot(aes(x = mean_co_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph3
+```
+
+#### NO2
+
+```{r}
+asthma_air_graph4 = 
+  brfss_air2_df %>% 
+  ggplot(aes(x = mean_no2_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph4
+```
+
+#### SO2
+
+```{r}
+asthma_air_graph5 = 
+  brfss_air2_df %>% 
+  ggplot(aes(x = mean_so2_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph5
+```
+
+#### PM2.5
+
+```{r}
+asthma_air_graph6 = 
+  brfss_air2_df %>% 
+  ggplot(aes(x = mean_pm2_5_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph6
+```
+
+### Figure 18: Association between air quality and Asthma doctor visit{.tabset}
+
+* In order to find the association between air quality and asthma doctor visit times, we use several different predictors and plot graphs.
+* Based on the graphs, we can find that all predictors are with no relationships with asthma doctor visit times.
+
+#### air quality index
+
+```{r}
+asthma_air_graph1 = 
+  brfss_air2_df %>%
+  ggplot(aes(x = mean_aqi_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph1
+```
+
+#### Ozone
+
+```{r}
+asthma_air_graph2 = 
+  brfss_air2_df %>%
+  ggplot(aes(x = mean_ozone_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph2
+```
+
+#### CO
+
+```{r}
+asthma_air_graph3 = 
+  brfss_air2_df %>%
+  ggplot(aes(x = mean_co_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph3
+```
+
+#### NO2
+
+```{r}
+asthma_air_graph4 = 
+  brfss_air2_df %>% 
+  ggplot(aes(x = mean_no2_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph4
+```
+
+#### SO2
+
+```{r}
+asthma_air_graph5 = 
+  brfss_air2_df %>% 
+  ggplot(aes(x = mean_so2_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph5
+```
+
+#### PM2.5
+
+```{r}
+asthma_air_graph6 = 
+  brfss_air2_df %>% 
+  ggplot(aes(x = mean_pm2_5_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph6
+```
+
+
+# Statistical Analysis
+
+## Tests of Statistical Analysis
+
+```{r, include=FALSE}
+asthma_df2 = 
+  read_csv("./data/brfss_with_air2.csv") %>%
+  mutate(
+    #outcome
+    asthma = as.numeric(asthma),
+    asthma_now = as.numeric(asthma_now),
+    #predictors below
+    mean_aqi_month = as.numeric(mean_aqi_month),
+    mental_health = as.numeric(mental_health),
+    physical_health = as.numeric(physical_health),
+    county = as.factor(county),
+    age = as.factor(age),
+    race = as.factor(race),
+    smoker = as.factor(smoker),
+    income = as.factor(income)
+    )
+  
+```
+
+###	Pearson's Chi-squared test
+*Create two categories of qqi values
+*Those aqi values < 50 are categorized as good
+*Those aqi values >= 50 are categorized as not good
+
+*H0:The proportion of the individuals who experienced asthma now is the same across two aqi categories.
+*H1:The proportion of the individuals who experienced asthma now is not the same across two aqi categories.
+```{r}
+asthma_df2 = asthma_df2 %>%
+  mutate(
+    aqi_cat = 
+         case_when(
+           mean_aqi_month <= 50 ~ "Good",
+           mean_aqi_month > 50  ~ "Not Good",
+           )
+      ) 
+chisq.test(asthma_df2$aqi_cat, asthma_df2$asthma_now, correct=FALSE)
+```
+
+* X-squared = 2.0033, df = 1, p-value = 0.157
+
+
+###	Welch Two Sample t-test
+*H0:The average number of the visits to asthma emergency is the same for aqi good category and aqi not good category.
+*H1:The average number of the visits to asthma emergency is not the same for aqi good category and aqi not good category.
+
+```{r}
+asthma_df2_ttest = asthma_df2 %>%
+  mutate(
+    aqi_cat = 
+         case_when(
+           mean_aqi_month <= 50 ~ "Good",
+           mean_aqi_month > 50  ~ "Not_Good",
+           )
+      ) %>%
+  pivot_wider(
+    names_from = "aqi_cat",
+    values_from = "asthma_emergency"
+  )
+
+t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)
+```
+
+* t = -2.5689, df = 421.41, p-value = 0.01055
+* alternative hypothesis: true difference in means is not equal to 0
+* 95 percent confidence interval:
+* -1.3715692 -0.1824764
+* sample estimates:
+* mean of x mean of y 
+* 0.718845  1.495868 
+
+*The p-value is less than 0.01 so we can conclude that the average number of the visits to asthma emergency is not the same for aqi good category and aqi not good category.
+
+### Chi-squared test on asthma_now & heart disease
+* H0: The proportion of the individuals who experienced heart diseases is the same across those who had asthma now and those who did not have asthma now .
+* H1: The proportion of the individuals who experienced heart diseases is not the same across those who had asthma now and those who did not have asthma now .
+```{r}
+asthma_df2_chi = asthma_df2 %>%
+  mutate(
+    heart_disease = ifelse(coronary_heart_disease == "1" | heart_attack == "1" | stroke == "1", "1", "0")
+  ) 
+chisq.test(asthma_df2_chi$heart_disease, asthma_df2_chi$asthma_now, correct=FALSE)
+```
+
+* X-squared = 54.976, df = 1, p-value = 1.22e-13
+* The p-value is less than 0.05. So we can conclude that the proportion of the individuals who experienced heart disease is not the same in those who had asthma now and those who did not have asthma now.
+
+
+### Proportion Test
+
+* Now we want to see whether having asthma now is am equally common occurrence within the residents of each county. To fufil this goal, we would conduct a proportion test.
+
+*H0:The proportion of the individuals who experienced asthma now is the same across all counties.
+*H1:The proportion of the individuals who experienced asthma now is not the same across all counties.
+```{r}
+asthma_now_1 =
+  asthma_df2 %>%
+  drop_na(asthma_now) %>%
+  group_by(county) %>%
+  filter(asthma_now==1) %>%
+  count(asthma_now==1) 
+
+asthma_now_all =
+  asthma_df2 %>%
+  drop_na(asthma_now) %>%
+  group_by(county) %>%
+  count() 
+
+data_for_proptest = 
+  left_join(asthma_now_1, asthma_now_all, by = "county")
+
+prop.test(data_for_proptest$n.x, data_for_proptest$n.y)
+```
+
+* X-squared = 83.022, df = 35, p-value = 8.893e-06
+* alternative hypothesis: two.sided
+* sample estimates:
+*   prop 1    prop 2    prop 3    prop 4    prop 5    prop 6    prop 7    prop 8    prop 9   prop 10   prop 11   prop 12   prop 13 
+* 0.6945813 0.7164179 0.6666667 0.8073394 0.7368421 0.6266667 0.7641326 0.7272727 0.7575758 0.8666667 0.8082192 0.7090164 0.4827586 
+*  prop 14   prop 15   prop 16   prop 17   prop 18   prop 19   prop 20   prop 21   prop 22   prop 23   prop 24   prop 25   prop 26 
+* 0.6976744 0.6505747 0.6563758 0.7680000 0.7785714 0.7564576 0.6782178 0.8059701 0.7222222 0.6617916 0.7383178 0.6770186 0.6571429 
+*  prop 27   prop 28   prop 29   prop 30   prop 31   prop 32   prop 33   prop 34   prop 35   prop 36 
+* 0.7482014 0.7415730 0.7462687 0.8333333 0.6954813 0.7000000 0.6967213 0.8620690 0.6851312 0.7271330 
+
+* From the above results, p-values are small and so we we can say that the proportions of people getting asthma now are different across boroughs.
+
+## Statistical Modeling
+
+### Linear Regression model on Asthma Emergency Visits{.tabset}
+
+```{r,message = FALSE}
+asthma_df2 = 
+  read_csv("./data/brfss_with_air2.csv") %>%
+  mutate(
+    #outcome
+    asthma = as.numeric(asthma),
+    asthma_now = as.numeric(asthma_now),
+    #predictors below
+    mean_aqi_month = as.numeric(mean_aqi_month),
+    mental_health = as.numeric(mental_health),
+    physical_health = as.numeric(physical_health),
+    county = as.factor(county),
+    age = as.factor(age),
+    race = as.factor(race),
+    smoker = as.factor(smoker),
+    income = as.factor(income)
+    )
+  
+```
+
+* Based on our exploratory analysis, We first ran a linear regression model with `asthma_emergency` as the outcome variable and check the correlation with `mean_so2_month`, `mean_no2_month`, `mean_co_month` and `mean_pm2_5_month` adjusting for other predictors.
+
+#### SO2
+
+```{r,message = FALSE}
+linear_fit_so2_emergency = 
+  asthma_df2 %>%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_so2_month, data = .) %>% 
+  broom::tidy() 
+
+linear_fit_so2_emergency %>% 
+  knitr::kable(digits = 3)
+```
+
+#### NO2
+
+```{r,message = FALSE}
+linear_fit_no2_emergency = asthma_df2 %>%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_no2_month, data = .) %>% 
+  broom::tidy()
+
+linear_fit_no2_emergency %>% 
+  knitr::kable(digits = 3)
+```
+
+#### CO
+
+```{r,message = FALSE}
+linear_fit_co_emergency = asthma_df2 %>%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_co_month, data = .) %>% 
+  broom::tidy()
+
+linear_fit_co_emergency %>% 
+  knitr::kable(digits = 3)
+```
+
+
+#### PM2.5
+
+```{r,message = FALSE}
+linear_fit_pm2_5_emergency = asthma_df2 %>%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_pm2_5_month, data = .)%>% 
+  broom::tidy()
+
+linear_fit_pm2_5_emergency %>% 
+  knitr::kable(digits = 3)
+```
+
+* The results show that mean_so2_month, the average SO2 concentration has a positive coefficient of 0.166 with Asthma_emergency occurrence. This means that higher SO2 concentration contributes to Asthma emergency visit times with an 0.166 in cases per unit increase of average SO2 concentration in one month, adjusting for other covariate. The p-value is 0.000, which means that this is significant at a significance level of 0.05.
+
+* The results show that mean_no2_month, the average NO2 concentration has a positive coefficient of 0.195 with Asthma_emergency occurrence. This means that higher NO2 concentration contributes to Asthma emergency visit times with an 0.195 in cases per unit increase of average NO2 concentration in one month, adjusting for other covariate. The p-value is 0.001, which means that this is significant at a significance level of 0.05.
+
+* The results show that mean_co_month, the average CO concentration has a positive coefficient of 1.64 with Asthma_emergency occurrence. This means that higher CO concentration contributes to Asthma emergency visit times with an 1.64 in cases per unit increase of average CO concentration in one month, adjusting for other covariate. The p-value is 0.354, which means that this is not significant at a significance level of 0.05.
+
+* The results show that mean_pm2_5_month, the average PM2.5 concentration has a positive coefficient of 0.237 with Asthma_emergency occurrence. This means that higher PM2.5 concentration contributes to Asthma emergency visit times with an 0.237 in cases per unit increase of average PM2.5 concentration in one month, adjusting for other covariate. The p-value is 0.287, which means that this is not significant at a significance level of 0.05.
+
+
+### Logistic Regression Model on Asthma Status
+
+
+* We still want to see if there is any relationship between `asthma` and `mean_aqi_month`. We then conducted a Logistic regression with `asthma` as the main outcome varibale and check the relationship between `mean_aqi_month` with asthma status. A logistic regression model was used because of the binary outcome variable.
+
+```{r}
+fit_logistic1b = 
+  asthma_df2 %>% 
+  glm(asthma ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_aqi_month, data = ., family = binomial()) 
+
+fit_logistic1b %>% 
+  broom::tidy() %>% 
+  mutate(OR = exp(estimate)) %>%
+  select(term, log_OR = estimate, OR, p.value) %>% 
+  knitr::kable(digits = 3)
+```
+
+The results show that mean_aqi_month, the average Air quality index value, has an odd ratio of 1 towards Asthma status. This implies that mean_aqi_month does not have any influence on Asthma occurrences within our investigation.
+
+# Mapping and Spatial Analysis
+
+```{r, include=FALSE}
+brfss_air_df = 
+  read_csv("./data/brfss_with_air.csv") %>% 
+  drop_na(county) %>% 
+  mutate(
+    county_code = as.character(county_code)
+  )
+```
+
+* Considering geological factor as an important predictor, we calculated percentage of asthma cases based on their locations with respect to counties in NY state and created maps with their asthma rate based on colors among counties in NY state.If the color is grey, that means there was no respondents in those counties at that year.
+
+## Asthma Map{.tabset}
+
+According to the graphs, we can know that:
+* In 2003, `Chautauqua` county is with the most asthma patients. After that, the percentage decreased until 2009. 
+* After 2008, asthma patients in `Steuben` and `Chemung` were increasing.
+* Counties in north of New York, including `Jefferson`, `St. Lawrence`, `Franklin` and `Essex` are also with higher percentage of asthma patients.
+* Urban counties, including `Bronx`, `Queens` and `Erie`, are also with a higher percentage of asthma patients.
+
+### 2003
+
+```{r}
+asthma_now_county_df1 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2003) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df1, values = "1", label = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Orange", name = "Percentage", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+### 2004
+
+```{r}
+asthma_now_county_df2 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2004) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df2, values = "1", label = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Orange", name = "Percentage", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+### 2005
+
+```{r}
+asthma_now_county_df3 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2005) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df3, values = "1", label = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Orange", name = "Percentage", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+### 2006
+
+```{r}
+asthma_now_county_df4 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2006) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df4, values = "1", label = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Orange", name = "Percentage", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+### 2007
+
+```{r}
+asthma_now_county_df5 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2007) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df5, values = "1", label = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Orange", name = "Percentage", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+### 2008
+
+```{r}
+asthma_now_county_df6 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2008) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df6, values = "1", label = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Orange", name = "Percentage", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+### 2009
+
+```{r}
+asthma_now_county_df7 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2009) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df7, values = "1", label = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Orange", name = "Percentage", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+### 2010
+
+```{r}
+asthma_now_county_df8 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2010) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df8, values = "1", label = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Orange", name = "Percentage", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+### 2011
+
+```{r}
+asthma_now_county_df9 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2011) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df9, values = "1", label = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Orange", name = "Percentage", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+### 2012
+
+```{r}
+asthma_now_county_df10 = 
+  brfss_air_df %>% 
+  mutate(
+    fips = str_c(state_code.x,county_code)
+  ) %>% 
+  group_by(state_code.x, county_code,county,fips, year) %>% 
+  filter(year == 2012) %>% 
+  count(
+    county,asthma_status
+  ) %>% 
+  mutate(
+    percent = n/sum(n)
+  ) %>% 
+  filter(asthma_status == "1") %>% 
+  spread(asthma_status, percent)
+
+asthma_now_county_plot_map = 
+  plot_usmap(regions = "county", include = c("NY"), data = asthma_now_county_df10, values = "1", label = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Orange", name = "Percentage", label = scales::comma, limits = c(0.05,0.17)
+  ) + 
+  theme(legend.position = "right")
+
+asthma_now_county_plot_map
+```
+
+```{r, include=FALSE}
+air_daily_df = 
+  read_csv("./data/air_daily.csv") %>% 
+  separate(col = date, into = c('year','month','day'), sep = "-" , convert = TRUE) %>% 
+  drop_na(aqi) %>% 
+  drop_na(county)
+```
+
+
+```{r, include=FALSE}
+aqi_year_df = 
+  air_daily_df %>% 
+  select(state_code, county_code, state, county, year, aqi) %>% 
+  group_by(state_code, county_code,county,year) %>% 
+  summarize(
+    aqi_mean = mean(aqi)
+  )
+```
+
+* Air quality index is different among counties in 10years. We created maps with their air quality index on colors among counties in NY state.If the color is grey, that means there was no respondents in those counties at that year.
+
+## Air quality index{.tabset} 
+
+According to the graphs, we can know that:
+* Overall, the air quality index is decreasing in 10 years in all counties, which means that the air quality is becoming better. 
+* Urban counties, including `Bronx`, `Queens` , `New York` and `Erie`, are  with a higher air quality index, which means they have worse air quality.
+* Based on the map, we can know that air quality index might with no relationship with asthma because in northern counties in NY state, where the asthma percentage are higher, the air quality are pretty good.
+
+### 2003
+
+```{r}
+air_county_df1 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2003) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map1 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df1, values = "aqi_all", labels = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map1
+```
+
+### 2004
+
+```{r}
+air_county_df2 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2004) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map2 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df2, values = "aqi_all", labels = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map2
+```
+
+### 2005
+
+```{r}
+air_county_df3 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2005) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map3 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df3, values = "aqi_all", labels = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map3
+```
+
+### 2006
+
+```{r}
+air_county_df4 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2006) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map4 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df4, values = "aqi_all", labels = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map4
+```
+
+### 2007
+
+```{r}
+air_county_df5 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2007) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map5 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df5, values = "aqi_all", labels = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map5
+```
+
+### 2008
+
+```{r}
+air_county_df6 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2008) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map6 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df6, values = "aqi_all", labels = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map6
+```
+
+### 2009
+
+```{r}
+air_county_df7 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2009) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map7 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df7, values = "aqi_all", labels = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map7
+```
+
+### 2010
+
+```{r}
+air_county_df8 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2010) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map8 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df8, values = "aqi_all", labels = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map8
+```
+
+### 2011
+
+```{r}
+air_county_df9 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2011) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map9 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df9, values = "aqi_all", labels = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map9
+```
+
+### 2012
+
+```{r}
+air_county_df10 = 
+  aqi_year_df %>% 
+  group_by(state_code, county_code,county, year) %>% 
+  filter(year == 2012) %>% 
+  summarize(
+    aqi_all = mean(aqi_mean),
+    max = max(aqi_mean),
+    min = min(aqi_mean)
+  ) %>% 
+  mutate(
+    fips = str_c(state_code,county_code)
+  )
+
+county_plot_map10 = 
+  plot_usmap(regions = "county", include = c("NY"), data = air_county_df10, values = "aqi_all", labels = TRUE, label_color = "White") +
+  scale_fill_continuous(
+    low = "white", high = "Red", name = "AQI", label = scales::comma, limits = c(0,60)
+  ) + 
+  theme(legend.position = "right")
+
+county_plot_map10
+```
+
+# Next Steps and Discussion
 
 <br>
 
-## Mapping and Spatial Analysis
+# Findings and Summary
 
-<br>
+* Franklin county has the lowest AQI of about 18 throughout years 2003-2012.
+* The AQI's generally remain at similar levels acorss years
+* The western and eastern regions generally have higher AQI values which indicate higher pollution and more health concerns compared to central areas of NY State. Some possible explanations include more transits and more factories.
+* Asthma is most prevalent in Franklin county at a rate of approximately 0.17
+* Heart Disease is most prevalent in Broome county at a rate of approximately 0.8
+* PM2.5 particles are present at an average about 10μg/cm³ in counties across NY state
+* Queens and Bronx counties have the most presence of PM2.5 particles, over 3000 days within the 10 year range(that means almost every day!)
+* Suffolk County ranks #1 with more than 200 unhealthy days across the years
 
-## Next Steps and Discussion
 
-<br>
+## Statistical Analysis findings:
+### Linear Regression model
+* NO2 and SO2 contributes the most to Asthma
+* CO and PM2.5 have insignificant results based on the test
 
-## Findings and Summary
+### Logistic Regression model
+* AQI has perfect 1 OR with Asthma which implies no correlation 
 
-<br>
+# Limitations and Reflections
 
-## Limitations and Reflections
-
-<br>
+* One way our project can be helpful to the community is that our findings can help the environmental and health department better assess the weight of each of the factors we investigated on and decide how to spend their budget on regulating pollutes and manage AQI qualities to a higher extent. With better AQI, we are able to reduce occurrences of many health problems including, but not limited to, Asthma and heart diseases.
