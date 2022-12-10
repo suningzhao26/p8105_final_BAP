@@ -11,7 +11,7 @@
 
 
 
-<title>Asthma and heart disease in NY state - from BRFSS</title>
+<title>Asthma and heart disease in NY state</title>
 
 <script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -334,12 +334,23 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">AQI Index Across Years in NY</li>
-    <li class="dropdown-header">Types of Pollutants in Counties</li>
-    <li class="dropdown-header">PM 2.5</li>
+    <li>
+      <a href="Exp-Air-Quality-Index-across-year-in-NY-state.html">AQI Index Across Years in NY</a>
+    </li>
+    <li>
+      <a href="Exp---Type-of-Pollutants-in-each-counties.html">Types of Pollutants in Counties</a>
+    </li>
+    <li>
+      <a href="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS.html">Asthma and Heart Disease in NY</a>
+    </li>
+    <li>
+      <a href="Exp---Asthma-and-air-quality.html">Asthma and air quality</a>
+    </li>
   </ul>
 </li>
-<li class="dropdown-header">Statistical Analyses</li>
+<li>
+  <a href="Analysis_in_website.html">Statistical Analyses</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Mapping
@@ -347,8 +358,12 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">AQI in NY</li>
-    <li class="dropdown-header">Ozone in NY</li>
+    <li>
+      <a href="Air-Quality.html">AQI in NY</a>
+    </li>
+    <li>
+      <a href="map---asthma.html">Current Asthma in NY</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown-header">Project Report</li>
@@ -377,33 +392,31 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Asthma and heart disease in NY state - from
-BRFSS</h1>
+<h1 class="title toc-ignore">Asthma and heart disease in NY state</h1>
 
 </div>
 
 
-<div id="data-loading" class="section level3">
-<h3>Data Loading</h3>
-<pre class="r"><code>brfss_air_df = 
-  read_csv(&quot;./data/brfss_with_air.csv&quot;) %&gt;% 
-  drop_na(county) %&gt;% 
-  mutate(
-    county_code = as.character(county_code)
-  )</code></pre>
-<pre><code>## New names:
-## Rows: 65143 Columns: 48
-## ── Column specification
-## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
-## (5): county_code, state, county, category, defining_parameter dbl (42): ...1,
-## ...2, state_code.x, year, month, day, asthma, asthma_now, a... date (1): date
-## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-## Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## • `` -&gt; `...1`
-## • `...1.x` -&gt; `...2`
-## • `...1.y` -&gt; `...30`</code></pre>
-<div id="asthma-map" class="section level5">
-<h5>Asthma Map</h5>
+<ul>
+<li>Considering geological factor as an important predictor, we
+calculated percentage of asthma cases based on their locations with
+respect to counties in NY state and created maps with their asthma rate
+based on colors among counties in NY state.If the color is grey, that
+means there was no respondents in those counties at that year.</li>
+</ul>
+<div id="asthma-map" class="section level4 tabset">
+<h4 class="tabset">Asthma Map</h4>
+<p>According to the graphs, we can know that: * In 2003,
+<code>Chautauqua</code> county is with the most asthma patients. After
+that, the percentage decreased until 2009. * After 2008, asthma patients
+in <code>Steuben</code> and <code>Chemung</code> were increasing. *
+Counties in north of New York, including <code>Jefferson</code>,
+<code>St. Lawrence</code>, <code>Franklin</code> and <code>Essex</code>
+are also with higher percentage of asthma patients. * Urban counties,
+including <code>Bronx</code>, <code>Queens</code> and <code>Erie</code>,
+are also with a higher percentage of asthma patients.</p>
+<div id="section" class="section level5">
+<h5>2003</h5>
 <pre class="r"><code>asthma_now_county_df1 = 
   brfss_air_df %&gt;% 
   mutate(
@@ -421,14 +434,17 @@ BRFSS</h1>
   spread(asthma_status, percent)
 
 asthma_now_county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df1, values = &quot;1&quot;) +
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df1, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Rate for people who currently have asthma&quot;, label = scales::comma, limits = c(0.05,0.17)
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
 asthma_now_county_plot_map</code></pre>
 <p><img src="map---asthma_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
+</div>
+<div id="section-1" class="section level5">
+<h5>2004</h5>
 <pre class="r"><code>asthma_now_county_df2 = 
   brfss_air_df %&gt;% 
   mutate(
@@ -446,14 +462,17 @@ asthma_now_county_plot_map</code></pre>
   spread(asthma_status, percent)
 
 asthma_now_county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df2, values = &quot;1&quot;) +
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df2, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Rate for people who currently have asthma&quot;, label = scales::comma, limits = c(0.05,0.17)
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
 asthma_now_county_plot_map</code></pre>
 <p><img src="map---asthma_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+</div>
+<div id="section-2" class="section level5">
+<h5>2005</h5>
 <pre class="r"><code>asthma_now_county_df3 = 
   brfss_air_df %&gt;% 
   mutate(
@@ -471,14 +490,17 @@ asthma_now_county_plot_map</code></pre>
   spread(asthma_status, percent)
 
 asthma_now_county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df3, values = &quot;1&quot;) +
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df3, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Rate for people who currently have asthma&quot;, label = scales::comma, limits = c(0.05,0.17)
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
 asthma_now_county_plot_map</code></pre>
 <p><img src="map---asthma_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
+</div>
+<div id="section-3" class="section level5">
+<h5>2006</h5>
 <pre class="r"><code>asthma_now_county_df4 = 
   brfss_air_df %&gt;% 
   mutate(
@@ -496,14 +518,17 @@ asthma_now_county_plot_map</code></pre>
   spread(asthma_status, percent)
 
 asthma_now_county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df4, values = &quot;1&quot;) +
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df4, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Rate for people who currently have asthma&quot;, label = scales::comma, limits = c(0.05,0.17)
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
 asthma_now_county_plot_map</code></pre>
 <p><img src="map---asthma_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
+</div>
+<div id="section-4" class="section level5">
+<h5>2007</h5>
 <pre class="r"><code>asthma_now_county_df5 = 
   brfss_air_df %&gt;% 
   mutate(
@@ -521,14 +546,17 @@ asthma_now_county_plot_map</code></pre>
   spread(asthma_status, percent)
 
 asthma_now_county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df5, values = &quot;1&quot;) +
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df5, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Rate for people who currently have asthma&quot;, label = scales::comma, limits = c(0.05,0.17)
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
 asthma_now_county_plot_map</code></pre>
 <p><img src="map---asthma_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
+</div>
+<div id="section-5" class="section level5">
+<h5>2008</h5>
 <pre class="r"><code>asthma_now_county_df6 = 
   brfss_air_df %&gt;% 
   mutate(
@@ -546,39 +574,17 @@ asthma_now_county_plot_map</code></pre>
   spread(asthma_status, percent)
 
 asthma_now_county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df6, values = &quot;1&quot;) +
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df6, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Rate for people who currently have asthma&quot;, label = scales::comma, limits = c(0.05,0.17)
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
 asthma_now_county_plot_map</code></pre>
 <p><img src="map---asthma_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
-<pre class="r"><code>asthma_now_county_df6 = 
-  brfss_air_df %&gt;% 
-  mutate(
-    fips = str_c(state_code.x,county_code)
-  ) %&gt;% 
-  group_by(state_code.x, county_code,county,fips, year) %&gt;% 
-  filter(year == 2008) %&gt;% 
-  count(
-    county,asthma_status
-  ) %&gt;% 
-  mutate(
-    percent = n/sum(n)
-  ) %&gt;% 
-  filter(asthma_status == &quot;1&quot;) %&gt;% 
-  spread(asthma_status, percent)
-
-asthma_now_county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df6, values = &quot;1&quot;) +
-  scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Rate for people who currently have asthma&quot;, label = scales::comma, limits = c(0.05,0.17)
-  ) + 
-  theme(legend.position = &quot;right&quot;)
-
-asthma_now_county_plot_map</code></pre>
-<p><img src="map---asthma_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
+</div>
+<div id="section-6" class="section level5">
+<h5>2009</h5>
 <pre class="r"><code>asthma_now_county_df7 = 
   brfss_air_df %&gt;% 
   mutate(
@@ -596,14 +602,17 @@ asthma_now_county_plot_map</code></pre>
   spread(asthma_status, percent)
 
 asthma_now_county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df7, values = &quot;1&quot;) +
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df7, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Rate for people who currently have asthma&quot;, label = scales::comma, limits = c(0.05,0.17)
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
 asthma_now_county_plot_map</code></pre>
-<p><img src="map---asthma_files/figure-html/unnamed-chunk-9-1.png" width="90%" /></p>
+<p><img src="map---asthma_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
+</div>
+<div id="section-7" class="section level5">
+<h5>2010</h5>
 <pre class="r"><code>asthma_now_county_df8 = 
   brfss_air_df %&gt;% 
   mutate(
@@ -621,14 +630,17 @@ asthma_now_county_plot_map</code></pre>
   spread(asthma_status, percent)
 
 asthma_now_county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df8, values = &quot;1&quot;) +
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df8, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Rate for people who currently have asthma&quot;, label = scales::comma, limits = c(0.05,0.17)
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
 asthma_now_county_plot_map</code></pre>
-<p><img src="map---asthma_files/figure-html/unnamed-chunk-10-1.png" width="90%" /></p>
+<p><img src="map---asthma_files/figure-html/unnamed-chunk-9-1.png" width="90%" /></p>
+</div>
+<div id="section-8" class="section level5">
+<h5>2011</h5>
 <pre class="r"><code>asthma_now_county_df9 = 
   brfss_air_df %&gt;% 
   mutate(
@@ -646,14 +658,17 @@ asthma_now_county_plot_map</code></pre>
   spread(asthma_status, percent)
 
 asthma_now_county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df9, values = &quot;1&quot;) +
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df9, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Rate for people who currently have asthma&quot;, label = scales::comma, limits = c(0.05,0.17)
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
 asthma_now_county_plot_map</code></pre>
-<p><img src="map---asthma_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
+<p><img src="map---asthma_files/figure-html/unnamed-chunk-10-1.png" width="90%" /></p>
+</div>
+<div id="section-9" class="section level5">
+<h5>2012</h5>
 <pre class="r"><code>asthma_now_county_df10 = 
   brfss_air_df %&gt;% 
   mutate(
@@ -671,14 +686,14 @@ asthma_now_county_plot_map</code></pre>
   spread(asthma_status, percent)
 
 asthma_now_county_plot_map = 
-  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df10, values = &quot;1&quot;) +
+  plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = asthma_now_county_df10, values = &quot;1&quot;, label = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
-    low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Rate for people who currently have asthma&quot;, label = scales::comma, limits = c(0.05,0.17)
+    low = &quot;white&quot;, high = &quot;Orange&quot;, name = &quot;Percentage&quot;, label = scales::comma, limits = c(0.05,0.17)
   ) + 
   theme(legend.position = &quot;right&quot;)
 
 asthma_now_county_plot_map</code></pre>
-<p><img src="map---asthma_files/figure-html/unnamed-chunk-12-1.png" width="90%" /></p>
+<p><img src="map---asthma_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
 </div>
 </div>
 
