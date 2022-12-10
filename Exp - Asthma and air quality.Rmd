@@ -1,0 +1,171 @@
+---
+title: "Asthma and air quality"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(viridis)
+library(modelr)
+library(mgcv)
+library(patchwork)
+library(usmap)
+library(dplyr)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+set.seed(1)
+```
+
+### Data Loading
+
+```{r}
+brfss_air_df = 
+  read_csv("./data/brfss_with_air.csv") %>% 
+  drop_na(county) %>% 
+  mutate(
+    county_code = as.character(county_code)
+  )
+
+brfss_air2_df = 
+  read_csv("./data/brfss_with_air2.csv") %>% 
+  drop_na(county) %>% 
+  mutate(
+    county_code = as.character(county_code)
+  )
+```
+
+#### Asthma
+
+##### Figure 1: Association between air quality and Asthma emergency visit
+
+```{r}
+asthma_air_graph1 = 
+  brfss_air2_df %>%
+  ggplot(aes(x = mean_aqi_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph1
+```
+
+```{r}
+asthma_air_graph2 = 
+  brfss_air2_df %>%
+  ggplot(aes(x = mean_ozone_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph2
+```
+
+```{r}
+asthma_air_graph3 = 
+  brfss_air2_df %>%
+  ggplot(aes(x = mean_co_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph3
+```
+
+```{r}
+asthma_air_graph4 = 
+  brfss_air2_df %>% 
+  ggplot(aes(x = mean_no2_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph4
+```
+
+```{r}
+asthma_air_graph5 = 
+  brfss_air2_df %>% 
+  ggplot(aes(x = mean_so2_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph5
+```
+
+```{r}
+asthma_air_graph6 = 
+  brfss_air2_df %>% 
+  ggplot(aes(x = mean_pm2_5_month, y = asthma_emergency)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph6
+```
+
+##### Figure 1: Association between air quality and Asthma doctor visit
+
+```{r}
+asthma_air_graph1 = 
+  brfss_air2_df %>%
+  ggplot(aes(x = mean_aqi_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph1
+```
+
+```{r}
+asthma_air_graph2 = 
+  brfss_air2_df %>%
+  ggplot(aes(x = mean_ozone_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph2
+```
+
+```{r}
+asthma_air_graph3 = 
+  brfss_air2_df %>%
+  ggplot(aes(x = mean_co_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph3
+```
+
+```{r}
+asthma_air_graph4 = 
+  brfss_air2_df %>% 
+  ggplot(aes(x = mean_no2_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph4
+```
+
+```{r}
+asthma_air_graph5 = 
+  brfss_air2_df %>% 
+  ggplot(aes(x = mean_so2_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph5
+```
+
+```{r}
+asthma_air_graph6 = 
+  brfss_air2_df %>% 
+  ggplot(aes(x = mean_pm2_5_month, y = asthma_visit)) +
+  geom_point()+
+  geom_smooth()
+
+asthma_air_graph6
+```
+
