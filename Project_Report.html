@@ -13,7 +13,7 @@
 
 <title>Project Report</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,9 +193,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -383,7 +390,7 @@ div.tocify {
 </li>
 <li class="dropdown-header">Screencast</li>
 <li>
-  <a href="reference.html">References</a>
+  <a href="reference.html">Reference</a>
 </li>
 <li>
   <a href="https://github.com/suningzhao26/p8105_final_BAP.git">
@@ -1653,13 +1660,15 @@ asthma_air_graph6</code></pre>
 <h2>Tests of Statistical Analysis</h2>
 <div id="pearsons-chi-squared-test" class="section level3">
 <h3>Pearson’s Chi-squared test</h3>
-<p><em>Create two categories of qqi values </em>Those aqi values &lt; 50
+<p><em>Create two categories of aqi values </em>Those aqi values &lt; 50
 are categorized as good *Those aqi values &gt;= 50 are categorized as
 not good</p>
-<p><em>H0:The proportion of the individuals who experienced asthma now
-is the same across two aqi categories. </em>H1:The proportion of the
-individuals who experienced asthma now is not the same across two aqi
-categories.</p>
+<ul>
+<li>H0:The proportion of the individuals who experienced asthma now is
+the same across two aqi categories.</li>
+<li>H1:The proportion of the individuals who experienced asthma now is
+not the same across two aqi categories.</li>
+</ul>
 <pre class="r"><code>asthma_df2 = asthma_df2 %&gt;%
   mutate(
     aqi_cat = 
