@@ -7,7 +7,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Final Report
 
 ## Motivation
 
@@ -38,21 +37,150 @@ We referred to two data sources to construct our main dataset for further analys
 
 a. Daily aqi for each county in New York State from 2003 to 2012 [(dataset)](https://aqs.epa.gov/aqsweb/airdata/download_files.html#AQI)
 
+```{r}
+full_aqi = 
+  tibble(
+    files = list.files("data/daily_aqi/"),
+    path = str_c("data/daily_aqi/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York") %>% 
+  select(-files, -path) %>% 
+  select(state = state_name, county = county_name, date, aqi, category, defining_parameter, defining_site, site_num = number_of_sites_reporting)
+```
+
 We downloaded daily aqi files from “Daily AQI by County” Section ranged from 2003 to 2012 (one .csv file per year). Each dataset contains daily air quality index and other relative information for each county in the United States over a whole year. Those raw data files are stored in the “daily_aqi” folder from the “data” subdirectory in our repository. 
 
 For the process of data cleaning, firstly we used map function to combine those 10 datasets in order by year. Then we filtered by state name to keep counties that belong to New York State. Finally, we kept these variables that we will focus on:
 
-* state: state name, New York State specifically
-* county: county names in New York State
-* date: date on which the air quality was monitored
-* aqi: air quality index value
-* category: levels of health concern according to aqi
-* defining_parameter: pollutants that define the aqi on that day
-* defining_site: the site code that define the daily aqi on that day (consists of state code, county code, and site code, separated by “-”)
+* `state`: state name, New York State specifically
+* `county`: county names in New York State
+* `date`: date on which the air quality was monitored
+* `aqi`: air quality index value
+* `category`: levels of health concern according to aqi
+* `defining_parameter`: pollutants that define the aqi on that day
+* `defining_site`: the site code that define the daily aqi on that day (consists of state code, county code, and site code, separated by “-”)
 
 The resulting dataset was saved as an object named “full_aqi” in data_import_cleaning.Rmd file.
 
 b. Six main parameter values [(dataset)](https://aqs.epa.gov/aqsweb/airdata/download_files.html#Daily)
+
+```{r}
+full_ozone = 
+  tibble(
+    files = list.files("data/daily_parameter/ozone/"),
+    path = str_c("data/daily_parameter/ozone/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+
+full_co = 
+  tibble(
+    files = list.files("data/daily_parameter/co/"),
+    path = str_c("data/daily_parameter/co/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York") %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+
+full_no2 = 
+  tibble(
+    files = list.files("data/daily_parameter/no2/"),
+    path = str_c("data/daily_parameter/no2/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York") %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+
+full_so2 = 
+  tibble(
+    files = list.files("data/daily_parameter/so2/"),
+    path = str_c("data/daily_parameter/so2/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+
+full_pm2_5 = 
+  tibble(
+    files = list.files("data/daily_parameter/pm2.5/"),
+    path = str_c("data/daily_parameter/pm2.5/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+
+full_pm10 = 
+  tibble(
+    files = list.files("data/daily_parameter/pm10/"),
+    path = str_c("data/daily_parameter/pm10/", files)
+  ) %>% 
+  mutate(data = map(path, read_csv)) %>% 
+  unnest(data) %>% 
+  janitor::clean_names() %>% 
+  filter(state_name == "New York") %>% 
+  select(state = state_name, city = city_name, county = county_name, site = local_site_name, date = date_local, parameter_name, max = x1st_max_value, mean = arithmetic_mean, units_of_measure, observation_count, latitude, longitude)
+
+ozone = full_ozone %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mean_ozone = mean(mean),
+    max_ozone = mean(max)
+  )
+
+co = full_co %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mean_co = mean(mean),
+    max_co = mean(max)
+  )
+
+no2 = full_no2 %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mean_no2 = mean(mean),
+    max_no2 = mean(max)
+  )
+
+so2 = full_so2 %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mean_so2 = mean(mean),
+    max_so2 = mean(max)
+  )
+
+pm2_5 = full_pm2_5 %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mean_pm2_5 = mean(mean),
+    max_pm2_5 = mean(max)
+  )
+
+pm10 = full_pm10 %>% 
+  group_by(county, date) %>% 
+  summarize(
+    mean_pm10 = mean(mean),
+    max_pm10 = mean(max)
+  )
+
+air_daily = 
+  left_join(full_aqi, ozone, by = c("county", "date")) %>% 
+  left_join(co, by = c("county", "date")) %>% 
+  left_join(no2, by = c("county", "date")) %>%
+  left_join(so2, by = c("county", "date")) %>%
+  left_join(pm2_5, by = c("county", "date")) %>%
+  left_join(pm10, by = c("county", "date")) %>% 
+  separate(defining_site, into = c("state_code", "county_code", "site_code"), sep = "-") %>% 
+  select(state_code, county_code, everything(), -site_num, -site_code)
+```
+
 
 According to the National Weather Service, EPA calculates the AQI for five major air pollutants regulated by the Clean Air Act: ground-level ozone, particle pollution (also known as particulate matter), carbon monoxide, sulfur dioxide, and nitrogen dioxide. In the EPA database, each daily summary file contains data for every monitor (sampled parameter) for each day. These files are separated by parameter (or parameter group) to make the sizes more manageable. As a result, we collected 60 data files concerning daily values about six pollutants (carbon monoxide, sulfur dioxide, nitrogen dioxide, ozone, PM2.5, and PM10) in each county from 2003 to 2012 (one .csv file per year per parameter). Those data files are stored in the “daily_parameter” folder from the “data” subdirectory in our repository. What should be pointed out is that files from ozone, pm2.5, and so2 categories were pre-processed (filter by state name “New York”) in pre-processing.Rmd file, since the size of most of them exceeded the 100M git push limit. After the pre-processing, files in `ozone`, `pm2.5`, and `so2` folder contain data for New York State, others contain data across the US.
 
@@ -60,74 +188,203 @@ During the process of data cleaning, we first combined 10-year datasets for each
 
 Main variables in the six daily parameter tables we focus on:
 
-* county: county names in New York State
-* date: date on which the air quality was monitored
-* mean_ozone: the average ozone value for the day within that county (unit of measure: parts per million)
-* max_ozone: the highest ozone value for the day within that county (unit of measure: parts per million)
-* mean_co: the average carbon monoxide value for the day within that county (unit of measure: parts per million)
-* max_co: the highest carbon monoxide value for the day within that county (unit of measure: parts per million)
-* mean_no2: the average nitrogen dioxide value for the day within that county (unit of measure: parts per million)
-* max_no2: the highest nitrogen dioxide value for the day within that county (unit of measure: parts per million)
-* mean_so2: the average sulfur dioxide value for the day within that county (unit of measure: parts per million)
-* max_so2: the highest sulfur dioxide value for the day within that county (unit of measure: parts per million)
-* mean_pm2_5: the average pm2.5 value for the day within that county (unit of measure: Micrograms/cubic meter (LC))
-* max_pm2_5: the highest pm2.5 value for the day within that county (unit of measure: Micrograms/cubic meter (LC))
-* mean_pm10: the average pm10 value for the day within that county (unit of measure: Micrograms/cubic meter (25 C))
-* max_pm10: the highest pm10 value for the day within that county (unit of measure: Micrograms/cubic meter (25 C))
+* `county`: county names in New York State
+* `date`: date on which the air quality was monitored
+* `mean_ozone`: the average ozone value for the day within that county (unit of measure: parts per million)
+* `max_ozone`: the highest ozone value for the day within that county (unit of measure: parts per million)
+* `mean_co`: the average carbon monoxide value for the day within that county (unit of measure: parts per million)
+* `max_co`: the highest carbon monoxide value for the day within that county (unit of measure: parts per million)
+* `mean_no2`: the average nitrogen dioxide value for the day within that county (unit of measure: parts per million)
+* `max_no2`: the highest nitrogen dioxide value for the day within that county (unit of measure: parts per million)
+* `mean_so2`: the average sulfur dioxide value for the day within that county (unit of measure: parts per million)
+* `max_so2`: the highest sulfur dioxide value for the day within that county (unit of measure: parts per million)
+* `mean_pm2_5`: the average pm2.5 value for the day within that county (unit of measure: Micrograms/cubic meter (LC))
+* `max_pm2_5`: the highest pm2.5 value for the day within that county (unit of measure: Micrograms/cubic meter (LC))
+* `mean_pm10`: the average pm10 value for the day within that county (unit of measure: Micrograms/cubic meter (25 C))
+* `max_pm10`: the highest pm10 value for the day within that county (unit of measure: Micrograms/cubic meter (25 C))
 
 The “full_aqi” table from part a and daily parameter tables were left-joined using columns “county” and “date” (full_aqi as left table). In addition, the “defining_site” variable was separated as state_code, county_code, and site_code. The state_code and county_code were kept in the resulting dataset “air_daily”. The air_daily dataset was also saved as air_daily.csv file in the “data” folder.
 
 c. Individual health survey data in New York State from 2003 to 2012
+
+```{r}
+b2003 = read_xpt("C:/Users/Suning Zhao/Desktop/CU/Fall 2022/Data Science/Final Project/Original datasets/cdbrfs03.XPT") %>% 
+  janitor::clean_names() %>% 
+  filter(state == 36) %>% 
+  select(state_code = state, county_code = ctycode, year = iyear, month = imonth, day = iday, asthma2, asthnow, asthmage,asattack, aservist, asdrvist, asymptom, asthmst, ltasthm, casthma, physhlth, menthlth, cvdcrhd2, cvdinfr2, cvdstrk2, educag,sex, smoker2, race2, ageg5yr, incomg) %>% 
+  drop_na(county_code) 
+
+b2003$physhlth[b2003$physhlth == "88"] <- 0
+b2003$physhlth[b2003$physhlth == "77"] <- NA
+b2003$physhlth[b2003$physhlth == "99"] <- NA
+
+b2003$menthlth[b2003$menthlth == "88"] <- 0
+b2003$menthlth[b2003$menthlth == "77"] <- NA
+b2003$menthlth[b2003$menthlth == "99"] <- NA
+
+b2003$cvdcrhd2[b2003$cvdcrhd2 == "2"] <- 0
+b2003$cvdcrhd2[b2003$cvdcrhd2 == "7"] <- NA
+b2003$cvdcrhd2[b2003$cvdcrhd2 == "9"] <- NA
+
+b2003$cvdinfr2[b2003$cvdinfr2 == "2"] <- 0
+b2003$cvdinfr2[b2003$cvdinfr2 == "7"] <- NA
+b2003$cvdinfr2[b2003$cvdinfr2 == "9"] <- NA
+
+b2003$cvdstrk2[b2003$cvdstrk2 == "2"] <- 0
+b2003$cvdstrk2[b2003$cvdstrk2 == "7"] <- NA
+b2003$cvdstrk2[b2003$cvdstrk2 == "9"] <- NA
+
+b2003$asthma2[b2003$asthma2 == "2"] <- 0
+b2003$asthma2[b2003$asthma2 == "7"] <- NA
+b2003$asthma2[b2003$asthma2 == "9"] <- NA
+
+b2003$asthnow[b2003$asthnow == "2"] <- 0
+b2003$asthnow[b2003$asthnow == "7"] <- NA
+b2003$asthnow[b2003$asthnow == "9"] <- NA
+
+b2003$educag[b2003$educag == "9"] <- NA
+
+b2003$sex[b2003$sex == "2"] <- 0
+
+b2003$smoker2[b2003$smoker2 == "9"] <- NA
+
+b2003$asthmage[b2003$asthmage == "99"] <- NA
+b2003$asthmage[b2003$asthmage == "98"] <- NA
+b2003$asthmage[b2003$asthmage == "97"] <- 10
+
+b2003$asattack[b2003$asattack == "2"] <- 0
+b2003$asattack[b2003$asattack == "7"] <- NA
+b2003$asattack[b2003$asattack == "9"] <- NA
+
+b2003$aservist[b2003$aservist == "88"] <- 0
+b2003$aservist[b2003$aservist == "98"] <- NA
+b2003$aservist[b2003$aservist == "99"] <- NA
+
+b2003$asdrvist[b2003$asdrvist == "88"] <- 0
+b2003$asdrvist[b2003$asdrvist == "98"] <- NA
+b2003$asdrvist[b2003$asdrvist == "99"] <- NA
+
+b2003$asymptom[b2003$asymptom == "8"] <- 0
+b2003$asymptom[b2003$asymptom == "7"] <- NA
+b2003$asymptom[b2003$asymptom == "9"] <- NA
+
+b2003$asthmst[b2003$asthmst == "9"] <- NA
+
+b2003$ltasthm[b2003$ltasthm == "9"] <- NA
+
+b2003$casthma[b2003$casthma == "9"] <- NA
+
+b2003$race2[b2003$race2 == "9"] <- NA
+
+b2003$ageg5yr[b2003$ageg5yr == "14"] <- NA
+
+b2003$incomg[b2003$incomg == "9"] <- NA
+
+b2003 = 
+  b2003 %>% 
+  select(state_code, county_code, year, month, day, asthma = asthma2, asthma_now = asthnow, asthma_age = asthmage,asthma_attack = asattack,asthma_symptom = asymptom, asthma_status = asthmst, asthma_history = ltasthm, asthma_current = casthma, asthma_emergency = aservist, asthma_visit = asdrvist, physical_health = physhlth, mental_health = menthlth, coronary_heart_disease = cvdcrhd2, heart_attack = cvdinfr2, stroke = cvdstrk2, education = educag,sex, smoker = smoker2, race = race2, age = ageg5yr, income = incomg)
+
+b2003 %>% 
+  write.csv(file = ("./data/brfss/brfss_ny_2003.csv"))
+
+brfss_indi =  
+  bind_rows(b2003, b2004, b2005, b2006, b2007, b2008, b2009, b2010, b2011, b2012) %>%  
+  mutate(
+    year = as.numeric(year),
+    month = as.numeric(month),
+    day = as.numeric(day)
+  )
+
+write.csv(brfss_indi, file = ("./data/brfss_indi.csv"))
+```
 
 The annual survey data from CDC Behavioral Risk Factor Surveillance System provides information on the background, design, data collection and processing, statistical, and analytical issues. It also provides health related information of each interviewee. We gathered 10 raw data files (1 file per year) for processing.
 
 Firstly, we filtered by state code 36, then selected variables we were interested in. Finally, we filtered out rows in which county code was missing.
 
 Main variables:
-* state_code: state FIPS Codes, New York State code 36 specifically
-* county_code: county FIPS Codes in New York State
-* year: interview year
-* month: interview month
-* day: interview day
-* asthma: ever told had asthma; 1 for yes, 0 for no
-* asthma_now: still have asthma; 1 for yes, 0 for no
-* asthma_age: age at asthma diagnosis
-* asthma_attack: asthma during past 12 months; 1 for yes, 0 for no
-* asthma_emergency: how many times of visiting an emergency room or urgent care center because of asthma during past 12 months
-* asthma_visit: how many times of urgent asthma treatment during past 12 months
-* asthma_symptom: frequencies of asthma symptoms during past 30 days; 0 for none, 1 for less than once a week, 2 for once or twice a week, 3 for more than 2 times a week but not every day, 4 for every day but not all the time, 5 for every day all the time
-* asthma_status: computed asthma status, 1 for current, 2 for former, 3 for never
-* asthma_history: risk factor for lifetime asthma prevalence, 1 for not at risk, 2 for at risk
-* asthma_current: risk factor for current asthma prevalence, 1 for not at risk, 2 for at risk
-* physical_health: number of days physical health not good during the past 30 days
-* mental_health: number of days mental health not good during the past 30 days
-* coronary_heart_disease: angina or coronary heart disease, 1 for yes, 0 for no
-* heart_attack: ever diagnosed with heart attack, 1 for yes, 0 for no
-* stroke: ever diagnosed with stroke, 1 for yes, 0 for no
-* education: level of education completed, 1 for did not graduate high school, 2 for graduated high school, 3 for attended college or technical school, 4 for graduated from college or technical school
-* sex: respondents sex, 1 for male, 2 for female
-* smoker: computed smoking status, 1 for current smoker - now smokes every day, 2 for current smoker - now smokes some days, 3 for former smoker, 4 for never smoked
-* race: race categories, 1 for White only, non-hispanic, 2 for Black only, non-hidpanic, 3 for Asian only, non-hispanic, 4 for Native Hawaiian or other Pacific Islander only, non-hispanic, 5 for American Indian or Alaskan Native only, non-hispanic, 6 for other race only, non-hispanic, 7 for multiracial, non-hispanic, 8 for hispanic
-* age: reported age in five-year age categories, 1 for age 18-24, 2 for 25-29, 3 for 30-34, 4 for 35-39, 5 for 40-44, 6 for 45-49, 7 for 50-54, 8 for 55-59, 9 for 60-64, 10 for 65-69, 11 for 70-74, 12 for 75-79, 13 for 80 or older
-* income: income categories, 1 for less than $15000, 2 for $15000 to less than $25000, 3 for $25000 to less than $35000, 4 for $35000 to less than $50000, 5 for $50000 or more
+
+* `state_code`: state FIPS Codes, New York State code 36 specifically
+* `county_code`: county FIPS Codes in New York State
+* `year`: interview year
+* `month`: interview month
+* `day`: interview day
+* `asthma`: ever told had asthma; 1 for yes, 0 for no
+* `asthma_now`: still have asthma; 1 for yes, 0 for no
+* `asthma_age`: age at asthma diagnosis
+* `asthma_attack`: asthma during past 12 months; 1 for yes, 0 for no
+* `asthma_emergency`: how many times of visiting an emergency room or urgent care center because of asthma during past 12 months
+* `asthma_visit`: how many times of urgent asthma treatment during past 12 months
+* `asthma_symptom`: frequencies of asthma symptoms during past 30 days; 0 for none, 1 for less than once a week, 2 for once or twice a week, 3 for more than 2 times a week but not every day, 4 for every day but not all the time, 5 for every day all the time
+* `asthma_status`: computed asthma status, 1 for current, 2 for former, 3 for never
+* `asthma_history`: risk factor for lifetime asthma prevalence, 1 for not at risk, 2 for at risk
+* `asthma_current`: risk factor for current asthma prevalence, 1 for not at risk, 2 for at risk
+* `physical_health`: number of days physical health not good during the past 30 days
+* `mental_health`: number of days mental health not good during the past 30 days
+* `coronary_heart_disease`: angina or coronary heart disease, 1 for yes, 0 for no
+* `heart_attack`: ever diagnosed with heart attack, 1 for yes, 0 for no
+* `stroke`: ever diagnosed with stroke, 1 for yes, 0 for no
+* `education`: level of education completed, 1 for did not graduate high school, 2 for graduated high school, 3 for attended college or technical school, 4 for graduated from college or technical school
+* `sex`: respondents sex, 1 for male, 2 for female
+* `smoker`: computed smoking status, 1 for current smoker - now smokes every day, 2 for current smoker - now smokes some days, 3 for former smoker, 4 for never smoked
+* `race`: race categories, 1 for White only, non-hispanic, 2 for Black only, non-hidpanic, 3 for Asian only, non-hispanic, 4 for Native Hawaiian or other Pacific Islander only, non-hispanic, 5 for American Indian or Alaskan Native only, non-hispanic, 6 for other race only, non-hispanic, 7 for multiracial, non-hispanic, 8 for hispanic
+* `age`: reported age in five-year age categories, 1 for age 18-24, 2 for 25-29, 3 for 30-34, 4 for 35-39, 5 for 40-44, 6 for 45-49, 7 for 50-54, 8 for 55-59, 9 for 60-64, 10 for 65-69, 11 for 70-74, 12 for 75-79, 13 for 80 or older
+* `income`: income categories, 1 for less than $15000, 2 for $15000 to less than $25000, 3 for $25000 to less than $35000, 4 for $35000 to less than $50000, 5 for $50000 or more
 
 The combined 10-year brfss files was saved as a dataframe named “brfss_indi”, and it was also written as “brfss_indi.csv” file, stored in the “data” folder.
 
 d. Final resulting data files
 
+```{r}
+brfs_for_merge = read_csv("./data/brfss_indi.csv") %>% 
+  mutate(
+    date = as.Date(paste(year,month,day,sep="-"),"%Y-%m-%d")
+  ) 
+
+air_daily1 = 
+  read_csv("./data/air_daily.csv") %>%
+  mutate(county_code = as.numeric(county_code))
+
+brfss_with_air = 
+  left_join(brfs_for_merge, air_daily1, by = c("county_code", "date"))
+
+write.csv(brfss_with_air, file = ("./data/brfss_with_air.csv"))
+
+air_daily2 = 
+  air_daily1 %>% 
+  separate(col = date, into = c('year','month','day'), sep = "-" , convert = TRUE) %>%
+  group_by(county_code, county, year, month) %>% 
+  summarize(
+    mean_aqi_month = mean(aqi),
+    max_aqi_month = max(aqi),
+    min_aqi_month = min(aqi),
+    mean_ozone_month = mean(mean_ozone),
+    mean_pm2_5_month = mean(mean_pm2_5),
+    mean_pm10_month = mean(mean_pm10),
+    mean_co_month = mean(mean_co),
+    mean_no2_month = mean(mean_no2),
+    mean_so2_month = mean(mean_so2)
+  ) 
+
+brfss_with_air2 = 
+  left_join(brfs_for_merge, air_daily2, by = c("county_code", "year","month"))
+
+write.csv(brfss_with_air2, file = ("./data/brfss_with_air2.csv"))
+```
+
 A new variable named “date” which concatenated year, month, and day using was created in the “brfss_indi” dataframe. Then it was left-joined with “air_daily” using columns “county_code” and “date” (“brfss_indi” as the left table). The resulting dataset was saved as “brfss_with_air” data frame and was written as “brfss_with_air.csv” file in “data” folder.
 
 In addition, another air quality dataset “air_daily2” was created by grouping and summarizing “air_daily”:
 
-* mean_aqi_month: mean daily aqi value in that month
-* max_aqi_month: max daily aqi value in that month
-* min_aqi_month: min daily aqi value in that month
-* mean_ozone_month: mean ozone value in that month (unit of measure: parts per million) 
-* mean_pm2_5_month:  mean pm2.5 value in that month (unit of measure: Micrograms/cubic meter (LC))   
-* mean_pm10_month: mean pm10 value in that month (unit of measure: Micrograms/cubic meter (25 C))  
-* mean_co_month: mean carbon monoxide value in that month (unit of measure: parts per million)     
-* mean_no2_month: mean nitrogen dioxide value in that month (unit of measure: parts per million)    
-* mean_so2_month: mean sulfur dioxide value in that month (unit of measure: parts per million)
+* `mean_aqi_month`: mean daily aqi value in that month
+* `max_aqi_month`: max daily aqi value in that month
+* `min_aqi_month`: min daily aqi value in that month
+* `mean_ozone_month`: mean ozone value in that month (unit of measure: parts per million) 
+* `mean_pm2_5_month`:  mean pm2.5 value in that month (unit of measure: Micrograms/cubic meter (LC))   
+* `mean_pm10_month`: mean pm10 value in that month (unit of measure: Micrograms/cubic meter (25 C))  
+* `mean_co_month`: mean carbon monoxide value in that month (unit of measure: parts per million)     
+* `mean_no2_month`: mean nitrogen dioxide value in that month (unit of measure: parts per million)    
+* `mean_so2_month`: mean sulfur dioxide value in that month (unit of measure: parts per million)
 
 Then “brfss_indi” and “air_daily2” were left-joined using columns “county_code”, “year”, and “month” (“brfss_indi” as the left table). The resulting dataset was saved as “brfss_with_air2” data frame and was written as “brfss_with_air2.csv” file in the “data” folder.
 
