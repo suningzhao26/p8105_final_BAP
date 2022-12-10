@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Analysis_in_website</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Exploratory Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">AQI Index Across Years in NY</li>
+    <li class="dropdown-header">Types of Pollutants in Counties</li>
+    <li class="dropdown-header">PM 2.5</li>
+  </ul>
+</li>
+<li class="dropdown-header">Statistical Analyses</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Mapping
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">AQI in NY</li>
+    <li class="dropdown-header">Ozone in NY</li>
+  </ul>
+</li>
+<li class="dropdown-header">Project Report</li>
+<li class="dropdown-header">Screencast</li>
+<li class="dropdown-header">References</li>
+<li>
+  <a href="https://github.com/suningzhao26/p8105_final_BAP.git">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Analysis_in_website</h1>
+
+</div>
+
+
+<pre class="r"><code>asthma_df2 = 
+  read_csv(&quot;./data/brfss_with_air2.csv&quot;) %&gt;%
+  mutate(
+    #outcome
+    asthma = as.numeric(asthma),
+    asthma_now = as.numeric(asthma_now),
+    #predictors below
+    mean_aqi_month = as.numeric(mean_aqi_month),
+    mental_health = as.numeric(mental_health),
+    physical_health = as.numeric(physical_health),
+    county = as.factor(county),
+    age = as.factor(age),
+    race = as.factor(race),
+    smoker = as.factor(smoker),
+    income = as.factor(income)
+    )</code></pre>
+<pre><code>## New names:
+## Rows: 65143 Columns: 39
+## ── Column specification
+## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
+## (2): county_code, county dbl (36): ...1, ...2, state_code, year, month, day,
+## asthma, asthma_now, ast... date (1): date
+## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## • `` -&gt; `...1`
+## • `...1` -&gt; `...2`</code></pre>
+<p>#linear regression with mean CO as exposure</p>
+<pre class="r"><code>linear_fit_co_emergency = asthma_df2 %&gt;%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_co_month, data = .)</code></pre>
+<pre class="r"><code>linear_fit_co_emergency =
+  linear_fit_co_emergency %&gt;% 
+  broom::tidy()</code></pre>
+<pre class="r"><code>print(linear_fit_co_emergency, n=60)</code></pre>
+<pre><code>## # A tibble: 41 × 5
+##    term              estimate std.error statistic p.value
+##    &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+##  1 (Intercept)        1.18       1.15      1.03   0.302  
+##  2 mental_health      0.00829    0.0168    0.492  0.623  
+##  3 physical_health    0.0232     0.0153    1.52   0.130  
+##  4 sex               -0.0327     0.304    -0.108  0.914  
+##  5 smoker2            0.0519     0.592     0.0877 0.930  
+##  6 smoker3            0.721      0.448     1.61   0.109  
+##  7 smoker4           -0.0844     0.407    -0.207  0.836  
+##  8 race2              0.648      0.473     1.37   0.172  
+##  9 race3             -0.627      0.875    -0.716  0.474  
+## 10 race4             -1.16       2.96     -0.391  0.696  
+## 11 race5             -1.47       2.90     -0.505  0.614  
+## 12 race6             -0.246      1.00     -0.245  0.807  
+## 13 race7              0.0705     0.866     0.0814 0.935  
+## 14 race8              0.388      0.484     0.801  0.423  
+## 15 age2              -1.26       0.700    -1.80   0.0733 
+## 16 age3              -0.617      0.682    -0.905  0.366  
+## 17 age4              -0.401      0.688    -0.583  0.560  
+## 18 age5              -0.111      0.655    -0.170  0.865  
+## 19 age6              -0.886      0.688    -1.29   0.199  
+## 20 age7              -0.721      0.657    -1.10   0.273  
+## 21 age8               0.0281     0.690     0.0408 0.967  
+## 22 age9              -1.30       0.791    -1.64   0.101  
+## 23 age10             -0.873      0.801    -1.09   0.276  
+## 24 age11             -1.36       0.885    -1.54   0.124  
+## 25 age12             -1.88       0.901    -2.08   0.0377 
+## 26 age13             -1.45       1.23     -1.18   0.237  
+## 27 income2           -0.0835     0.483    -0.173  0.863  
+## 28 income3           -0.562      0.539    -1.04   0.298  
+## 29 income4           -1.08       0.537    -2.02   0.0442 
+## 30 income5           -1.39       0.457    -3.05   0.00242
+## 31 countyBronx       -0.0495     0.946    -0.0524 0.958  
+## 32 countyErie         0.146      0.705     0.207  0.836  
+## 33 countyKings       -1.03       1.19     -0.870  0.385  
+## 34 countyMonroe      -0.370      0.727    -0.509  0.611  
+## 35 countyNew York     0.281      0.907     0.310  0.757  
+## 36 countyNiagara     -0.136      0.994    -0.137  0.891  
+## 37 countyOnondaga    -0.557      0.782    -0.712  0.477  
+## 38 countyQueens       0.0294     0.794     0.0371 0.970  
+## 39 countySchenectady -0.537      1.08     -0.495  0.621  
+## 40 countySuffolk      0.375      0.853     0.440  0.660  
+## 41 mean_co_month      1.64       1.76      0.927  0.354</code></pre>
+<p>#logistic regression ##logistic regression with asthma emergency as
+outcome</p>
+<pre class="r"><code>fit_logistic1b = 
+  asthma_df2 %&gt;% 
+  glm(asthma ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_aqi_month, data = ., family = binomial()) </code></pre>
+<pre class="r"><code>fit_logistic1b %&gt;% 
+  broom::tidy() %&gt;% 
+  mutate(OR = exp(estimate)) %&gt;%
+  select(term, log_OR = estimate, OR, p.value) %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">log_OR</th>
+<th align="right">OR</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-1.123</td>
+<td align="right">0.325</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">mental_health</td>
+<td align="right">0.014</td>
+<td align="right">1.014</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">physical_health</td>
+<td align="right">0.033</td>
+<td align="right">1.034</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">sex</td>
+<td align="right">-0.338</td>
+<td align="right">0.713</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">smoker2</td>
+<td align="right">0.160</td>
+<td align="right">1.173</td>
+<td align="right">0.024</td>
+</tr>
+<tr class="even">
+<td align="left">smoker3</td>
+<td align="right">0.185</td>
+<td align="right">1.203</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">smoker4</td>
+<td align="right">0.011</td>
+<td align="right">1.011</td>
+<td align="right">0.815</td>
+</tr>
+<tr class="even">
+<td align="left">race2</td>
+<td align="right">0.217</td>
+<td align="right">1.243</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">race3</td>
+<td align="right">-0.392</td>
+<td align="right">0.676</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">race4</td>
+<td align="right">0.056</td>
+<td align="right">1.058</td>
+<td align="right">0.833</td>
+</tr>
+<tr class="odd">
+<td align="left">race5</td>
+<td align="right">0.129</td>
+<td align="right">1.138</td>
+<td align="right">0.514</td>
+</tr>
+<tr class="even">
+<td align="left">race6</td>
+<td align="right">0.129</td>
+<td align="right">1.138</td>
+<td align="right">0.411</td>
+</tr>
+<tr class="odd">
+<td align="left">race7</td>
+<td align="right">0.624</td>
+<td align="right">1.866</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">race8</td>
+<td align="right">0.150</td>
+<td align="right">1.162</td>
+<td align="right">0.004</td>
+</tr>
+<tr class="odd">
+<td align="left">age2</td>
+<td align="right">-0.407</td>
+<td align="right">0.665</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">age3</td>
+<td align="right">-0.339</td>
+<td align="right">0.713</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">age4</td>
+<td align="right">-0.464</td>
+<td align="right">0.629</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">age5</td>
+<td align="right">-0.550</td>
+<td align="right">0.577</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">age6</td>
+<td align="right">-0.639</td>
+<td align="right">0.528</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">age7</td>
+<td align="right">-0.609</td>
+<td align="right">0.544</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">age8</td>
+<td align="right">-0.607</td>
+<td align="right">0.545</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">age9</td>
+<td align="right">-0.663</td>
+<td align="right">0.515</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">age10</td>
+<td align="right">-0.741</td>
+<td align="right">0.477</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">age11</td>
+<td align="right">-0.802</td>
+<td align="right">0.449</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">age12</td>
+<td align="right">-0.939</td>
+<td align="right">0.391</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">age13</td>
+<td align="right">-1.238</td>
+<td align="right">0.290</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">income2</td>
+<td align="right">-0.252</td>
+<td align="right">0.777</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">income3</td>
+<td align="right">-0.208</td>
+<td align="right">0.812</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">income4</td>
+<td align="right">-0.321</td>
+<td align="right">0.726</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">income5</td>
+<td align="right">-0.272</td>
+<td align="right">0.762</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">countyBronx</td>
+<td align="right">-0.058</td>
+<td align="right">0.943</td>
+<td align="right">0.592</td>
+</tr>
+<tr class="even">
+<td align="left">countyBroome</td>
+<td align="right">-0.331</td>
+<td align="right">0.718</td>
+<td align="right">0.605</td>
+</tr>
+<tr class="odd">
+<td align="left">countyChautauqua</td>
+<td align="right">-0.223</td>
+<td align="right">0.800</td>
+<td align="right">0.131</td>
+</tr>
+<tr class="even">
+<td align="left">countyChemung</td>
+<td align="right">0.014</td>
+<td align="right">1.014</td>
+<td align="right">0.950</td>
+</tr>
+<tr class="odd">
+<td align="left">countyDutchess</td>
+<td align="right">-0.128</td>
+<td align="right">0.880</td>
+<td align="right">0.330</td>
+</tr>
+<tr class="even">
+<td align="left">countyErie</td>
+<td align="right">-0.153</td>
+<td align="right">0.858</td>
+<td align="right">0.135</td>
+</tr>
+<tr class="odd">
+<td align="left">countyEssex</td>
+<td align="right">0.144</td>
+<td align="right">1.155</td>
+<td align="right">0.573</td>
+</tr>
+<tr class="even">
+<td align="left">countyFranklin</td>
+<td align="right">0.528</td>
+<td align="right">1.696</td>
+<td align="right">0.024</td>
+</tr>
+<tr class="odd">
+<td align="left">countyHerkimer</td>
+<td align="right">0.013</td>
+<td align="right">1.013</td>
+<td align="right">0.957</td>
+</tr>
+<tr class="even">
+<td align="left">countyJefferson</td>
+<td align="right">0.193</td>
+<td align="right">1.213</td>
+<td align="right">0.247</td>
+</tr>
+<tr class="odd">
+<td align="left">countyKings</td>
+<td align="right">-0.210</td>
+<td align="right">0.811</td>
+<td align="right">0.035</td>
+</tr>
+<tr class="even">
+<td align="left">countyMadison</td>
+<td align="right">0.168</td>
+<td align="right">1.183</td>
+<td align="right">0.449</td>
+</tr>
+<tr class="odd">
+<td align="left">countyMonroe</td>
+<td align="right">0.003</td>
+<td align="right">1.003</td>
+<td align="right">0.980</td>
+</tr>
+<tr class="even">
+<td align="left">countyNassau</td>
+<td align="right">-0.178</td>
+<td align="right">0.837</td>
+<td align="right">0.087</td>
+</tr>
+<tr class="odd">
+<td align="left">countyNew York</td>
+<td align="right">-0.113</td>
+<td align="right">0.893</td>
+<td align="right">0.254</td>
+</tr>
+<tr class="even">
+<td align="left">countyNiagara</td>
+<td align="right">-0.202</td>
+<td align="right">0.817</td>
+<td align="right">0.140</td>
+</tr>
+<tr class="odd">
+<td align="left">countyOneida</td>
+<td align="right">0.062</td>
+<td align="right">1.064</td>
+<td align="right">0.641</td>
+</tr>
+<tr class="even">
+<td align="left">countyOnondaga</td>
+<td align="right">0.001</td>
+<td align="right">1.001</td>
+<td align="right">0.991</td>
+</tr>
+<tr class="odd">
+<td align="left">countyOrange</td>
+<td align="right">0.185</td>
+<td align="right">1.204</td>
+<td align="right">0.126</td>
+</tr>
+<tr class="even">
+<td align="left">countyOswego</td>
+<td align="right">0.101</td>
+<td align="right">1.106</td>
+<td align="right">0.548</td>
+</tr>
+<tr class="odd">
+<td align="left">countyPutnam</td>
+<td align="right">0.088</td>
+<td align="right">1.092</td>
+<td align="right">0.691</td>
+</tr>
+<tr class="even">
+<td align="left">countyQueens</td>
+<td align="right">-0.378</td>
+<td align="right">0.685</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">countyRensselaer</td>
+<td align="right">0.116</td>
+<td align="right">1.123</td>
+<td align="right">0.416</td>
+</tr>
+<tr class="even">
+<td align="left">countyRichmond</td>
+<td align="right">-0.112</td>
+<td align="right">0.894</td>
+<td align="right">0.380</td>
+</tr>
+<tr class="odd">
+<td align="left">countyRockland</td>
+<td align="right">-0.086</td>
+<td align="right">0.918</td>
+<td align="right">0.686</td>
+</tr>
+<tr class="even">
+<td align="left">countySaratoga</td>
+<td align="right">0.001</td>
+<td align="right">1.001</td>
+<td align="right">0.992</td>
+</tr>
+<tr class="odd">
+<td align="left">countySchenectady</td>
+<td align="right">0.053</td>
+<td align="right">1.054</td>
+<td align="right">0.733</td>
+</tr>
+<tr class="even">
+<td align="left">countySt. Lawrence</td>
+<td align="right">-0.029</td>
+<td align="right">0.972</td>
+<td align="right">0.864</td>
+</tr>
+<tr class="odd">
+<td align="left">countySteuben</td>
+<td align="right">0.102</td>
+<td align="right">1.107</td>
+<td align="right">0.570</td>
+</tr>
+<tr class="even">
+<td align="left">countySuffolk</td>
+<td align="right">-0.207</td>
+<td align="right">0.813</td>
+<td align="right">0.041</td>
+</tr>
+<tr class="odd">
+<td align="left">countyTompkins</td>
+<td align="right">0.248</td>
+<td align="right">1.281</td>
+<td align="right">0.143</td>
+</tr>
+<tr class="even">
+<td align="left">countyUlster</td>
+<td align="right">0.009</td>
+<td align="right">1.009</td>
+<td align="right">0.951</td>
+</tr>
+<tr class="odd">
+<td align="left">countyWayne</td>
+<td align="right">-0.442</td>
+<td align="right">0.643</td>
+<td align="right">0.062</td>
+</tr>
+<tr class="even">
+<td align="left">countyWestchester</td>
+<td align="right">-0.186</td>
+<td align="right">0.830</td>
+<td align="right">0.086</td>
+</tr>
+<tr class="odd">
+<td align="left">mean_aqi_month</td>
+<td align="right">0.000</td>
+<td align="right">1.000</td>
+<td align="right">0.985</td>
+</tr>
+</tbody>
+</table>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
