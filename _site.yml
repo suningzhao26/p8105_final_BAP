@@ -1,0 +1,26 @@
+name: "BAP"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "Exploratory Analyses"
+      menu:
+      - text: 'AQI Index Across Years in NY'
+      - text: 'Types of Pollutants in Counties'
+      - text: 'PM 2.5'
+    - text: "Statistical Analyses"
+    - text: "Mapping"
+      menu:
+      - text: 'AQI in NY'
+      - text: 'Ozone in NY'
+    - text: "Project Report"
+    - text: "Screencast"
+    - text: "References"
+    - icon: fa-github fa-lg
+      href: https://github.com/suningzhao26/p8105_final_BAP.git
+output:
+  html_document:
+    theme: cosmo
+    toc : true
+    toc_float: true
+    code_folding: hide
