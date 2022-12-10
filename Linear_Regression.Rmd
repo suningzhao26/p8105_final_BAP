@@ -1,0 +1,100 @@
+---
+title: "Linear Regression"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(plyr)
+library(tidyverse)
+library(patchwork)
+library(viridis)
+library(haven)
+
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+```
+
+```{r}
+asthma_df = 
+  read_csv("data/brfss_with_air.csv") %>%
+  mutate(
+    #outcome
+    asthma = as.numeric(asthma),
+    asthma_now = as.numeric(asthma_now),
+    #predictors below
+    aqi = as.numeric(aqi),
+    mental_health = as.numeric(mental_health),
+    physical_health = as.numeric(physical_health),
+    county = as.factor(county),
+    age = as.factor(age),
+    race = as.factor(race),
+    smoker = as.factor(smoker),
+    income = as.factor(income)
+    )
+  
+```
+
+#linear regression 
+##asthma attack as the outcome
+```{r}
+linear_fit_attack =  asthma_df %>%
+  lm(asthma_attack ~ mental_health + physical_health + sex + smoker + race + age + income + county + aqi, data = .)
+```
+
+```{r}
+linear_fit_attack =
+  linear_fit_attack %>% 
+  broom::tidy()
+```
+
+```{r}
+print(linear_fit_attack, n=60)
+```
+
+##asthma emergency as the outcome
+```{r}
+linear_fit_emergency =  asthma_df %>%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + aqi, data = .)
+```
+
+```{r}
+linear_fit_emergency = 
+linear_fit_emergency %>% 
+  broom::tidy() 
+```
+
+```{r}
+print(linear_fit_emergency, n=60)
+```
+
+##doctor visits as the outcome
+```{r}
+linear_fit_visit =  asthma_df %>%
+  lm(asthma_visit ~ mental_health + physical_health + sex + smoker + race + age + income + county + aqi, data = .)
+```
+
+```{r}
+linear_fit_visit =
+  linear_fit_visit %>% 
+  broom::tidy()
+```
+
+```{r}
+print(linear_fit_visit, n=60)
+```

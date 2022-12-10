@@ -1,0 +1,114 @@
+---
+title: "Linear_Regression_Pollution"
+output: github_document
+---
+```{r setup, include=FALSE}
+library(plyr)
+library(tidyverse)
+library(patchwork)
+library(viridis)
+library(haven)
+
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+```
+
+```{r}
+asthma_df2 = 
+  read_csv("./data/brfss_with_air2.csv") %>%
+  mutate(
+    #outcome
+    asthma = as.numeric(asthma),
+    asthma_now = as.numeric(asthma_now),
+    #predictors below
+    mean_aqi_month = as.numeric(mean_aqi_month),
+    mental_health = as.numeric(mental_health),
+    physical_health = as.numeric(physical_health),
+    county = as.factor(county),
+    age = as.factor(age),
+    race = as.factor(race),
+    smoker = as.factor(smoker),
+    income = as.factor(income)
+    )
+  
+```
+```{r}
+linear_fit_so2_emergency =  asthma_df2 %>%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_so2_month, data = .)
+
+```
+
+```{r}
+linear_fit_so2_emergency =
+  linear_fit_so2_emergency %>% 
+  broom::tidy()
+```
+
+```{r}
+print(linear_fit_so2_emergency, n=60)
+```
+
+```{r}
+linear_fit_co_emergency =  asthma_df2 %>%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_co_month, data = .)
+
+```
+
+```{r}
+linear_fit_co_emergency =
+  linear_fit_co_emergency %>% 
+  broom::tidy()
+```
+
+```{r}
+print(linear_fit_co_emergency, n=60)
+```
+
+
+```{r}
+linear_fit_co_emergency =  asthma_df2 %>%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_co_month, data = .)
+
+```
+
+```{r}
+linear_fit_co_emergency =
+  linear_fit_co_emergency %>% 
+  broom::tidy()
+```
+
+```{r}
+print(linear_fit_co_emergency, n=60)
+```
+
+```{r}
+linear_fit_co_attack =  asthma_df2 %>%
+  lm(asthma_attack ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_co_month, data = .)
+
+```
+
+```{r}
+linear_fit_co_attack =
+  linear_fit_co_attack %>% 
+  broom::tidy()
+```
+
+```{r}
+print(linear_fit_co_attack, n=60)
+```

@@ -58,10 +58,7 @@ linear_fit_1a =  asthma_df %>%
 ```{r}
 linear_fit_1a =
   linear_fit_1a %>% 
-  broom::tidy() %>% 
-  mutate(OR = exp(estimate)) %>%
-  select(term, log_OR = estimate, OR, p.value) %>% 
-  knitr::kable(digits = 3)
+  broom::tidy()
 ```
 
 ```{r}
@@ -72,40 +69,10 @@ fit_linear1b =
 
 ```{r}
 fit_linear1b %>% 
-  broom::tidy() %>% 
-  mutate(OR = exp(estimate)) %>%
-  select(term, log_OR = estimate, OR, p.value) %>% 
-  knitr::kable(digits = 3)
+  broom::tidy()
 ```
 
-#logistic regression
-```{r}
-fit_logistic1a = 
-  asthma_df %>% 
-  glm(asthma ~ mental_health + physical_health + sex + smoker + race + age + income + county + aqi, data = ., family = binomial()) 
-```
 
-```{r}
-fit_logistic1a %>% 
-  broom::tidy() %>% 
-  mutate(OR = exp(estimate)) %>%
-  select(term, log_OR = estimate, OR, p.value) %>% 
-  knitr::kable(digits = 3)
-```
-
-```{r}
-fit_logistic1b = 
-  asthma_df %>% 
-  glm(asthma_now ~ mental_health + physical_health + sex + smoker + race + age + income + county + aqi, data = ., family = binomial()) 
-```
-
-```{r}
-fit_logistic1b %>% 
-  broom::tidy() %>% 
-  mutate(OR = exp(estimate)) %>%
-  select(term, log_OR = estimate, OR, p.value) %>% 
-  knitr::kable(digits = 3)
-```
 
 
 
@@ -130,18 +97,27 @@ asthma_df2 =
 ```
 
 ```{r}
-linear_fit_2a =  asthma_df2 %>%
+linear_fit_2_emergency =  asthma_df2 %>%
+  lm(asthma_emergency ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_aqi_month, data = .)
+
+```
+
+```{r}
+linear_fit_2_emergency =
+  linear_fit_2_emergency %>% 
+  broom::tidy()
+```
+
+```{r}
+linear_fit_2attack =  asthma_df2 %>%
   lm(asthma_attack ~ mental_health + physical_health + sex + smoker + race + age + income + county + mean_aqi_month, data = .)
 
 ```
 
 ```{r}
-linear_fit_2a =
-  linear_fit_2a %>% 
-  broom::tidy() %>% 
-  mutate(OR = exp(estimate)) %>%
-  select(term, log_OR = estimate, OR, p.value) %>% 
-  knitr::kable(digits = 3)
+linear_fit_2attack =
+  linear_fit_2attack %>% 
+  broom::tidy()
 ```
 
 
@@ -165,4 +141,5 @@ fit_logistic2b
   select(term, log_OR = estimate, OR, p.value) %>% 
   knitr::kable(digits = 3)
 ```
+
 
