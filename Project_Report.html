@@ -13,7 +13,7 @@
 
 <title>Project Report</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,16 +193,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -964,10 +957,8 @@ class="section level3">
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;. You can
-## override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map = 
+  )
+county_plot_map = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;white&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,60)
@@ -1111,10 +1102,8 @@ counties</h4>
   summarize(
     ozone_mean = mean(mean_ozone)
   ) %&gt;% 
-  drop_na(ozone_mean)</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>ozone_graph =
+  drop_na(ozone_mean)
+ozone_graph =
   ozone_year_df %&gt;% 
   group_by(county) %&gt;% 
   ggplot(aes(x = year, y = ozone_mean, color = county)) +
@@ -1157,10 +1146,8 @@ for example, <code>Tompkins</code>, <code>Rensselaer</code> and
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  ) </code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;. You can
-## override using the `.groups` argument.</code></pre>
-<pre class="r"><code>ozone_county_plot_map = 
+  ) 
+ozone_county_plot_map = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = ozone_county_df, values = &quot;ozone_all&quot;, labels = TRUE, label_color = &quot;white&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Blue&quot;, name = &quot;Air Quality Index&quot;, label = scales::comma, limits = c(0,0.04)
@@ -1200,10 +1187,9 @@ class="section level4">
   arrange(pm2_5) %&gt;% 
   mutate(
     county = fct_reorder(county, pm2_5)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;. You can
-## override using the `.groups` argument.</code></pre>
-<pre class="r"><code>pm2_5_county_graph = 
+  )
+  
+pm2_5_county_graph = 
   ggplot(pm2_5_county_df, aes(y = county, x = pm2_5, fill = pm2_5)) +
   geom_col() +
   labs(
@@ -1295,7 +1281,6 @@ asthma_history_graph =
   scale_x_continuous(breaks = 2003:2012 )
 
 asthma_history_graph</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-18-1.png" width="90%" /></p>
 <ul>
 <li>In the graph, it can be seen that we have two Asthma Status.
@@ -1370,10 +1355,9 @@ worsening asthma symptoms in counties among 10 years</h4>
   arrange(mean_asthma_visit) %&gt;% 
   mutate(
     county = fct_reorder(county, mean_asthma_visit)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code.x&#39;, &#39;county_code&#39;. You can
-## override using the `.groups` argument.</code></pre>
-<pre class="r"><code>asthma_visit_graph = 
+  )
+
+asthma_visit_graph = 
   asthma_visit_df %&gt;% 
   ggplot(aes(x = county, y = mean_asthma_visit)) +
   geom_point()+
@@ -1433,7 +1417,6 @@ hd_history_graph =
   scale_x_continuous(breaks = 2003:2012 )
 
 hd_history_graph</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-21-1.png" width="90%" /></p>
 <ul>
 <li>BRFSS also includes heart disease variables. Previous research
@@ -1512,7 +1495,6 @@ visit times. Thus, we can use those predictors for our modeling.</li>
   geom_smooth()
 
 asthma_air_graph1</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-24-1.png" width="90%" /></p>
 </div>
 <div id="ozone-1" class="section level4">
@@ -1524,7 +1506,6 @@ asthma_air_graph1</code></pre>
   geom_smooth()
 
 asthma_air_graph2</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-25-1.png" width="90%" /></p>
 </div>
 <div id="co" class="section level4">
@@ -1536,7 +1517,6 @@ asthma_air_graph2</code></pre>
   geom_smooth()
 
 asthma_air_graph3</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-26-1.png" width="90%" /></p>
 </div>
 <div id="no2" class="section level4">
@@ -1548,7 +1528,6 @@ asthma_air_graph3</code></pre>
   geom_smooth()
 
 asthma_air_graph4</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-27-1.png" width="90%" /></p>
 </div>
 <div id="so2" class="section level4">
@@ -1560,7 +1539,6 @@ asthma_air_graph4</code></pre>
   geom_smooth()
 
 asthma_air_graph5</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-28-1.png" width="90%" /></p>
 </div>
 <div id="pm2.5-1" class="section level4">
@@ -1572,7 +1550,6 @@ asthma_air_graph5</code></pre>
   geom_smooth()
 
 asthma_air_graph6</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-29-1.png" width="90%" /></p>
 </div>
 </div>
@@ -1597,7 +1574,6 @@ relationships with asthma doctor visit times.</li>
   geom_smooth()
 
 asthma_air_graph1</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-30-1.png" width="90%" /></p>
 </div>
 <div id="ozone-2" class="section level4">
@@ -1609,7 +1585,6 @@ asthma_air_graph1</code></pre>
   geom_smooth()
 
 asthma_air_graph2</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-31-1.png" width="90%" /></p>
 </div>
 <div id="co-1" class="section level4">
@@ -1621,7 +1596,6 @@ asthma_air_graph2</code></pre>
   geom_smooth()
 
 asthma_air_graph3</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-32-1.png" width="90%" /></p>
 </div>
 <div id="no2-1" class="section level4">
@@ -1633,7 +1607,6 @@ asthma_air_graph3</code></pre>
   geom_smooth()
 
 asthma_air_graph4</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-33-1.png" width="90%" /></p>
 </div>
 <div id="so2-1" class="section level4">
@@ -1645,7 +1618,6 @@ asthma_air_graph4</code></pre>
   geom_smooth()
 
 asthma_air_graph5</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-34-1.png" width="90%" /></p>
 </div>
 <div id="pm2.5-2" class="section level4">
@@ -1657,7 +1629,6 @@ asthma_air_graph5</code></pre>
   geom_smooth()
 
 asthma_air_graph6</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="Project_Report_files/figure-html/unnamed-chunk-35-1.png" width="90%" /></p>
 </div>
 </div>
@@ -3858,10 +3829,9 @@ the asthma percentage are higher, the air quality are pretty good.</li>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map1 = 
+  )
+
+county_plot_map1 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df1, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -3884,10 +3854,9 @@ county_plot_map1</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map2 = 
+  )
+
+county_plot_map2 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df2, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -3910,10 +3879,9 @@ county_plot_map2</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map3 = 
+  )
+
+county_plot_map3 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df3, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -3936,10 +3904,9 @@ county_plot_map3</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map4 = 
+  )
+
+county_plot_map4 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df4, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -3962,10 +3929,9 @@ county_plot_map4</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map5 = 
+  )
+
+county_plot_map5 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df5, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -3988,10 +3954,9 @@ county_plot_map5</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map6 = 
+  )
+
+county_plot_map6 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df6, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -4014,10 +3979,9 @@ county_plot_map6</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map7 = 
+  )
+
+county_plot_map7 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df7, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -4040,10 +4004,9 @@ county_plot_map7</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map8 = 
+  )
+
+county_plot_map8 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df8, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -4066,10 +4029,9 @@ county_plot_map8</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map9 = 
+  )
+
+county_plot_map9 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df9, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -4092,10 +4054,9 @@ county_plot_map9</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map10 = 
+  )
+
+county_plot_map10 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df10, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)

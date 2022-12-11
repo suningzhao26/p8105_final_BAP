@@ -389,7 +389,7 @@ aqi_year_df =
 
 ### Figure 1: Air Quality Index by counties in NY State, 2003-2012
 
-```{r}
+```{r, message=FALSE}
 aqi_state_graph =
   aqi_year_df %>% 
   group_by(county) %>% 
@@ -414,7 +414,7 @@ aqi_state_graph
 
 ### Figure 2: Mean AQI for different counties in NY State, 2003-2012
 
-```{r}
+```{r, message=FALSE}
 aqi_county_graph = 
   aqi_year_df %>% 
   group_by(county) %>% 
@@ -437,7 +437,7 @@ aqi_county_graph
 
 ### Figure 3: AQI by counties in NY State on map
 
-```{r}
+```{r, message=FALSE}
 air_county_df = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county) %>% 
@@ -466,7 +466,7 @@ county_plot_map
 
 ### Figure 4: Unhealthy air quality days by counties in NY State, 2003-2012
 
-```{r}
+```{r, message=FALSE}
 air_quality_day_df = 
   air_daily_df %>% 
   group_by(state_code, county_code,county) %>% 
@@ -543,7 +543,7 @@ air_quality_day_df =
 
 #### Figure 5: Defining pollutants distribution among 10 years in NY State
 
-```{r}
+```{r, message=FALSE}
 pollutants_graph = 
   air_quality_day_df %>% 
   group_by(defining_parameter) %>% 
@@ -568,7 +568,7 @@ pollutants_graph
 
 #### Figure 6: Defining pollutants distribution in unhealthy air quality days among 10 years in NY State
 
-```{r}
+```{r, message=FALSE}
 Unhealthy_pollutants_graph = 
   air_quality_day_df %>% 
   filter(aqi_status == "Unhealthy") %>% 
@@ -597,7 +597,7 @@ Unhealthy_pollutants_graph
 
 #### Figure 7: Mean Ozone by county in NY state, 2003-2012, by counties
 
-```{r}
+```{r, message=FALSE}
 ozone_year_df = 
   air_daily_df %>% 
   select(state_code, county_code, state, county, year, mean_ozone) %>% 
@@ -630,7 +630,7 @@ ozone_graph
 
 #### Figure 8: Ozone by counties on map
 
-```{r}
+```{r, message=FALSE}
 ozone_county_df = 
   ozone_year_df %>% 
   group_by(state_code, county_code,county) %>% 
@@ -660,7 +660,7 @@ ozone_county_plot_map
 
 #### Figure 9: Days for PM2.5 presence by counties within 10 years
 
-```{r}
+```{r, message=FALSE}
 pm2_5_county_df = 
   air_daily_df %>% 
   select(state_code, county_code, state, county, year, mean_pm2_5) %>% 
@@ -695,7 +695,7 @@ pm2_5_county_graph
 
 #### Figure 10: PM2.5 distribution by counties within 10 years
 
-```{r}
+```{r, message=FALSE}
 pm2_5_range_df = 
   pm2_5_county_df %>% 
   mutate(
@@ -730,7 +730,7 @@ brfss_air_df =
 
 #### Figure 11: Trend of the rate for people who have asthma history in NY state among 10 years
 
-```{r}
+```{r, message=FALSE}
 asthma_history_df = 
   brfss_air_df %>% 
   mutate(
@@ -771,7 +771,7 @@ asthma_history_graph
 
 #### Figure 12: Map of the percentage of people who currently have asthma among 10 years
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df = 
   brfss_air_df %>% 
   mutate(
@@ -804,7 +804,7 @@ asthma_now_county_plot_map
 
 #### Figure 13: Trend of average doctor visits for urgent treatment of worsening asthma symptoms in counties among 10 years
 
-```{r}
+```{r, message=FALSE}
 asthma_visit_df = 
   brfss_air_df %>% 
   drop_na(asthma_visit) %>% 
@@ -840,7 +840,7 @@ asthma_visit_graph
 
 #### Figure 14: Trend of the percentage of people who have any heart disease in NY state among 10 years
 
-```{r}
+```{r, message=FALSE}
 hd_history_df = 
   brfss_air_df %>% 
   mutate(
@@ -879,7 +879,7 @@ hd_history_graph
 
 #### Figure 15: Map of the percentage for people who have heart disease among 10 years
 
-```{r}
+```{r, message=FALSE}
 hd_county_df = 
   brfss_air_df %>% 
   mutate(
@@ -936,7 +936,7 @@ brfss_air2_df =
 
 #### air quality index 
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph1 = 
   brfss_air2_df %>%
   ggplot(aes(x = mean_aqi_month, y = asthma_emergency)) +
@@ -948,7 +948,7 @@ asthma_air_graph1
 
 #### Ozone
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph2 = 
   brfss_air2_df %>%
   ggplot(aes(x = mean_ozone_month, y = asthma_emergency)) +
@@ -960,7 +960,7 @@ asthma_air_graph2
 
 #### CO
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph3 = 
   brfss_air2_df %>%
   ggplot(aes(x = mean_co_month, y = asthma_emergency)) +
@@ -972,7 +972,7 @@ asthma_air_graph3
 
 #### NO2
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph4 = 
   brfss_air2_df %>% 
   ggplot(aes(x = mean_no2_month, y = asthma_emergency)) +
@@ -984,7 +984,7 @@ asthma_air_graph4
 
 #### SO2
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph5 = 
   brfss_air2_df %>% 
   ggplot(aes(x = mean_so2_month, y = asthma_emergency)) +
@@ -996,7 +996,7 @@ asthma_air_graph5
 
 #### PM2.5
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph6 = 
   brfss_air2_df %>% 
   ggplot(aes(x = mean_pm2_5_month, y = asthma_emergency)) +
@@ -1013,7 +1013,7 @@ asthma_air_graph6
 
 #### air quality index
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph1 = 
   brfss_air2_df %>%
   ggplot(aes(x = mean_aqi_month, y = asthma_visit)) +
@@ -1025,7 +1025,7 @@ asthma_air_graph1
 
 #### Ozone
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph2 = 
   brfss_air2_df %>%
   ggplot(aes(x = mean_ozone_month, y = asthma_visit)) +
@@ -1037,7 +1037,7 @@ asthma_air_graph2
 
 #### CO
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph3 = 
   brfss_air2_df %>%
   ggplot(aes(x = mean_co_month, y = asthma_visit)) +
@@ -1049,7 +1049,7 @@ asthma_air_graph3
 
 #### NO2
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph4 = 
   brfss_air2_df %>% 
   ggplot(aes(x = mean_no2_month, y = asthma_visit)) +
@@ -1061,7 +1061,7 @@ asthma_air_graph4
 
 #### SO2
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph5 = 
   brfss_air2_df %>% 
   ggplot(aes(x = mean_so2_month, y = asthma_visit)) +
@@ -1073,7 +1073,7 @@ asthma_air_graph5
 
 #### PM2.5
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph6 = 
   brfss_air2_df %>% 
   ggplot(aes(x = mean_pm2_5_month, y = asthma_visit)) +
@@ -1346,7 +1346,7 @@ According to the graphs, we can know that:
 
 ### 2003
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df1 = 
   brfss_air_df %>% 
   mutate(
@@ -1375,7 +1375,7 @@ asthma_now_county_plot_map
 
 ### 2004
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df2 = 
   brfss_air_df %>% 
   mutate(
@@ -1404,7 +1404,7 @@ asthma_now_county_plot_map
 
 ### 2005
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df3 = 
   brfss_air_df %>% 
   mutate(
@@ -1433,7 +1433,7 @@ asthma_now_county_plot_map
 
 ### 2006
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df4 = 
   brfss_air_df %>% 
   mutate(
@@ -1462,7 +1462,7 @@ asthma_now_county_plot_map
 
 ### 2007
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df5 = 
   brfss_air_df %>% 
   mutate(
@@ -1491,7 +1491,7 @@ asthma_now_county_plot_map
 
 ### 2008
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df6 = 
   brfss_air_df %>% 
   mutate(
@@ -1520,7 +1520,7 @@ asthma_now_county_plot_map
 
 ### 2009
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df7 = 
   brfss_air_df %>% 
   mutate(
@@ -1549,7 +1549,7 @@ asthma_now_county_plot_map
 
 ### 2010
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df8 = 
   brfss_air_df %>% 
   mutate(
@@ -1578,7 +1578,7 @@ asthma_now_county_plot_map
 
 ### 2011
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df9 = 
   brfss_air_df %>% 
   mutate(
@@ -1607,7 +1607,7 @@ asthma_now_county_plot_map
 
 ### 2012
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df10 = 
   brfss_air_df %>% 
   mutate(
@@ -1665,7 +1665,7 @@ According to the graphs, we can know that:
 
 ### 2003
 
-```{r}
+```{r, message=FALSE}
 air_county_df1 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -1691,7 +1691,7 @@ county_plot_map1
 
 ### 2004
 
-```{r}
+```{r, message=FALSE}
 air_county_df2 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -1717,7 +1717,7 @@ county_plot_map2
 
 ### 2005
 
-```{r}
+```{r, message=FALSE}
 air_county_df3 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -1743,7 +1743,7 @@ county_plot_map3
 
 ### 2006
 
-```{r}
+```{r, message=FALSE}
 air_county_df4 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -1769,7 +1769,7 @@ county_plot_map4
 
 ### 2007
 
-```{r}
+```{r, message=FALSE}
 air_county_df5 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -1795,7 +1795,7 @@ county_plot_map5
 
 ### 2008
 
-```{r}
+```{r, message=FALSE}
 air_county_df6 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -1821,7 +1821,7 @@ county_plot_map6
 
 ### 2009
 
-```{r}
+```{r, message=FALSE}
 air_county_df7 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -1847,7 +1847,7 @@ county_plot_map7
 
 ### 2010
 
-```{r}
+```{r, message=FALSE}
 air_county_df8 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -1873,7 +1873,7 @@ county_plot_map8
 
 ### 2011
 
-```{r}
+```{r, message=FALSE}
 air_county_df9 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -1899,7 +1899,7 @@ county_plot_map9
 
 ### 2012
 
-```{r}
+```{r, message=FALSE}
 air_county_df10 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
