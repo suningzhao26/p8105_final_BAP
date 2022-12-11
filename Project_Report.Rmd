@@ -29,9 +29,9 @@ set.seed(1)
 
 # Motivation
 
-With air quality becoming a great concern of modern era, especially as an important public health topic. Environmental health is an important factor of our health as well. Air pollution has always been a big concern in public health topic. Since we believe it is a common cause such as Asthma, cardiovascular diseases, and many other health problems. So we decided to propose some analytical tests on correlation between these factors and air pollution. 
+With air quality becoming a great concern of modern era, especially as an important public health topic, environmental health is an important factor of our health as well. Air pollution has always been a big concern in public health topic. Since we believe it is a common cause of asthma, cardiovascular diseases, and many other health problems, we decided to propose some analytical tests on correlation between these factors and air pollution. 
 
-We are curious on investigating on the effects of several potential factors and their relationship to AQI(air quality index), an indicating value of air quality. We are interested in air quality problems within NY state and at each county level from year 2003 to 2012. We aim to figure out the main causes of poor air quality and help health organizations and the public better assess and deal with the problem.
+We are curious on investigating on the effects of several potential factors and their relationship to AQI (air quality index), an indicating value of air quality. We are interested in air quality problems within NY state and at each county level from year 2003 to 2012. We aim to figure out the main causes of poor air quality and help health organizations and the public better assess and deal with the problem.
 
 <br>
 
@@ -84,7 +84,7 @@ For the process of data cleaning, firstly we used map function to combine those 
 * `defining_parameter`: pollutants that define the aqi on that day
 * `defining_site`: the site code that define the daily aqi on that day (consists of state code, county code, and site code, separated by “-”)
 
-The resulting dataset was saved as an object named “full_aqi” in data_import_cleaning.Rmd file.
+The resulting dataset was saved as an object named `full_aqi` in data_import_cleaning.Rmd file.
 
 b. Six main parameter values [(dataset)](https://aqs.epa.gov/aqsweb/airdata/download_files.html#Daily)
 
@@ -190,9 +190,9 @@ air_daily =
   select(state_code, county_code, everything(), -site_num, -site_code)
 ```
 
-According to the National Weather Service, EPA calculates the AQI for five major air pollutants regulated by the Clean Air Act: ground-level ozone, particle pollution (also known as particulate matter), carbon monoxide, sulfur dioxide, and nitrogen dioxide. In the EPA database, each daily summary file contains data for every monitor (sampled parameter) for each day. These files are separated by parameter (or parameter group) to make the sizes more manageable. As a result, we collected 60 data files concerning daily values about six pollutants (carbon monoxide, sulfur dioxide, nitrogen dioxide, ozone, PM2.5, and PM10) in each county from 2003 to 2012 (one .csv file per year per parameter). Those data files are stored in the “daily_parameter” folder from the “data” subdirectory in our repository. What should be pointed out is that files from ozone, pm2.5, and so2 categories were pre-processed (filter by state name “New York”) in pre-processing.Rmd file, since the size of most of them exceeded the 100M git push limit. After the pre-processing, files in ozone, pm2.5, and so2 folder contain data for New York State, others contain data across the US.
+According to the National Weather Service, EPA calculates the AQI for five major air pollutants regulated by the Clean Air Act: ground-level ozone, particle pollution (also known as particulate matter), carbon monoxide, sulfur dioxide, and nitrogen dioxide. In the EPA database, each daily summary file contains data for every monitor (sampled parameter) for each day. These files are separated by parameter (or parameter group) to make the sizes more manageable. As a result, we collected 60 data files concerning daily values about six pollutants (carbon monoxide, sulfur dioxide, nitrogen dioxide, ozone, PM2.5, and PM10) in each county from 2003 to 2012 (one .csv file per year per parameter). Those data files are stored in the “daily_parameter” folder from the “data” subdirectory in our repository. What should be pointed out is that files from `ozone`, `pm2.5`, and `so2` categories were pre-processed (filter by state name “New York”) in pre-processing.Rmd file, since the size of most of them exceeded the 100M git push limit. After the pre-processing, files in `ozone`, `pm2.5`, and `so2` folder contain data for New York State, others contain data across the US.
 
-During the process of data cleaning, we first combined 10-year datasets for each parameter using map function, then filtered by "New York" state name, and selected the main variables that we were concerned about. Six data frames were created after these. Secondly, for each dataframe, we extracted daily parameter mean values from different sites for each county using “group_by” and “summarize” statements. Six summary tables were produced. 
+During the process of data cleaning, we first combined 10-year datasets for each parameter using map function, then filtered by `New York` state name, and selected the main variables that we were concerned about. Six data frames were created after these. Secondly, for each dataframe, we extracted daily parameter mean values from different sites for each county using `group_by`` and `summarize` statements. Six summary tables were produced. 
 
 Main variables in the six daily parameter tables we focus on:
 
@@ -211,7 +211,7 @@ Main variables in the six daily parameter tables we focus on:
 * `mean_pm10`: the average pm10 value for the day within that county (unit of measure: Micrograms/cubic meter (25 C))
 * `max_pm10`: the highest pm10 value for the day within that county (unit of measure: Micrograms/cubic meter (25 C))
 
-The “full_aqi” table from part a and daily parameter tables were left-joined using columns “county” and “date” ("full_aqi" as left table). In addition, the “defining_site” variable was separated as state_code, county_code, and site_code. The state_code and county_code were kept in the resulting dataset “air_daily”. The air_daily dataset was also saved as air_daily.csv file in the “data” folder.
+The `full_aqi` table from part a and daily parameter tables were left-joined using columns `county` and `date` (`full_aqi` as left table). In addition, the `defining_site` variable was separated as state_code, county_code, and site_code. The `state_code` and `county_code` were kept in the resulting dataset `air_daily.` The `air_daily` dataset was also saved as air_daily.csv file in the “data” folder.
 
 c. Individual health survey data in New York State from 2003 to 2012 [(dataset)](https://www.cdc.gov/brfss/annual_data/annual_data.htm)
 
@@ -314,7 +314,7 @@ Main variables:
 * `age`: reported age in five-year age categories, 1 for age 18-24, 2 for 25-29, 3 for 30-34, 4 for 35-39, 5 for 40-44, 6 for 45-49, 7 for 50-54, 8 for 55-59, 9 for 60-64, 10 for 65-69, 11 for 70-74, 12 for 75-79, 13 for 80 or older
 * `income`: income categories, 1 for less than $15000, 2 for $15000 to less than $25000, 3 for $25000 to less than $35000, 4 for $35000 to less than $50000, 5 for $50000 or more
 
-The combined 10-year brfss files was saved as a dataframe named “brfss_indi”, and it was also written as “brfss_indi.csv” file, stored in the “data” folder.
+The combined 10-year brfss files was saved as a dataframe named `brfss_indi`, and it was also written as brfss_indi.csv file, stored in the “data” folder.
 
 d. Final resulting data files
 
@@ -349,9 +349,9 @@ brfss_with_air2 =
 write.csv(brfss_with_air2, file = ("./data/brfss_with_air2.csv"))
 ```
 
-A new variable named “date” which concatenated year, month, and day was created in the “brfss_indi” dataframe. Then it was left-joined with “air_daily” using columns “county_code” and “date” (“brfss_indi” as the left table). The resulting dataset was saved as “brfss_with_air” data frame and was written as “brfss_with_air.csv” file in “data” folder.
+A new variable named `date` which concatenated year, month, and day was created in the `brfss_indi` dataframe. Then it was left-joined with `air_daily` using columns `county_code` and `date` (`brfss_indi` as the left table). The resulting dataset was saved as `brfss_with_air` and was written as brfss_with_air.csv file in “data” folder.
 
-In addition, another air quality dataset “air_daily2” was created by grouping and summarizing “air_daily”:
+In addition, another air quality dataset `air_daily2` was created by grouping and summarizing `air_daily`:
 
 * `mean_aqi_month`: mean daily aqi value in that month
 * `max_aqi_month`: max daily aqi value in that month
@@ -363,7 +363,7 @@ In addition, another air quality dataset “air_daily2” was created by groupin
 * `mean_no2_month`: mean nitrogen dioxide value in that month (unit of measure: parts per million)    
 * `mean_so2_month`: mean sulfur dioxide value in that month (unit of measure: parts per million)
 
-Then “brfss_indi” and “air_daily2” were left-joined using columns “county_code”, “year”, and “month” (“brfss_indi” as the left table). The resulting dataset was saved as “brfss_with_air2” data frame and was written as “brfss_with_air2.csv” file in the “data” folder.
+Then “brfss_indi” and “air_daily2” were left-joined using columns `county_code`, `year`, and `month` (“brfss_indi” as the left table). The resulting dataset was saved as `brfss_with_air2` and was written as brfss_with_air2.csv file in the “data” folder.
 
 <br>
 
@@ -1109,12 +1109,26 @@ asthma_df2 =
 ```
 
 ###	Pearson's Chi-squared test
+<<<<<<< HEAD
 *Create two categories of aqi values
 *Those aqi values < 50 are categorized as good
 *Those aqi values >= 50 are categorized as not good
 
 * H0:The proportion of the individuals who experienced asthma now is the same across two aqi categories.
 * H1:The proportion of the individuals who experienced asthma now is not the same across two aqi categories.
+=======
+Create two categories of aqi values:
+
+* Those aqi values < 50 are categorized as good. 
+
+* Those aqi values >= 50 are categorized as not good. 
+
+Hypothesis:
+
+* H0:The proportion of the individuals who experienced current asthma is the same across two aqi categories.
+
+* H1:The proportion of the individuals who experienced current asthma is not the same across two aqi categories.
+>>>>>>> 0fc4bc1ccf1b0a810790d4c16f8f7a9e7593658b
 ```{r}
 asthma_df2 = asthma_df2 %>%
   mutate(
@@ -1127,12 +1141,15 @@ asthma_df2 = asthma_df2 %>%
 chisq.test(asthma_df2$aqi_cat, asthma_df2$asthma_now, correct=FALSE)
 ```
 
-* X-squared = 2.0033, df = 1, p-value = 0.157
+Test statistics: X-squared = 2.0033, df = 1, p-value = 0.157
+
+* Do not have enough evidence to conclude the proportion of individuals who experienced current asthma is different across two aqi categories.
 
 
 ###	Welch Two Sample t-test
-*H0:The average number of the visits to asthma emergency is the same for aqi good category and aqi not good category.
-*H1:The average number of the visits to asthma emergency is not the same for aqi good category and aqi not good category.
+* H0: The average number of the visits to asthma emergency is the same for aqi good category and aqi not good category.
+
+* H1: The average number of the visits to asthma emergency is not the same for aqi good category and aqi not good category.
 
 ```{r}
 asthma_df2_ttest = asthma_df2 %>%
@@ -1153,17 +1170,15 @@ t.test(asthma_df2_ttest$Good, asthma_df2_ttest$Not_Good)
 
 * t = -2.5689, df = 421.41, p-value = 0.01055
 * alternative hypothesis: true difference in means is not equal to 0
-* 95 percent confidence interval:
-* -1.3715692 -0.1824764
-* sample estimates:
-* mean of x mean of y 
-* 0.718845  1.495868 
+* 95 percent confidence interval: (-1.3715692 -0.1824764)
+* sample estimates: mean of x: 0.718845; mean of y: 1.495868
+* The p-value is less than 0.01 so we can conclude that the average number of the visits to asthma emergency is not the same for aqi good category and aqi not good category.
 
-*The p-value is less than 0.01 so we can conclude that the average number of the visits to asthma emergency is not the same for aqi good category and aqi not good category.
 
 ### Chi-squared test on asthma_now & heart disease
-* H0: The proportion of the individuals who experienced heart diseases is the same across those who had asthma now and those who did not have asthma now .
-* H1: The proportion of the individuals who experienced heart diseases is not the same across those who had asthma now and those who did not have asthma now .
+* H0: The proportion of the individuals who experienced heart diseases is the same across those who had asthma now and those who did not have asthma now.
+
+* H1: The proportion of the individuals who experienced heart diseases is not the same across those who had asthma now and those who did not have asthma now.
 ```{r}
 asthma_df2_chi = asthma_df2 %>%
   mutate(
@@ -1178,10 +1193,11 @@ chisq.test(asthma_df2_chi$heart_disease, asthma_df2_chi$asthma_now, correct=FALS
 
 ### Proportion Test
 
-* Now we want to see whether having asthma now is am equally common occurrence within the residents of each county. To fufil this goal, we would conduct a proportion test.
+Now we want to see whether having asthma now is am equally common occurrence within the residents of each county. To fufil this goal, we would conduct a proportion test.
 
-*H0:The proportion of the individuals who experienced asthma now is the same across all counties.
-*H1:The proportion of the individuals who experienced asthma now is not the same across all counties.
+* H0:The proportion of the individuals who experienced asthma now is the same across all counties.
+
+* H1:The proportion of the individuals who experienced asthma now is not the same across all counties.
 ```{r}
 asthma_now_1 =
   asthma_df2 %>%
@@ -1252,6 +1268,8 @@ linear_fit_so2_emergency %>%
   knitr::kable(digits = 3)
 ```
 
+* The results show that mean_so2_month, the average SO2 concentration has a positive coefficient of 0.166 with Asthma_emergency occurrence. This means that higher SO2 concentration contributes to Asthma emergency visit times with an 0.166 in cases per unit increase of average SO2 concentration in one month, adjusting for other covariate. The p-value is 0.000, which means that this is significant at a significance level of 0.05.
+
 #### NO2
 
 ```{r,message = FALSE}
@@ -1262,6 +1280,8 @@ linear_fit_no2_emergency = asthma_df2 %>%
 linear_fit_no2_emergency %>% 
   knitr::kable(digits = 3)
 ```
+
+* The results show that mean_no2_month, the average NO2 concentration has a positive coefficient of 0.195 with Asthma_emergency occurrence. This means that higher NO2 concentration contributes to Asthma emergency visit times with an 0.195 in cases per unit increase of average NO2 concentration in one month, adjusting for other covariate. The p-value is 0.001, which means that this is significant at a significance level of 0.05.
 
 #### CO
 
@@ -1274,6 +1294,7 @@ linear_fit_co_emergency %>%
   knitr::kable(digits = 3)
 ```
 
+* The results show that mean_co_month, the average CO concentration has a positive coefficient of 1.64 with Asthma_emergency occurrence. This means that higher CO concentration contributes to Asthma emergency visit times with an 1.64 in cases per unit increase of average CO concentration in one month, adjusting for other covariate. The p-value is 0.354, which means that this is not significant at a significance level of 0.05.
 
 #### PM2.5
 
@@ -1285,12 +1306,6 @@ linear_fit_pm2_5_emergency = asthma_df2 %>%
 linear_fit_pm2_5_emergency %>% 
   knitr::kable(digits = 3)
 ```
-
-* The results show that mean_so2_month, the average SO2 concentration has a positive coefficient of 0.166 with Asthma_emergency occurrence. This means that higher SO2 concentration contributes to Asthma emergency visit times with an 0.166 in cases per unit increase of average SO2 concentration in one month, adjusting for other covariate. The p-value is 0.000, which means that this is significant at a significance level of 0.05.
-
-* The results show that mean_no2_month, the average NO2 concentration has a positive coefficient of 0.195 with Asthma_emergency occurrence. This means that higher NO2 concentration contributes to Asthma emergency visit times with an 0.195 in cases per unit increase of average NO2 concentration in one month, adjusting for other covariate. The p-value is 0.001, which means that this is significant at a significance level of 0.05.
-
-* The results show that mean_co_month, the average CO concentration has a positive coefficient of 1.64 with Asthma_emergency occurrence. This means that higher CO concentration contributes to Asthma emergency visit times with an 1.64 in cases per unit increase of average CO concentration in one month, adjusting for other covariate. The p-value is 0.354, which means that this is not significant at a significance level of 0.05.
 
 * The results show that mean_pm2_5_month, the average PM2.5 concentration has a positive coefficient of 0.237 with Asthma_emergency occurrence. This means that higher PM2.5 concentration contributes to Asthma emergency visit times with an 0.237 in cases per unit increase of average PM2.5 concentration in one month, adjusting for other covariate. The p-value is 0.287, which means that this is not significant at a significance level of 0.05.
 
@@ -1330,6 +1345,7 @@ brfss_air_df =
 ## Asthma Map{.tabset}
 
 According to the graphs, we can know that:
+
 * In 2003, `Chautauqua` county is with the most asthma patients. After that, the percentage decreased until 2009. 
 * After 2008, asthma patients in `Steuben` and `Chemung` were increasing.
 * Counties in north of New York, including `Jefferson`, `St. Lawrence`, `Franklin` and `Essex` are also with higher percentage of asthma patients.
@@ -1649,6 +1665,7 @@ aqi_year_df =
 ## Air quality index{.tabset} 
 
 According to the graphs, we can know that:
+
 * Overall, the air quality index is decreasing in 10 years in all counties, which means that the air quality is becoming better. 
 * Urban counties, including `Bronx`, `Queens` , `New York` and `Erie`, are  with a higher air quality index, which means they have worse air quality.
 * Based on the map, we can know that air quality index might with no relationship with asthma because in northern counties in NY state, where the asthma percentage are higher, the air quality are pretty good.

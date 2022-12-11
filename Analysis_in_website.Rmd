@@ -72,6 +72,10 @@ linear_fit_so2_emergency %>%
   knitr::kable(digits = 3)
 ```
 
+**Interpretation**
+
+* The results show that mean_so2_month, the average SO2 concentration has a positive coefficient of 0.166 with Asthma_emergency occurrence. This means that higher SO2 concentration contributes to Asthma emergency visit times with an 0.166 in cases per unit increase of average SO2 concentration in one month, adjusting for other covariate. The p-value is 0.000, which means that this is significant at a significance level of 0.05.
+
 ## NO2
 
 ```{r,message = FALSE}
@@ -82,6 +86,10 @@ linear_fit_no2_emergency = asthma_df2 %>%
 linear_fit_no2_emergency %>% 
   knitr::kable(digits = 3)
 ```
+
+**Interpretation**
+
+* The results show that mean_no2_month, the average NO2 concentration has a positive coefficient of 0.195 with Asthma_emergency occurrence. This means that higher NO2 concentration contributes to Asthma emergency visit times with an 0.195 in cases per unit increase of average NO2 concentration in one month, adjusting for other covariate. The p-value is 0.001, which means that this is significant at a significance level of 0.05.
 
 ## CO
 
@@ -94,6 +102,9 @@ linear_fit_co_emergency %>%
   knitr::kable(digits = 3)
 ```
 
+**Interpretation**
+
+* The results show that mean_co_month, the average CO concentration has a positive coefficient of 1.64 with Asthma_emergency occurrence. This means that higher CO concentration contributes to Asthma emergency visit times with an 1.64 in cases per unit increase of average CO concentration in one month, adjusting for other covariate. The p-value is 0.354, which means that this is not significant at a significance level of 0.05.
 
 ## PM2.5
 
@@ -106,18 +117,11 @@ linear_fit_pm2_5_emergency %>%
   knitr::kable(digits = 3)
 ```
 
-
 **Interpretation**
-
-* The results show that mean_so2_month, the average SO2 concentration has a positive coefficient of 0.166 with Asthma_emergency occurrence. This means that higher SO2 concentration contributes to Asthma emergency visit times with an 0.166 in cases per unit increase of average SO2 concentration in one month, adjusting for other covariate. The p-value is 0.000, which means that this is significant at a significance level of 0.05.
-
-* The results show that mean_no2_month, the average NO2 concentration has a positive coefficient of 0.195 with Asthma_emergency occurrence. This means that higher NO2 concentration contributes to Asthma emergency visit times with an 0.195 in cases per unit increase of average NO2 concentration in one month, adjusting for other covariate. The p-value is 0.001, which means that this is significant at a significance level of 0.05.
-
-* The results show that mean_co_month, the average CO concentration has a positive coefficient of 1.64 with Asthma_emergency occurrence. This means that higher CO concentration contributes to Asthma emergency visit times with an 1.64 in cases per unit increase of average CO concentration in one month, adjusting for other covariate. The p-value is 0.354, which means that this is not significant at a significance level of 0.05.
 
 * The results show that mean_pm2_5_month, the average PM2.5 concentration has a positive coefficient of 0.237 with Asthma_emergency occurrence. This means that higher PM2.5 concentration contributes to Asthma emergency visit times with an 0.237 in cases per unit increase of average PM2.5 concentration in one month, adjusting for other covariate. The p-value is 0.287, which means that this is not significant at a significance level of 0.05.
   
-  
+<br>  
   
 # Logistic regression with asthma as exposure
 
@@ -134,7 +138,6 @@ fit_logistic1b %>%
   select(term, log_OR = estimate, OR, p.value) %>% 
   knitr::kable(digits = 3)
 ```
-
 
 **Interpretation**
 
