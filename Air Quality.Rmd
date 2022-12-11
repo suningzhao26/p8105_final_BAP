@@ -49,6 +49,7 @@ aqi_year_df =
 #### Air quality index{.tabset} 
 
 According to the graphs, we can know that:
+
 * Overall, the air quality index is decreasing in 10 years in all counties, which means that the air quality is becoming better. 
 * Urban counties, including `Bronx`, `Queens` , `New York` and `Erie`, are  with a higher air quality index, which means they have worse air quality.
 * Based on the map, we can know that air quality index might with no relationship with asthma because in northern counties in NY state, where the asthma percentage are higher, the air quality are pretty good.
