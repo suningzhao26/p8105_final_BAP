@@ -13,7 +13,7 @@
 
 <title>Air Quality Index across year in NY state</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,9 +193,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -381,7 +388,9 @@ div.tocify {
 <li>
   <a href="Project_Report.html">Project Report</a>
 </li>
-<li class="dropdown-header">Screencast</li>
+<li>
+  <a href="https://www.youtube.com/watch?v=A1sk-PtwvJU">Screencast</a>
+</li>
 <li>
   <a href="reference.html">Reference</a>
 </li>
@@ -422,15 +431,17 @@ counties at that year.</li>
 </ul>
 <div id="air-quality-index" class="section level4 tabset">
 <h4 class="tabset">Air quality index</h4>
-<p>According to the graphs, we can know that: * Overall, the air quality
-index is decreasing in 10 years in all counties, which means that the
-air quality is becoming better. * Urban counties, including
-<code>Bronx</code>, <code>Queens</code> , <code>New York</code> and
-<code>Erie</code>, are with a higher air quality index, which means they
-have worse air quality. * Based on the map, we can know that air quality
-index might with no relationship with asthma because in northern
-counties in NY state, where the asthma percentage are higher, the air
-quality are pretty good.</p>
+<p>According to the graphs, we can know that:</p>
+<ul>
+<li>Overall, the air quality index is decreasing in 10 years in all
+counties, which means that the air quality is becoming better.</li>
+<li>Urban counties, including <code>Bronx</code>, <code>Queens</code> ,
+<code>New York</code> and <code>Erie</code>, are with a higher air
+quality index, which means they have worse air quality.</li>
+<li>Based on the map, we can know that air quality index might with no
+relationship with asthma because in northern counties in NY state, where
+the asthma percentage are higher, the air quality are pretty good.</li>
+</ul>
 <div id="section" class="section level5">
 <h5>2003</h5>
 <pre class="r"><code>air_county_df1 = 
