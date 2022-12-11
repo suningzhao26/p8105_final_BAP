@@ -314,7 +314,7 @@ Main variables:
 * `age`: reported age in five-year age categories, 1 for age 18-24, 2 for 25-29, 3 for 30-34, 4 for 35-39, 5 for 40-44, 6 for 45-49, 7 for 50-54, 8 for 55-59, 9 for 60-64, 10 for 65-69, 11 for 70-74, 12 for 75-79, 13 for 80 or older
 * `income`: income categories, 1 for less than $15000, 2 for $15000 to less than $25000, 3 for $25000 to less than $35000, 4 for $35000 to less than $50000, 5 for $50000 or more
 
-The combined 10-year brfss files was saved as a dataframe named `brfss_indi`, and it was also written as brfss_indi.csv file, stored in the “data” folder.
+Due to large file size, the raw datasets obtained from BRFSS were stored on local disk. Resulting survey datasets for each year were stored in "brfss" folder from "data" subdirectory. The combined 10-year brfss files was saved as a dataframe named `brfss_indi`, and it was also written as brfss_indi.csv file, stored in the “data” folder.
 
 d. Final resulting data files
 
