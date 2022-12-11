@@ -1,6 +1,6 @@
 ---
 title: "Project Report"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -1109,14 +1109,7 @@ asthma_df2 =
 ```
 
 ###	Pearson's Chi-squared test
-<<<<<<< HEAD
-*Create two categories of aqi values
-*Those aqi values < 50 are categorized as good
-*Those aqi values >= 50 are categorized as not good
 
-* H0:The proportion of the individuals who experienced asthma now is the same across two aqi categories.
-* H1:The proportion of the individuals who experienced asthma now is not the same across two aqi categories.
-=======
 Create two categories of aqi values:
 
 * Those aqi values < 50 are categorized as good. 
@@ -1128,7 +1121,7 @@ Hypothesis:
 * H0:The proportion of the individuals who experienced current asthma is the same across two aqi categories.
 
 * H1:The proportion of the individuals who experienced current asthma is not the same across two aqi categories.
->>>>>>> 0fc4bc1ccf1b0a810790d4c16f8f7a9e7593658b
+
 ```{r}
 asthma_df2 = asthma_df2 %>%
   mutate(
