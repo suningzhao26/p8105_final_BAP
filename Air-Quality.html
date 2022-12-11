@@ -13,7 +13,7 @@
 
 <title>Air Quality Index across year in NY state</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,16 +193,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -455,10 +448,9 @@ the asthma percentage are higher, the air quality are pretty good.</li>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map1 = 
+  )
+
+county_plot_map1 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df1, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -481,10 +473,9 @@ county_plot_map1</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map2 = 
+  )
+
+county_plot_map2 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df2, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -507,10 +498,9 @@ county_plot_map2</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map3 = 
+  )
+
+county_plot_map3 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df3, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -533,10 +523,9 @@ county_plot_map3</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map4 = 
+  )
+
+county_plot_map4 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df4, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -559,10 +548,9 @@ county_plot_map4</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map5 = 
+  )
+
+county_plot_map5 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df5, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -585,10 +573,9 @@ county_plot_map5</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map6 = 
+  )
+
+county_plot_map6 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df6, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -611,10 +598,9 @@ county_plot_map6</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map7 = 
+  )
+
+county_plot_map7 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df7, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -637,10 +623,9 @@ county_plot_map7</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map8 = 
+  )
+
+county_plot_map8 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df8, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -663,10 +648,9 @@ county_plot_map8</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map9 = 
+  )
+
+county_plot_map9 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df9, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)
@@ -689,10 +673,9 @@ county_plot_map9</code></pre>
   ) %&gt;% 
   mutate(
     fips = str_c(state_code,county_code)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code&#39;, &#39;county_code&#39;, &#39;county&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>county_plot_map10 = 
+  )
+
+county_plot_map10 = 
   plot_usmap(regions = &quot;county&quot;, include = c(&quot;NY&quot;), data = air_county_df10, values = &quot;aqi_all&quot;, labels = TRUE, label_color = &quot;White&quot;) +
   scale_fill_continuous(
     low = &quot;white&quot;, high = &quot;Red&quot;, name = &quot;AQI&quot;, label = scales::comma, limits = c(0,60)

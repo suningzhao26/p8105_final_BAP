@@ -56,7 +56,7 @@ According to the graphs, we can know that:
 
 ##### 2003
 
-```{r}
+```{r, message=FALSE}
 air_county_df1 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -82,7 +82,7 @@ county_plot_map1
 
 ##### 2004
 
-```{r}
+```{r, message=FALSE}
 air_county_df2 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -108,7 +108,7 @@ county_plot_map2
 
 ##### 2005
 
-```{r}
+```{r, message=FALSE}
 air_county_df3 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -134,7 +134,7 @@ county_plot_map3
 
 ##### 2006
 
-```{r}
+```{r, message=FALSE}
 air_county_df4 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -160,7 +160,7 @@ county_plot_map4
 
 ##### 2007
 
-```{r}
+```{r, message=FALSE}
 air_county_df5 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -186,7 +186,7 @@ county_plot_map5
 
 ##### 2008
 
-```{r}
+```{r, message=FALSE}
 air_county_df6 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -212,7 +212,7 @@ county_plot_map6
 
 ##### 2009
 
-```{r}
+```{r, message=FALSE}
 air_county_df7 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -238,7 +238,7 @@ county_plot_map7
 
 ##### 2010
 
-```{r}
+```{r, message=FALSE}
 air_county_df8 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -264,7 +264,7 @@ county_plot_map8
 
 ##### 2011
 
-```{r}
+```{r, message=FALSE}
 air_county_df9 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
@@ -290,7 +290,7 @@ county_plot_map9
 
 ##### 2012
 
-```{r}
+```{r, message=FALSE}
 air_county_df10 = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county, year) %>% 
