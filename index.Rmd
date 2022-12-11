@@ -48,7 +48,7 @@ Check out our [Project Report](Project_Report.html) for detailed conclusion.
 
 ### Collaborators
 
-* Suning Zhao(sz2957)
+* Suning Zhao (sz2957)
 
 * Xingyu Dai (xd2268)
 
