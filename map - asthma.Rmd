@@ -47,7 +47,7 @@ According to the graphs, we can know that:
 
 ##### 2003
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df1 = 
   brfss_air_df %>% 
   mutate(
@@ -76,7 +76,7 @@ asthma_now_county_plot_map
 
 ##### 2004
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df2 = 
   brfss_air_df %>% 
   mutate(
@@ -105,7 +105,7 @@ asthma_now_county_plot_map
 
 ##### 2005
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df3 = 
   brfss_air_df %>% 
   mutate(
@@ -134,7 +134,7 @@ asthma_now_county_plot_map
 
 ##### 2006
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df4 = 
   brfss_air_df %>% 
   mutate(
@@ -163,7 +163,7 @@ asthma_now_county_plot_map
 
 ##### 2007
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df5 = 
   brfss_air_df %>% 
   mutate(
@@ -192,7 +192,7 @@ asthma_now_county_plot_map
 
 ##### 2008
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df6 = 
   brfss_air_df %>% 
   mutate(
@@ -221,7 +221,7 @@ asthma_now_county_plot_map
 
 ##### 2009
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df7 = 
   brfss_air_df %>% 
   mutate(
@@ -250,7 +250,7 @@ asthma_now_county_plot_map
 
 ##### 2010
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df8 = 
   brfss_air_df %>% 
   mutate(
@@ -279,7 +279,7 @@ asthma_now_county_plot_map
 
 ##### 2011
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df9 = 
   brfss_air_df %>% 
   mutate(
@@ -308,7 +308,7 @@ asthma_now_county_plot_map
 
 ##### 2012
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df10 = 
   brfss_air_df %>% 
   mutate(
