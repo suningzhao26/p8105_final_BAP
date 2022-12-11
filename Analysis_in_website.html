@@ -13,7 +13,7 @@
 
 <title>Statistical Modeling</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,9 +193,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -784,6 +791,16 @@ linear_fit_so2_emergency %&gt;%
 </tr>
 </tbody>
 </table>
+<p><strong>Interpretation</strong></p>
+<ul>
+<li>The results show that mean_so2_month, the average SO2 concentration
+has a positive coefficient of 0.166 with Asthma_emergency occurrence.
+This means that higher SO2 concentration contributes to Asthma emergency
+visit times with an 0.166 in cases per unit increase of average SO2
+concentration in one month, adjusting for other covariate. The p-value
+is 0.000, which means that this is significant at a significance level
+of 0.05.</li>
+</ul>
 </div>
 <div id="no2" class="section level2">
 <h2>NO2</h2>
@@ -1058,6 +1075,16 @@ linear_fit_no2_emergency %&gt;%
 </tr>
 </tbody>
 </table>
+<p><strong>Interpretation</strong></p>
+<ul>
+<li>The results show that mean_no2_month, the average NO2 concentration
+has a positive coefficient of 0.195 with Asthma_emergency occurrence.
+This means that higher NO2 concentration contributes to Asthma emergency
+visit times with an 0.195 in cases per unit increase of average NO2
+concentration in one month, adjusting for other covariate. The p-value
+is 0.001, which means that this is significant at a significance level
+of 0.05.</li>
+</ul>
 </div>
 <div id="co" class="section level2">
 <h2>CO</h2>
@@ -1367,6 +1394,16 @@ linear_fit_co_emergency %&gt;%
 </tr>
 </tbody>
 </table>
+<p><strong>Interpretation</strong></p>
+<ul>
+<li>The results show that mean_co_month, the average CO concentration
+has a positive coefficient of 1.64 with Asthma_emergency occurrence.
+This means that higher CO concentration contributes to Asthma emergency
+visit times with an 1.64 in cases per unit increase of average CO
+concentration in one month, adjusting for other covariate. The p-value
+is 0.354, which means that this is not significant at a significance
+level of 0.05.</li>
+</ul>
 </div>
 <div id="pm2.5" class="section level2">
 <h2>PM2.5</h2>
@@ -1636,35 +1673,15 @@ linear_fit_pm2_5_emergency %&gt;%
 </table>
 <p><strong>Interpretation</strong></p>
 <ul>
-<li><p>The results show that mean_so2_month, the average SO2
-concentration has a positive coefficient of 0.166 with Asthma_emergency
-occurrence. This means that higher SO2 concentration contributes to
-Asthma emergency visit times with an 0.166 in cases per unit increase of
-average SO2 concentration in one month, adjusting for other covariate.
-The p-value is 0.000, which means that this is significant at a
-significance level of 0.05.</p></li>
-<li><p>The results show that mean_no2_month, the average NO2
-concentration has a positive coefficient of 0.195 with Asthma_emergency
-occurrence. This means that higher NO2 concentration contributes to
-Asthma emergency visit times with an 0.195 in cases per unit increase of
-average NO2 concentration in one month, adjusting for other covariate.
-The p-value is 0.001, which means that this is significant at a
-significance level of 0.05.</p></li>
-<li><p>The results show that mean_co_month, the average CO concentration
-has a positive coefficient of 1.64 with Asthma_emergency occurrence.
-This means that higher CO concentration contributes to Asthma emergency
-visit times with an 1.64 in cases per unit increase of average CO
-concentration in one month, adjusting for other covariate. The p-value
-is 0.354, which means that this is not significant at a significance
-level of 0.05.</p></li>
-<li><p>The results show that mean_pm2_5_month, the average PM2.5
+<li>The results show that mean_pm2_5_month, the average PM2.5
 concentration has a positive coefficient of 0.237 with Asthma_emergency
 occurrence. This means that higher PM2.5 concentration contributes to
 Asthma emergency visit times with an 0.237 in cases per unit increase of
 average PM2.5 concentration in one month, adjusting for other covariate.
 The p-value is 0.287, which means that this is not significant at a
-significance level of 0.05.</p></li>
+significance level of 0.05.</li>
 </ul>
+<p><br></p>
 </div>
 </div>
 <div id="logistic-regression-with-asthma-as-exposure"
