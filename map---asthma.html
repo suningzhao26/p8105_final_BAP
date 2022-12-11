@@ -13,7 +13,7 @@
 
 <title>Asthma and heart disease in NY state</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,9 +193,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -422,15 +429,19 @@ means there was no respondents in those counties at that year.</li>
 </ul>
 <div id="asthma-map" class="section level4 tabset">
 <h4 class="tabset">Asthma Map</h4>
-<p>According to the graphs, we can know that: * In 2003,
-<code>Chautauqua</code> county is with the most asthma patients. After
-that, the percentage decreased until 2009. * After 2008, asthma patients
-in <code>Steuben</code> and <code>Chemung</code> were increasing. *
-Counties in north of New York, including <code>Jefferson</code>,
+<p>According to the graphs, we can know that:</p>
+<ul>
+<li>In 2003, <code>Chautauqua</code> county is with the most asthma
+patients. After that, the percentage decreased until 2009.</li>
+<li>After 2008, asthma patients in <code>Steuben</code> and
+<code>Chemung</code> were increasing.</li>
+<li>Counties in north of New York, including <code>Jefferson</code>,
 <code>St. Lawrence</code>, <code>Franklin</code> and <code>Essex</code>
-are also with higher percentage of asthma patients. * Urban counties,
-including <code>Bronx</code>, <code>Queens</code> and <code>Erie</code>,
-are also with a higher percentage of asthma patients.</p>
+are also with higher percentage of asthma patients.</li>
+<li>Urban counties, including <code>Bronx</code>, <code>Queens</code>
+and <code>Erie</code>, are also with a higher percentage of asthma
+patients.</li>
+</ul>
 <div id="section" class="section level5">
 <h5>2003</h5>
 <pre class="r"><code>asthma_now_county_df1 = 

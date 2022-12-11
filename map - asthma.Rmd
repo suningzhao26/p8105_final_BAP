@@ -39,6 +39,7 @@ brfss_air_df =
 #### Asthma Map{.tabset}
 
 According to the graphs, we can know that:
+
 * In 2003, `Chautauqua` county is with the most asthma patients. After that, the percentage decreased until 2009. 
 * After 2008, asthma patients in `Steuben` and `Chemung` were increasing.
 * Counties in north of New York, including `Jefferson`, `St. Lawrence`, `Franklin` and `Essex` are also with higher percentage of asthma patients.
