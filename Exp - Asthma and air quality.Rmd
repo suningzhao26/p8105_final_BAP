@@ -43,14 +43,14 @@ brfss_air2_df =
 ```
 
 
-# Figure 1: Association between air quality and Asthma emergency visit{.tabset}
+# Figure 16: Association between air quality and Asthma emergency visit{.tabset}
 
 * In order to find the association between air quality and asthma emergency visit times, we use several different predictors and plot graphs.
 * Based on the graphs, we can find that `air quality index` and `ozone` are with no relationships with asthma emergency visit times; `CO`, `NO`, `SO2` and `PM2.5` are with positive relationships with asthma emergency visit times. Thus, we can use those predictors for our modeling.
 
 ## air quality index 
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph1 = 
   brfss_air2_df %>%
   ggplot(aes(x = mean_aqi_month, y = asthma_emergency)) +
@@ -62,7 +62,7 @@ asthma_air_graph1
 
 ## Ozone
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph2 = 
   brfss_air2_df %>%
   ggplot(aes(x = mean_ozone_month, y = asthma_emergency)) +
@@ -74,7 +74,7 @@ asthma_air_graph2
 
 ## CO
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph3 = 
   brfss_air2_df %>%
   ggplot(aes(x = mean_co_month, y = asthma_emergency)) +
@@ -86,7 +86,7 @@ asthma_air_graph3
 
 ## NO2
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph4 = 
   brfss_air2_df %>% 
   ggplot(aes(x = mean_no2_month, y = asthma_emergency)) +
@@ -98,7 +98,7 @@ asthma_air_graph4
 
 ## SO2
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph5 = 
   brfss_air2_df %>% 
   ggplot(aes(x = mean_so2_month, y = asthma_emergency)) +
@@ -110,7 +110,7 @@ asthma_air_graph5
 
 ## PM2.5
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph6 = 
   brfss_air2_df %>% 
   ggplot(aes(x = mean_pm2_5_month, y = asthma_emergency)) +
@@ -120,14 +120,14 @@ asthma_air_graph6 =
 asthma_air_graph6
 ```
 
-# Figure 2: Association between air quality and Asthma doctor visit{.tabset}
+# Figure 17: Association between air quality and Asthma doctor visit{.tabset}
 
 * In order to find the association between air quality and asthma doctor visit times, we use several different predictors and plot graphs.
 * Based on the graphs, we can find that all predictors are with no relationships with asthma doctor visit times.
 
 ## air quality index
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph1 = 
   brfss_air2_df %>%
   ggplot(aes(x = mean_aqi_month, y = asthma_visit)) +
@@ -139,7 +139,7 @@ asthma_air_graph1
 
 ## Ozone
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph2 = 
   brfss_air2_df %>%
   ggplot(aes(x = mean_ozone_month, y = asthma_visit)) +
@@ -151,7 +151,7 @@ asthma_air_graph2
 
 ## CO
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph3 = 
   brfss_air2_df %>%
   ggplot(aes(x = mean_co_month, y = asthma_visit)) +
@@ -163,7 +163,7 @@ asthma_air_graph3
 
 ## NO2
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph4 = 
   brfss_air2_df %>% 
   ggplot(aes(x = mean_no2_month, y = asthma_visit)) +
@@ -175,7 +175,7 @@ asthma_air_graph4
 
 ## SO2
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph5 = 
   brfss_air2_df %>% 
   ggplot(aes(x = mean_so2_month, y = asthma_visit)) +
@@ -187,7 +187,7 @@ asthma_air_graph5
 
 ## PM2.5
 
-```{r}
+```{r, message=FALSE}
 asthma_air_graph6 = 
   brfss_air2_df %>% 
   ggplot(aes(x = mean_pm2_5_month, y = asthma_visit)) +

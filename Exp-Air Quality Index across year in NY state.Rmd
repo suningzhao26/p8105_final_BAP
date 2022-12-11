@@ -48,7 +48,7 @@ aqi_year_df =
 
 ## Figure 1: Air Quality Index by counties in NY State, 2003-2012
 
-```{r, eval=TRUE}
+```{r, message=FALSE}
 aqi_state_graph =
   aqi_year_df %>% 
   group_by(county) %>% 
@@ -74,7 +74,7 @@ aqi_state_graph
 
 ## Figure 2: Mean AQI for different counties in NY State, 2003-2012
 
-```{r, eval=TRUE}
+```{r, message=FALSE}
 aqi_county_graph = 
   aqi_year_df %>% 
   group_by(county) %>% 
@@ -98,7 +98,7 @@ aqi_county_graph
 
 ## Figure 3: AQI by counties in NY State on map
 
-```{r, eval=TRUE}
+```{r,message=FALSE}
 air_county_df = 
   aqi_year_df %>% 
   group_by(state_code, county_code,county) %>% 
@@ -129,7 +129,7 @@ county_plot_map
 
 ## Figure 4: Unhealthy air quality days by counties in NY State, 2003-2012
 
-```{r, eval=TRUE}
+```{r, message=FALSE}
 air_quality_day_df = 
   air_daily_df %>% 
   group_by(state_code, county_code,county) %>% 

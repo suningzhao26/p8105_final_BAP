@@ -381,7 +381,9 @@ div.tocify {
 <li>
   <a href="Project_Report.html">Project Report</a>
 </li>
-<li class="dropdown-header">Screencast</li>
+<li>
+  <a href="https://www.youtube.com/watch?v=A1sk-PtwvJU">Screencast</a>
+</li>
 <li>
   <a href="reference.html">Reference</a>
 </li>
@@ -452,7 +454,6 @@ asthma_history_graph =
   scale_x_continuous(breaks = 2003:2012 )
 
 asthma_history_graph</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
 <ul>
 <li>In the graph, it can be seen that we have two Asthma Status.
@@ -527,10 +528,9 @@ worsening asthma symptoms in counties among 10 years</h2>
   arrange(mean_asthma_visit) %&gt;% 
   mutate(
     county = fct_reorder(county, mean_asthma_visit)
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;state_code.x&#39;, &#39;county_code&#39;. You can
-## override using the `.groups` argument.</code></pre>
-<pre class="r"><code>asthma_visit_graph = 
+  )
+
+asthma_visit_graph = 
   asthma_visit_df %&gt;% 
   ggplot(aes(x = county, y = mean_asthma_visit)) +
   geom_point()+
@@ -590,7 +590,6 @@ hd_history_graph =
   scale_x_continuous(breaks = 2003:2012 )
 
 hd_history_graph</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="Exp---Asthma-and-heart-disease-in-NY-state---from-BRFSS_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
 <ul>
 <li>BRFSS also includes heart disease variables. Previous research

@@ -69,7 +69,7 @@ air_quality_day_df =
 
 ## Figure 5: Defining pollutants distribution among 10 years in NY State
 
-```{r}
+```{r, message=FALSE}
 pollutants_graph = 
   air_quality_day_df %>% 
   group_by(defining_parameter) %>% 
@@ -95,7 +95,7 @@ pollutants_graph
 
 ## Figure 6: Defining pollutants distribution in unhealthy air quality days among 10 years in NY State
 
-```{r}
+```{r, message=FALSE}
 Unhealthy_pollutants_graph = 
   air_quality_day_df %>% 
   filter(aqi_status == "Unhealthy") %>% 
@@ -125,7 +125,7 @@ Unhealthy_pollutants_graph
 
 ## Figure 7: Mean Ozone by county in NY state, 2003-2012, by counties
 
-```{r}
+```{r, message=FALSE}
 ozone_year_df = 
   air_daily_df %>% 
   select(state_code, county_code, state, county, year, mean_ozone) %>% 
@@ -160,7 +160,7 @@ ozone_graph
 
 ## Figure 8: Ozone by counties on map
 
-```{r}
+```{r, message=FALSE}
 ozone_county_df = 
   ozone_year_df %>% 
   group_by(state_code, county_code,county) %>% 
@@ -192,7 +192,7 @@ ozone_county_plot_map
 
 ## Figure 9: Days for PM2.5 presence by counties within 10 years
 
-```{r}
+```{r, message=FALSE}
 pm2_5_county_df = 
   air_daily_df %>% 
   select(state_code, county_code, state, county, year, mean_pm2_5) %>% 
@@ -227,7 +227,7 @@ pm2_5_county_graph
 
 ## Figure 10: PM2.5 distribution by counties within 10 years
 
-```{r}
+```{r, message=FALSE}
 pm2_5_range_df = 
   pm2_5_county_df %>% 
   mutate(

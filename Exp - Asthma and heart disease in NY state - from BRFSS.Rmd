@@ -39,7 +39,7 @@ brfss_air_df =
 
 ## Figure 11: Trend of the rate for people who have asthma history in NY state among 10 years
 
-```{r}
+```{r, message=FALSE}
 asthma_history_df = 
   brfss_air_df %>% 
   mutate(
@@ -80,7 +80,7 @@ asthma_history_graph
 
 ## Figure 12: Map of the percentage of people who currently have asthma among 10 years
 
-```{r}
+```{r, message=FALSE}
 asthma_now_county_df = 
   brfss_air_df %>% 
   mutate(
@@ -113,7 +113,7 @@ asthma_now_county_plot_map
 
 ## Figure 13: Trend of average doctor visits for urgent treatment of worsening asthma symptoms in counties among 10 years
 
-```{r}
+```{r, message=FALSE}
 asthma_visit_df = 
   brfss_air_df %>% 
   drop_na(asthma_visit) %>% 
@@ -149,7 +149,7 @@ asthma_visit_graph
 
 ## Figure 14: Trend of the percentage of people who have any heart disease in NY state among 10 years
 
-```{r}
+```{r, message=FALSE}
 hd_history_df = 
   brfss_air_df %>% 
   mutate(
@@ -188,7 +188,7 @@ hd_history_graph
 
 ## Figure 15: Map of the percentage for people who have heart disease among 10 years
 
-```{r}
+```{r, message=FALSE}
 hd_county_df = 
   brfss_air_df %>% 
   mutate(
