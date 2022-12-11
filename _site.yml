@@ -28,7 +28,7 @@ navbar:
     - text: "Project Report"
       href: Project_Report.html
     - text: "Screencast"
-      href：https://www.youtube.com/watch?v=A1sk-PtwvJU
+      href: https://www.youtube.com/watch?v=A1sk-PtwvJU
     - text: "Reference"
       href: reference.html
     - icon: fa-github fa-lg
